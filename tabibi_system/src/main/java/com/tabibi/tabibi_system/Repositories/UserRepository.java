@@ -1,4 +1,4 @@
-package main.java.com.tabibi.tabibi_system.Repositories;
+package com.tabibi.tabibi_system.Repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.tabibi.tabibi_system.Model.User;
 
