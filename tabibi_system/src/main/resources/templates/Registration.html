@@ -1,12 +1,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="/tabibi_system/src/main/resources/static/Registration_styling.css">
     <title>Registration</title>
 </head>
 
 <body>
+<div id="Registration_box"></div>
 <h2>
     User registration
 </h2>
+
+
 
 <form th:action="@{/User/Registration}" th:object="${User}" method="POST">
 <input type="text" th:field="*{Name}" placeholder="Enter name">
@@ -16,6 +20,8 @@
 <input type="text" th:field="*{User_type}" placeholder="User_type">
 <input type="submit">
 </form>
+
+</div>
 
 </body>
 </html>
