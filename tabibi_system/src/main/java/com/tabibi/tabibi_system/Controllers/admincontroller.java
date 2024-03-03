@@ -18,9 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/User")
 public class admincontroller {
+
     @GetMapping("/admin-dashboard")
    public ModelAndView getadmin_dashboard() {
     ModelAndView mav=new ModelAndView("admindashboard.html");
+       return mav;
+   }
+   @GetMapping("/settings")
+   public ModelAndView getaccount() {
+    ModelAndView mav=new ModelAndView("AccountSettings.html");
        return mav;
    }
    @GetMapping("/User")
