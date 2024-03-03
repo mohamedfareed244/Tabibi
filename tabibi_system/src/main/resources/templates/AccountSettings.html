@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -102,7 +102,9 @@
 <!-- <?php
     include_once "../includes/navigation.php";
     ?> -->
+    
 <body>
+    <div th:include="fragments/navigation :: navigation"></div>
     <div class="filter-container">
         <div class="dashboard-box">
             <a href="Editprofile.php" class="non-style-link">
@@ -153,6 +155,8 @@
     <!-- <?php
     include_once "../includes/footer.php";
     ?> -->
+    <div th:include="fragments/footer :: footer"></div>
+
 </footer>
 <script>
 var modal = document.querySelector(".modal");
