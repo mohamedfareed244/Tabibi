@@ -1,7 +1,7 @@
 package com.tabibi.tabibi_system.Models;
 
 import jakarta.persistence.*;
-import java.util.Date;
+
 import java.util.Objects;
 @Entity
 @Table(name = "appointments")
