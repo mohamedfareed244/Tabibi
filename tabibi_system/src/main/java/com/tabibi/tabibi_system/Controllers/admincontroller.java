@@ -26,7 +26,7 @@ public class admincontroller {
    }
    @GetMapping("/settings")
    public ModelAndView getaccount() {
-    ModelAndView mav=new ModelAndView("AccountSettings.html");
+    ModelAndView mav=new ModelAndView("Profile.html");
        return mav;
    }
    @GetMapping("/User")

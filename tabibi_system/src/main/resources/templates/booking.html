@@ -13,6 +13,9 @@ $appointmentcntrl =new AppointmentController();
         <title>Booking</title>
     </head>
     <body>
+        <div th:include="/fragments/navigation.html">
+
+        </div>
         <form action="booking.php" method="get" id="specializationForm" onsubmit="submitForm(event)">
             
         <label for="sp">select a specialization</label>
