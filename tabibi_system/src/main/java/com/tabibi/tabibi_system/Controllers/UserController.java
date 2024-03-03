@@ -74,5 +74,14 @@ public class UserController {
        return mav;
    }
      
-    
-    }
+   @GetMapping("/account-settings")
+   public ModelAndView getaccount_settings() {
+    ModelAndView mav=new ModelAndView("AccountSettings.html");
+       return mav;
+   }
+   @GetMapping("/footer")
+   public ModelAndView getfooter() {
+    ModelAndView mav=new ModelAndView("footer.html");
+       return mav;
+   }
+}

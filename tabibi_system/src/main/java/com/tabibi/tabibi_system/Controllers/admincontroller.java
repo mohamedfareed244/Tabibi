@@ -24,14 +24,17 @@ public class admincontroller {
     ModelAndView mav=new ModelAndView("admindashboard.html");
        return mav;
    }
+   
+   @GetMapping("/addpage")
+   public ModelAndView getpage() {
+   
+        ModelAndView mav=new ModelAndView("addpage.html");
+           return mav;
+   }
    @GetMapping("/settings")
    public ModelAndView getaccount() {
     ModelAndView mav=new ModelAndView("Profile.html");
        return mav;
    }
-   @GetMapping("/User")
-   public String getpage() {
-       return new String();
-   }
-   
+ 
 }
