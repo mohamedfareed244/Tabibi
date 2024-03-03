@@ -1,4 +1,4 @@
-package com.tabibi.tabibi_system.Model;
+package com.tabibi.tabibi_system.Models;
 
 public class pages {
     public String pgid;

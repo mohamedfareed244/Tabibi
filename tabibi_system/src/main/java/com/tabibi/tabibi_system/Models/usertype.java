@@ -1,6 +1,7 @@
-package com.tabibi.tabibi_system.Model;
+package com.tabibi.tabibi_system.Models;
 
-public class usertype {
+public class usertype 
+{
  
 
     public String utid;
