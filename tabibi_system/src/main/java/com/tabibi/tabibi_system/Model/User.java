@@ -10,7 +10,7 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long Id;
-    private String Name;
+    private String name;
     private String username;
     private String password;
     private String dob;
@@ -22,7 +22,7 @@ public class User {
 
     public User(Long Id, String Name, String username, String password, String dob, String User_type) {
         this.Id = Id;
-        this.Name = Name;
+        this.name = Name;
         this.username = username;
         this.password = password;
         this.dob = dob;
@@ -38,11 +38,11 @@ public class User {
     }
 
     public String getName() {
-        return this.Name;
+        return this.name;
     }
 
     public void setName(String Name) {
-        this.Name = Name;
+        this.name = Name;
     }
 
     public String getUsername() {
@@ -115,12 +115,12 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return Objects.equals(Id, user.Id) && Objects.equals(Name, user.Name) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(dob, user.dob) && Objects.equals(User_type, user.User_type);
+        return Objects.equals(Id, user.Id) && Objects.equals(name, user.name) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(dob, user.dob) && Objects.equals(User_type, user.User_type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id, Name, username, password, dob, User_type);
+        return Objects.hash(Id, name, username, password, dob, User_type);
     }
 
     @Override

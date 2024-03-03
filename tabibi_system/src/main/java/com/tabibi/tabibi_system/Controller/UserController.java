@@ -5,9 +5,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tabibi.tabibi_system.Model.User;
 import com.tabibi.tabibi_system.Repositories.UserRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+
 import org.mindrot.jbcrypt.BCrypt;
 import com.tabibi.tabibi_system.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,5 +45,22 @@ public class UserController {
       this.UserRepository.save(user);
       return "ADDed ya basha to DataBAse";
      }
+
+    @GetMapping("/AllUsers")
+     public ModelAndView getUsers()
+     {
+         ModelAndView mav=new ModelAndView("search.html"); 
+         List<User> users=this.UserRepository.findAll();
+         mav.addObject("users", users);
+         return mav;
+     }
+
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam("name") String name, Model model) {
+      List<User> users = UserRepository.findByName( name); 
+       ModelAndView mag=new ModelAndView("searchResult.html");
+        model.addAttribute("users", users);
+      return mag;
+    }
     
-}
+    }
