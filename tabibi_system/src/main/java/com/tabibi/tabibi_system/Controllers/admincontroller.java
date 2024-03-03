@@ -1,7 +1,8 @@
-package com.tabibi.tabibi_system.Controller;
+package com.tabibi.tabibi_system.Controllers;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RestController;
-import com.tabibi.tabibi_system.Model.User;
+
+import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Repositories.UserRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.mindrot.jbcrypt.BCrypt;

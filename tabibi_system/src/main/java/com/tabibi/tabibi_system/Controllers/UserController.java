@@ -1,8 +1,9 @@
 
-package com.tabibi.tabibi_system.Controller;
+package com.tabibi.tabibi_system.Controllers;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RestController;
-import com.tabibi.tabibi_system.Model.User;
+
+import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Repositories.UserRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +30,7 @@ public class UserController {
 
 
 
-    @GetMapping("Registration")
+    @GetMapping("/Registration")
 
     public ModelAndView addUser()
     {
@@ -39,7 +40,7 @@ public class UserController {
       return mav;
     }
 
-    @PostMapping("Registration")
+    @PostMapping("/Registration")
     public String saveUser(@ModelAttribute User user)
      {
       String encoddedPassword=BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)) ;

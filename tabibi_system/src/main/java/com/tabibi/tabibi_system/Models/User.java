@@ -1,4 +1,4 @@
-package com.tabibi.tabibi_system.Model;
+package com.tabibi.tabibi_system.Models;
 
 import java.lang.annotation.Inherited;
 import java.util.Objects;
@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long Id;
     private String name;
     private String username;
