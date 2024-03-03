@@ -47,7 +47,7 @@ public class UserController {
       this.UserRepository.save(user);
       return "ADDed ya basha to DataBAse";
      }
-<<<<<<< HEAD
+
 
     @GetMapping("/AllUsers")
      public ModelAndView getUsers()
@@ -61,11 +61,11 @@ public class UserController {
     @GetMapping("/search")
     public ModelAndView search(@RequestParam("name") String name, Model model) {
       List<User> users = UserRepository.findByName( name); 
-       ModelAndView mag=new ModelAndView("searchResult.html");
+       ModelAndView mag=new ModelAndView("searchResults.html");
         model.addAttribute("users", users);
       return mag;
     }
-=======
+    
    
    @GetMapping("/navigation")
    public ModelAndView getnavigation() {
@@ -73,6 +73,5 @@ public class UserController {
        return mav;
    }
      
->>>>>>> e0dce985025ab6176a02cd042fa75078ce1f9349
     
     }
