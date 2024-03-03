@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -45,6 +47,7 @@ public class UserController {
       this.UserRepository.save(user);
       return "ADDed ya basha to DataBAse";
      }
+<<<<<<< HEAD
 
     @GetMapping("/AllUsers")
      public ModelAndView getUsers()
@@ -62,5 +65,14 @@ public class UserController {
         model.addAttribute("users", users);
       return mag;
     }
+=======
+   
+   @GetMapping("/navigation")
+   public ModelAndView getnavigation() {
+    ModelAndView mav=new ModelAndView("navigation.html");
+       return mav;
+   }
+     
+>>>>>>> e0dce985025ab6176a02cd042fa75078ce1f9349
     
     }
