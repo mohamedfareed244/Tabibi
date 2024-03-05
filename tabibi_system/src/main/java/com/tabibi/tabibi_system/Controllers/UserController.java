@@ -3,7 +3,9 @@ package com.tabibi.tabibi_system.Controllers;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
+import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Repositories.UserRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,13 +36,15 @@ public class UserController {
 
     public ModelAndView addUser()
     {
-    ModelAndView mav=new ModelAndView("registration.html");
-    User newUser=new User();
-    mav.addObject("User", newUser);
+    ModelAndView mav=new ModelAndView("Registration.html");
+    Patient newpatient=new Patient();
+    UserAcc newUser=new UserAcc();
+    mav.addObject("Patient", newpatient);
+    mav.addObject("UserAcc", newUser);
       return mav;
     }
 
-    @PostMapping("/Registration")
+    @PostMapping("/signup")
     public String saveUser(@ModelAttribute User user)
      {
       String encoddedPassword=BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)) ;
@@ -59,7 +63,6 @@ public class UserController {
          return mav;
      }
 
-<<<<<<< HEAD
     @GetMapping("/search")
     public ModelAndView search(@RequestParam("name") String name, Model model) {
       List<User> users = UserRepository.findByName(name); 
@@ -67,15 +70,7 @@ public class UserController {
         model.addAttribute("users", users);
       return mag;
     }
-=======
-    // @GetMapping("/search")
-    // public ModelAndView search(@RequestParam("name") String name, Model model) {
-    //   List<User> users = UserRepository.findByName( name); 
-    //    ModelAndView mag=new ModelAndView("searchResults.html");
-    //     model.addAttribute("users", users);
-    //   return mag;
-    // }
->>>>>>> 4d1114ba71809091cd96526f58735eecbec89217
+
     
    
    @GetMapping("/navigation")
