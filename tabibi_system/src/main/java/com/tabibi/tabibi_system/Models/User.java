@@ -10,7 +10,6 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long Id;
-    private String name;
     private String username;
     private String password;
     private String dob;
@@ -20,9 +19,8 @@ public class User {
     public User() {
     }
 
-    public User(Long Id, String Name, String username, String password, String dob, String User_type) {
+    public User(Long Id, String username, String password, String dob, String User_type) {
         this.Id = Id;
-        this.name = Name;
         this.username = username;
         this.password = password;
         this.dob = dob;
@@ -35,14 +33,6 @@ public class User {
 
     public void setId(Long Id) {
         this.Id = Id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String Name) {
-        this.name = Name;
     }
 
     public String getUsername() {
@@ -82,11 +72,6 @@ public class User {
         return this;
     }
 
-    public User Name(String Name) {
-        setName(Name);
-        return this;
-    }
-
     public User username(String username) {
         setUsername(username);
         return this;
@@ -115,19 +100,18 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return Objects.equals(Id, user.Id) && Objects.equals(name, user.name) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(dob, user.dob) && Objects.equals(User_type, user.User_type);
+        return Objects.equals(Id, user.Id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(dob, user.dob) && Objects.equals(User_type, user.User_type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id, name, username, password, dob, User_type);
+        return Objects.hash(Id, username, password, dob, User_type);
     }
 
     @Override
     public String toString() {
         return "{" +
             " Id='" + getId() + "'" +
-            ", Name='" + getName() + "'" +
             ", username='" + getUsername() + "'" +
             ", password='" + getPassword() + "'" +
             ", dob='" + getDob() + "'" +
@@ -135,5 +119,6 @@ public class User {
             "}";
     }
 
+   
 }
 
