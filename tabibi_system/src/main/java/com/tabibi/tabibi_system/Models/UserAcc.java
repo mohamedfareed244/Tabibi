@@ -1,33 +1,39 @@
 package com.tabibi.tabibi_system.Models;
 import jakarta.persistence.*;
 import java.util.Objects;
+
 @Entity
 @Table(name = "user_acc")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 public class UserAcc {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "uid")
     private Long uid;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email", nullable = false)
+    private String email;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "pass", nullable = false)
+    private String pass;
 
-    @Column(name = "role")
-    private String role;
+    @ManyToOne
+    @JoinColumn(name = "usertype_id", nullable = false)
+    private UserTypes usertype;
+
+    @Column(name = "image", nullable = true)
+    private String image;
 
 
     public UserAcc() {
     }
 
-    public UserAcc(Long uid, String username, String password, String role) {
+    public UserAcc(Long uid, String email, String pass, UserTypes usertype, String image) {
         this.uid = uid;
-        this.username = username;
-        this.password = password;
-        this.role = role;
+        this.email = email;
+        this.pass = pass;
+        this.usertype = usertype;
+        this.image = image;
     }
 
     public Long getUid() {
@@ -38,28 +44,36 @@ public class UserAcc {
         this.uid = uid;
     }
 
-    public String getUsername() {
-        return this.username;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getPassword() {
-        return this.password;
+    public String getPass() {
+        return this.pass;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
-    public String getRole() {
-        return this.role;
+    public UserTypes getUsertype() {
+        return this.usertype;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUsertype(UserTypes usertype) {
+        this.usertype = usertype;
+    }
+
+    public String getImage() {
+        return this.image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public UserAcc uid(Long uid) {
@@ -67,18 +81,23 @@ public class UserAcc {
         return this;
     }
 
-    public UserAcc username(String username) {
-        setUsername(username);
+    public UserAcc email(String email) {
+        setEmail(email);
         return this;
     }
 
-    public UserAcc password(String password) {
-        setPassword(password);
+    public UserAcc pass(String pass) {
+        setPass(pass);
         return this;
     }
 
-    public UserAcc role(String role) {
-        setRole(role);
+    public UserAcc usertype(UserTypes usertype) {
+        setUsertype(usertype);
+        return this;
+    }
+
+    public UserAcc image(String image) {
+        setImage(image);
         return this;
     }
 
@@ -90,23 +109,23 @@ public class UserAcc {
             return false;
         }
         UserAcc userAcc = (UserAcc) o;
-        return Objects.equals(uid, userAcc.uid) && Objects.equals(username, userAcc.username) && Objects.equals(password, userAcc.password) && Objects.equals(role, userAcc.role);
+        return Objects.equals(uid, userAcc.uid) && Objects.equals(email, userAcc.email) && Objects.equals(pass, userAcc.pass) && Objects.equals(usertype, userAcc.usertype) && Objects.equals(image, userAcc.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, username, password, role);
+        return Objects.hash(uid, email, pass, usertype, image);
     }
 
     @Override
     public String toString() {
         return "{" +
             " uid='" + getUid() + "'" +
-            ", username='" + getUsername() + "'" +
-            ", password='" + getPassword() + "'" +
-            ", role='" + getRole() + "'" +
+            ", email='" + getEmail() + "'" +
+            ", pass='" + getPass() + "'" +
+            ", usertype='" + getUsertype() + "'" +
+            ", image='" + getImage() + "'" +
             "}";
     }
     
 }
-
