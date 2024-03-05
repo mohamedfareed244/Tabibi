@@ -2,6 +2,7 @@ package com.tabibi.tabibi_system.Models;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.util.Objects;
 @Entity
 @Table(name = "appointments")
@@ -11,6 +12,18 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Appid")
     private Long appId;
+
+    @Column(name="date")
+    private Date date;
+
+    @Column(name="status")
+    private String status ;
+
+    @Column(name="time")
+    private String time ;
+    
+    @Column(name="price")
+    private String price;
 
     @ManyToOne
     @JoinColumn(name = "Did", referencedColumnName = "Did", insertable = true, updatable = true)
