@@ -61,8 +61,8 @@ public class UserController {
 
     @GetMapping("/search")
     public ModelAndView search(@RequestParam("name") String name, Model model) {
-      List<User> users = UserRepository.findByName( name); 
-       ModelAndView mag=new ModelAndView("searchResults.html");
+      List<User> users = UserRepository.findByName(name); 
+       ModelAndView mag=new ModelAndView("searchResult.html");
         model.addAttribute("users", users);
       return mag;
     }
