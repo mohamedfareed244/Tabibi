@@ -10,19 +10,19 @@
     User registration
 </h2>
 
-<form th:action="@{/User/signup}" th:object="${UserAcc}" method="POST">
-    <input type="text" th:field="*{username}" placeholder="Enter Username">
-    <input type="text" th:field="*{password}" placeholder="Enter password">
-    <select th:field="*{role}"  name="userType">
+<form th:action="@{/User/signup}" th:object="${UserAcc}" th:object="${Patient}"  method="POST">
+    <input type="text" th:field="*{UserAcc.username}" placeholder="Enter Username">
+    <input type="text" th:field="*{UserAcc.password}" placeholder="Enter password">
+    <select th:field="*{UserAcc.role}"  name="userType">
         <option value="patient">Patient</option>
         <option value="doctor">Doctor</option>
         <option value="clinic">Clinic</option>
     </select>
-    <!-- <input type="text" th:field="*{firstname}" placeholder="Enter first">
-    <input type="text" th:field="*{lastname}" placeholder="Enter lastname">
-    <input type="text" th:field="*{gender}" placeholder="Enter gender">
-    <input type="text" th:field="*{address}" placeholder="Enter address">
-    <input type="text" th:field="*{number}" placeholder="Enter number"> -->
+    <input type="text" th:field="*{Patient.firstname}" placeholder="Enter first">
+    <input type="text" th:field="*{Patient.lastname}" placeholder="Enter lastname">
+    <input type="text" th:field="*{Patient.gender}" placeholder="Enter gender">
+    <input type="text" th:field="*{Patient.address}" placeholder="Enter address">
+    <input type="text" th:field="*{Patient.number}" placeholder="Enter number">
 
 <input type="submit">
 </form>
