@@ -59,6 +59,7 @@ public class UserController {
          return mav;
      }
 
+<<<<<<< HEAD
     @GetMapping("/search")
     public ModelAndView search(@RequestParam("name") String name, Model model) {
       List<User> users = UserRepository.findByName(name); 
@@ -66,6 +67,15 @@ public class UserController {
         model.addAttribute("users", users);
       return mag;
     }
+=======
+    // @GetMapping("/search")
+    // public ModelAndView search(@RequestParam("name") String name, Model model) {
+    //   List<User> users = UserRepository.findByName( name); 
+    //    ModelAndView mag=new ModelAndView("searchResults.html");
+    //     model.addAttribute("users", users);
+    //   return mag;
+    // }
+>>>>>>> 4d1114ba71809091cd96526f58735eecbec89217
     
    
    @GetMapping("/navigation")
