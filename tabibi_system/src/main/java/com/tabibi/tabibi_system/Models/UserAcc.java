@@ -9,7 +9,7 @@ import java.util.Objects;
 public class UserAcc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long uid;
+    private int uid;
 
     @Column(name = "email", nullable = false)
     private String email;
@@ -28,7 +28,7 @@ public class UserAcc {
     public UserAcc() {
     }
 
-    public UserAcc(Long uid, String email, String pass, UserTypes usertype, String image) {
+    public UserAcc(int uid, String email, String pass, UserTypes usertype, String image) {
         this.uid = uid;
         this.email = email;
         this.pass = pass;
@@ -36,12 +36,12 @@ public class UserAcc {
         this.image = image;
     }
 
-    public Long getUid() {
+    public int getUid() {
         return this.uid;
     }
 
-    public void setUid(Long uid) {
-        this.uid = uid;
+    public static void setUid(int uid) {
+        uid = uid;
     }
 
     public String getEmail() {
@@ -76,7 +76,7 @@ public class UserAcc {
         this.image = image;
     }
 
-    public UserAcc uid(Long uid) {
+    public UserAcc uid(int uid) {
         setUid(uid);
         return this;
     }

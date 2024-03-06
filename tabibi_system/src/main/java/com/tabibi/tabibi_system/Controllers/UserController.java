@@ -3,6 +3,8 @@ package com.tabibi.tabibi_system.Controllers;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RestController;
 import com.tabibi.tabibi_system.Repositories.*;
+import com.tabibi.tabibi_system.Models.Clinic;
+import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
@@ -36,14 +38,32 @@ public class UserController {
 
     @GetMapping("/Registration")
 
-    public ModelAndView addUser()
+    public ModelAndView addUser(@RequestParam("userType") String UserType)
     {
     ModelAndView mav=new ModelAndView("Registration.html");
     System.out.println("dakhal controller");
+
+    UserAcc newUser=new UserAcc(); 
+     mav.addObject("UserAcc", newUser);
+if(UserType=="Patient")
+ {
     Patient newpatient=new Patient();
-    UserAcc newUser=new UserAcc();
     mav.addObject("Patient", newpatient);
-    mav.addObject("UserAcc", newUser);
+    UserAcc.setUid('1');
+  } 
+  else if(UserType=="Doctor")
+  {
+    Doctor newDoctor=new Doctor();
+    mav.addObject("Doctor", newDoctor);
+    UserAcc.setUid('2');
+    
+  }
+  else {
+    Clinic newClinic=new Clinic();
+    mav.addObject("Clinic", newClinic);
+    UserAcc.setUid('3');
+  }
+
       return mav;
     }
 
