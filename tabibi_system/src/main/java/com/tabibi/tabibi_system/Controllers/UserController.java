@@ -37,7 +37,6 @@ public class UserController {
 
 
     @GetMapping("/Registration")
-
     public ModelAndView addUser(@RequestParam("userType") String UserType)
     {
     ModelAndView mav=new ModelAndView("Registration.html");
@@ -45,23 +44,23 @@ public class UserController {
 
     UserAcc newUser=new UserAcc(); 
      mav.addObject("UserAcc", newUser);
-if(UserType=="Patient")
+if(UserType.equals("Patient"))
  {
     Patient newpatient=new Patient();
     mav.addObject("Patient", newpatient);
-    UserAcc.setUid('1');
+    newUser.setUid(1);
   } 
   else if(UserType=="Doctor")
   {
     Doctor newDoctor=new Doctor();
     mav.addObject("Doctor", newDoctor);
-    UserAcc.setUid('2');
+    newUser.setUid(2);
     
   }
   else {
     Clinic newClinic=new Clinic();
     mav.addObject("Clinic", newClinic);
-    UserAcc.setUid('3');
+    newUser.setUid(3);
   }
 
       return mav;
@@ -87,13 +86,13 @@ if(UserType=="Patient")
          return mav;
      }
 
-    @GetMapping("/search")
-    public ModelAndView search(@RequestParam("name") String name, Model model) {
-      List<User> users = UserRepository.findByName(name); 
-       ModelAndView mag=new ModelAndView("searchResult.html");
-        model.addAttribute("users", users);
-      return mag;
-    }
+    // @GetMapping("/search")
+    // public ModelAndView search(@RequestParam("name") String name, Model model) {
+    //   List<User> users = UserRepository.findByName(name); 
+    //    ModelAndView mag=new ModelAndView("searchResult.html");
+    //     model.addAttribute("users", users);
+    //   return mag;
+    // }
 
     
    

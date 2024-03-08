@@ -4,8 +4,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "user_acc")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
+
 public class UserAcc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +39,8 @@ public class UserAcc {
         return this.uid;
     }
 
-    public static void setUid(int uid) {
-        uid = uid;
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getEmail() {

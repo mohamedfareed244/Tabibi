@@ -12,11 +12,15 @@ import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.hibernate.usertype.UserType;
 import org.mindrot.jbcrypt.BCrypt;
 import com.tabibi.tabibi_system.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +39,8 @@ DoctorRepository doctorrepo;
 
 @Autowired
 UserAccRepository userrepo;
+@Autowired
+UserTypeRepository user_type_repo;
 
    @GetMapping("/admin-dashboard")
    public ModelAndView getadmin_dashboard() {
@@ -55,30 +61,27 @@ UserAccRepository userrepo;
       return mav;
    }
 
-   @GetMapping("/addusers")
+   @GetMapping("addusers")
    public ModelAndView addusers() {
       ModelAndView mav = new ModelAndView("addusers.html");
-   User user=new User();
-   mav.addObject("user", user);
+      UserAcc user=new UserAcc();
+      mav.addObject("user", user);
+    //  mav.addObject("usertype", user_type_repo.findAll());
+         
       return mav;
    
    }
-// @PostMapping("/addusers")
-// public String saveuser(@ModelAttribute UserAcc user,@RequestParam String usertype) {
-//    String hash_password=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
-//    user.setPass(hash_password);
 
-//    userrepo.save(user);
-//      if(usertype.equals("Doctor")){
-// user.setUsertype(4);
-// userrepo.save(user);
-//      }else if(usertype.equals("Patient")){
-//       user.setUser_type("Patient");
-// userrepo.save(user);
-//      }
-    
-//     return "added";
+
+@PostMapping("addusers")
+public String saveuser(@ModelAttribute UserAcc user) {
+   String hash_password=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
+   user.setPass(hash_password);
+
+   this.userrepo.save(user);
+     
+    return "added";
    
-// }
+}
 
 }

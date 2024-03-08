@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tabibi.tabibi_system.Models.UserAcc;
 
-public interface UserAccRepository extends JpaRepository<UserAcc,Long> {
-        UserAcc findByUsername(String username);
-    List<UserAcc> findByName(String name);
+public interface UserAccRepository extends JpaRepository<UserAcc,Integer> {
+       // UserAcc findByEmail(String email);
+   // List<UserAcc> findByName(String name);
 }

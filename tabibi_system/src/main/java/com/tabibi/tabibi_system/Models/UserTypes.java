@@ -1,5 +1,8 @@
 package com.tabibi.tabibi_system.Models;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -12,9 +15,11 @@ public class UserTypes {
 
     @Column(name = "name", nullable = false)
     private String name;
-
+@ManyToMany
+private List<Pages>pages=new ArrayList<>();
 
     public UserTypes() {
+
     }
 
     public UserTypes(Long utid, String name) {

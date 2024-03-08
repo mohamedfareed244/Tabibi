@@ -29,26 +29,26 @@
               </div>
               <h2 class="text-uppercase text-center mb-5">Add User</h2>
             <br><br><br>
-              <form  class="mar" name="f1" action="@{/User/addusers}" method="POST" th:object="${user}">
+              <form  class="mar" name="f1" action="/User/addusers" th:object="${user}" method="POST">
             
 
-                <div class="form-outline mb-4" style=" margin-top: -100px;">
-                  <input type="text" id="fname" name="username" class="form-control form-control-lg" />  <!-- text betsheel el input?????? -->
+                <!-- <div class="form-outline mb-4" style=" margin-top: -100px;">
+                  <input type="text" id="fname"   name="username" class="form-control form-control-lg" />  
                   <label class="form-label" for="fname">username</label>  
-                </div>
+                </div> -->
                 <div class="form-outline mb-4">
-                    <input type="email" id="email" name="email" class="form-control form-control-lg" />
+                    <input type="text" id="email" th:field="*{email}"  name="email" class="form-control form-control-lg" />
                     <label class="form-label" for="email">Email</label>
                   </div>
-                <div class="form-outline mb-4">
-                  <input type="text" id="lname" name="lastname" class="form-control form-control-lg" />  <!-- text betsheel el input?????? -->
+                <!-- <div class="form-outline mb-4">
+                  <input type="text" id="lname"  th:field="*{dob}" name="lastname" class="form-control form-control-lg" /> 
                   <label class="form-label" for="lname">Date of birth</label>  
-                </div>
+                </div> -->
 
                 
 
                 <div class="form-outline mb-4">
-                  <input type="password" id="pass" name="pass" class="form-control form-control-lg" />
+                  <input type="password"   id="pass" th:field="*{pass}" name="pass" class="form-control form-control-lg" />
                   <label class="form-label" for="pass">Password</label>
                 </div>
 
@@ -56,12 +56,13 @@
                   <input type="password" id="confpass" class="form-control form-control-lg" />
                   <label class="form-label" for="confpass">Confirm password</label>
                 </div>
-                <div class="form-outline mb-4">
-                  <input type="radio" name="type" id="type" value="doctor"/>
+                <!-- <div class="form-outline mb-4">
+                  <input type="radio"  th:field="*{usertype}"  id="type" value="doctor"/>
                   <class="form-label" for="userType">Doctor</label><br>
-                  <input type="radio" name="type" id="type" value="patient" />
+                  <input type="radio"  th:field="*{usertype}" id="type" value="patient" />
                   <label class="form-label" for="userType">Patient</label>
                 </div>
+                -->
                 <button type="submit" class="btn btn-success btn-block btn-lg">Save</button>
                 </div>
             
