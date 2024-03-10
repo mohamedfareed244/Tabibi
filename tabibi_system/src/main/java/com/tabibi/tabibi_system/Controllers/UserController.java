@@ -37,31 +37,31 @@ public class UserController {
 
 
     @GetMapping("/Registration")
-    public ModelAndView addUser(@RequestParam("userType") String UserType)
+    public ModelAndView addUser()
     {
     ModelAndView mav=new ModelAndView("Registration.html");
     System.out.println("dakhal controller");
 
     UserAcc newUser=new UserAcc(); 
      mav.addObject("UserAcc", newUser);
-if(UserType.equals("Patient"))
- {
-    Patient newpatient=new Patient();
-    mav.addObject("Patient", newpatient);
-    newUser.setUid(1);
-  } 
-  else if(UserType=="Doctor")
-  {
-    Doctor newDoctor=new Doctor();
-    mav.addObject("Doctor", newDoctor);
-    newUser.setUid(2);
+// if(UserType.equals("Patient"))
+//  {
+//     Patient newpatient=new Patient();
+//     mav.addObject("Patient", newpatient);
+//     newUser.setUid(1);
+//   } 
+//   else if(UserType=="Doctor")
+//   {
+//     Doctor newDoctor=new Doctor();
+//     mav.addObject("Doctor", newDoctor);
+//     newUser.setUid(2);
     
-  }
-  else {
-    Clinic newClinic=new Clinic();
-    mav.addObject("Clinic", newClinic);
-    newUser.setUid(3);
-  }
+//   }
+//   else {
+//     Clinic newClinic=new Clinic();
+//     mav.addObject("Clinic", newClinic);
+//     newUser.setUid(3);
+//   }
 
       return mav;
     }
