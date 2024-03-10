@@ -65,6 +65,9 @@ UserTypeRepository user_type_repo;
    public ModelAndView addusers() {
       ModelAndView mav = new ModelAndView("addusers.html");
       UserAcc user=new UserAcc();
+      UserTypes type = new UserTypes((long)3);
+      System.out.println("-------------------------type in get request =   "+ type);
+      user.setUsertype(type);
       mav.addObject("user", user);
     //  mav.addObject("usertype", user_type_repo.findAll());
          
@@ -77,7 +80,7 @@ UserTypeRepository user_type_repo;
 public String saveuser(@ModelAttribute UserAcc user) {
    String hash_password=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
    user.setPass(hash_password);
-
+   System.out.println("-------------------------xxx-----------User before save IN POST : " + user);
    this.userrepo.save(user);
      
     return "added";

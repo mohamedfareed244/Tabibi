@@ -26,10 +26,15 @@ private List<Pages>pages=new ArrayList<>();
         this.utid = utid;
         this.name = name;
     }
+    public UserTypes(long id ) {
+        this.utid=id;
 
-    public Long getUtid() {
-        return this.utid;
     }
+    
+
+  public Long getUtid(){
+    return this.utid;
+  } 
 
     public void setUtid(Long utid) {
         this.utid = utid;
@@ -53,29 +58,7 @@ private List<Pages>pages=new ArrayList<>();
         return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof UserTypes)) {
-            return false;
-        }
-        UserTypes userTypes = (UserTypes) o;
-        return Objects.equals(utid, userTypes.utid) && Objects.equals(name, userTypes.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(utid, name);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " utid='" + getUtid() + "'" +
-            ", name='" + getName() + "'" +
-            "}";
-    }
+   
     
 
     

@@ -17,7 +17,7 @@ public class UserAcc {
     private String pass;
 
     @ManyToOne
-    @JoinColumn(name = "usertype_id", nullable = false)
+    @JoinColumn(name = "usertype_id", nullable = true)
     private UserTypes usertype;
 
     @Column(name = "image", nullable = true)
@@ -65,6 +65,12 @@ public class UserAcc {
 
     public void setUsertype(UserTypes usertype) {
         this.usertype = usertype;
+    }
+    public void setUsertype(long id) {
+        if (this.usertype == null) {
+            this.usertype = new UserTypes();
+        }
+        this.usertype.setUtid(id);
     }
 
     public String getImage() {
