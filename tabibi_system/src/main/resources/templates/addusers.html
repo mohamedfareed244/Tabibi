@@ -29,7 +29,7 @@
               </div>
               <h2 class="text-uppercase text-center mb-5">Add User</h2>
             <br><br><br>
-              <form  class="mar" name="f1" action="/User/addusers" th:object="${user}" method="POST">
+              <form  class="mar" name="f1" th:action="@{/Admin/addusers}" th:object="${user}" method="POST">
             
 
                 <!-- <div class="form-outline mb-4" style=" margin-top: -100px;">
@@ -56,13 +56,13 @@
                   <input type="password" id="confpass" class="form-control form-control-lg" />
                   <label class="form-label" for="confpass">Confirm password</label>
                 </div>
-                <!-- <div class="form-outline mb-4">
+                <div class="form-outline mb-4">
                   <input type="radio"  th:field="*{usertype}"  id="type" value="doctor"/>
                   <class="form-label" for="userType">Doctor</label><br>
                   <input type="radio"  th:field="*{usertype}" id="type" value="patient" />
                   <label class="form-label" for="userType">Patient</label>
                 </div>
-                -->
+               
                 <input type="submit" class="btn btn-success btn-block btn-lg">
                 </div>
             
