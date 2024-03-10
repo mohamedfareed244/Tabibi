@@ -8,14 +8,13 @@ import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
-import com.tabibi.tabibi_system.Repositories.UserRepository;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
-import com.tabibi.tabibi_system.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,39 +40,24 @@ public class UserController {
     {
     ModelAndView mav=new ModelAndView("Registration.html");
     System.out.println("dakhal controller");
-
-    UserAcc newUser=new UserAcc(); 
-     mav.addObject("UserAcc", newUser);
-// if(UserType.equals("Patient"))
-//  {
-//     Patient newpatient=new Patient();
-//     mav.addObject("Patient", newpatient);
-//     newUser.setUid(1);
-//   } 
-//   else if(UserType=="Doctor")
-//   {
-//     Doctor newDoctor=new Doctor();
-//     mav.addObject("Doctor", newDoctor);
-//     newUser.setUid(2);
-    
-//   }
-//   else {
-//     Clinic newClinic=new Clinic();
-//     mav.addObject("Clinic", newClinic);
-//     newUser.setUid(3);
-//   }
+    Patient patient=new Patient();
+    UserAcc userAcc=new UserAcc();
+    userAcc.setUid(1);
+    patient.setUserAcc(userAcc);
+    mav.addObject("patient", patient);
 
       return mav;
     }
 
-    @PostMapping("/signup")
-    public String saveUser(@ModelAttribute UserAcc user ,@ModelAttribute Patient patient)
+    @PostMapping("signup")
+    public String saveUser(@ModelAttribute Patient patient)
      {
-      String encoddedPassword=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12)) ;
-      user.setPass(encoddedPassword);
-      this.UserAccRepository.save(user);
+    System.err.println("bada2 ysave");
+     UserAcc currUser=patient.getUserAcc();
+     String encoddedPassword=BCrypt.hashpw(currUser.getPass(), BCrypt.gensalt(12)) ;
+      currUser.setPass(encoddedPassword);
       this.patientRepository.save(patient);
-      return "ADDed ya basha to DataBAse";
+      return "ADDed ya basha to DataBase";
      }
 
 
