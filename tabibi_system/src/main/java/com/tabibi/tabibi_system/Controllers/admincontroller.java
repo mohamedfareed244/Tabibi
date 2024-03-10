@@ -15,6 +15,9 @@ import com.tabibi.tabibi_system.Repositories.UserRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+
 import org.hibernate.usertype.UserType;
 import org.mindrot.jbcrypt.BCrypt;
 import com.tabibi.tabibi_system.Repositories.UserRepository;
@@ -65,10 +68,18 @@ UserTypeRepository user_type_repo;
    public ModelAndView addusers() {
       ModelAndView mav = new ModelAndView("addusers.html");
       UserAcc user=new UserAcc();
-      UserTypes type = new UserTypes((long)3);
-      System.out.println("-------------------------type in get request =   "+ type);
-      user.setUsertype(type);
+      List<UserTypes>typeList = this.user_type_repo.findAll();
+      System.out.println("--------------------------- the type list =  --------------------------------------");
+for (UserTypes x : typeList) 
+{
+   System.out.println(x.getName());
+   System.out.println(x.getUtid());
+   
+}
+
+     
       mav.addObject("user", user);
+      mav.addObject("types", typeList);
     //  mav.addObject("usertype", user_type_repo.findAll());
          
       return mav;
