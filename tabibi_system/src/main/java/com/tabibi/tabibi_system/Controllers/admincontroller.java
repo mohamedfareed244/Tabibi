@@ -107,4 +107,10 @@ public String saveuser(@ModelAttribute UserAcc user) {
 //     return "added";
    
 // }
+@GetMapping("/patients")
+public ModelAndView getpatientspage(){
+   ModelAndView mav=new ModelAndView("patients.html");
+   return mav;
+}
+
 }
