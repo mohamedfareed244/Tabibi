@@ -9,7 +9,7 @@
 <body>
 
 <h2>
-    User registration
+    User Registration
 </h2>
 
 <form th:action="@{/User/signup}" th:object="${patient}" method="POST" >
@@ -36,31 +36,30 @@
     <input type="password"  id="password" th:field="*{userAcc.pass}" placeholder="Password" required>
     <div id="password-error" class="error-message text-danger"></div>
 
-    <input type="password" id="cpassword" placeholder="Confirm Password" name="cpassword" required>
-    <div id="cpassword-error" class="error-message text-danger"></div>
+    <!-- <input type="password" id="cpassword" placeholder="Confirm Password" name="cpassword" required>
+    <div id="cpassword-error" class="error-message text-danger"></div> -->
 
-    <input type="submit"  value="Submit">
+    <input type="submit"  value="submit">
 
 </form>
 
 
 
-<select id="selectOption">
+<!-- <select id="selectOption">
     <option value="option1">patient</option>
     <option value="option2">Doctor</option>
   </select>
   
   <div id="formOption1" class="form">
-    <!-- Form fields for Option 1 -->
+
     <input type="text" name="field1" placeholder="Field 1 for PAtient ">
     <input type="text" name="field2" placeholder="Field 2 for Patient">
   </div>
   
   <div id="formOption2" class="form">
-    <!-- Form fields for Option 2 -->`
     <input type="text" name="field3" placeholder="Field 1 for Doctor">
     <input type="text" name="field4" placeholder="Field 2 for Doctor">
-  </div>
+  </div> -->
   
 </body>
 </html>

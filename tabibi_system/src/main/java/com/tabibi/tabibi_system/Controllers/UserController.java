@@ -45,11 +45,12 @@ public class UserController {
     userAcc.setUid(1);
     patient.setUserAcc(userAcc);
     mav.addObject("patient", patient);
-
       return mav;
     }
 
-    @PostMapping("signup")
+
+
+    @PostMapping("/signup")
     public String saveUser(@ModelAttribute Patient patient)
      {
     System.err.println("bada2 ysave");
@@ -57,7 +58,7 @@ public class UserController {
      String encoddedPassword=BCrypt.hashpw(currUser.getPass(), BCrypt.gensalt(12)) ;
       currUser.setPass(encoddedPassword);
       this.patientRepository.save(patient);
-      return "ADDed ya basha to DataBase";
+      return "Added ya basha to DataBase";
      }
 
 
