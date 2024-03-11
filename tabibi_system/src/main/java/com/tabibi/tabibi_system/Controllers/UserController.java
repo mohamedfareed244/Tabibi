@@ -38,7 +38,10 @@ public class UserController {
     private UserAccRepository UserAccRepository;
     @Autowired
     private PatientRepository patientRepository;
-
+    @Autowired
+    private ClinicRepository clinicRepository;
+@Autowired 
+private DoctorRepository doctorRepository;
 
 
 
@@ -115,6 +118,7 @@ public class UserController {
       currAcc.setImage("testimage");
       currAcc.setUid(1);
       System.err.println("password coded ");
+      this.UserAccRepository.save(currAcc);
       this.patientRepository.save(patient);
       return "Added ya basha to DataBase";
      }
@@ -147,7 +151,7 @@ public class UserController {
              if (PasswordsMatch) {
                  if (newUser.getUsertype().getUtid() == 4) 
                  {
-                    Patient patient = this.PatientRepository.findByUserAcc(newUser);
+                    Patient patient = this.patientRepository.findByUserAcc(newUser);
                      session.setAttribute("email", newUser.getEmail());
                      session.setAttribute("name", patient.getFirstname());
                      System.out.println(session.getAttribute("email"));
