@@ -8,7 +8,7 @@ import com.tabibi.tabibi_system.Models.UserAcc;
 
 
 
-public interface PatientRepository extends JpaRepository<Patient,Integer> 
+public interface PatientRepository extends JpaRepository<Patient,Long> 
 {
     Patient  findByUserAcc(UserAcc userAcc);
     

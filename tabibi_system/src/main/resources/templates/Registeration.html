@@ -1,0 +1,66 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/Registration_styling.css">
+    <title>Registration</title>
+</head>
+
+<body>
+
+<h2>
+    User registration
+</h2>
+<form th:action="@{/User/Registeration}" method="get" id="registrationForm">
+    <!-- Other form elements -->
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="userType">Select User Type:</label>
+        <select th:field="*{userType.utid}" id="userType" class="form-select" onchange="showFields()">
+            <option th:each="type : ${typelist}" th:value="${type.utid}" th:text="${type.name}"></option>
+        </select>
+    </div>
+
+    <div id="patientFields" th:if="${userType.utid == 4}" style="display:none;">
+        <h2>Patient Fields</h2>
+        <!-- Add patient-specific fields here -->
+    </div>
+
+    <div id="doctorFields" th:if="${userType.utid == 3}" style="display:none;">
+        <h2>Doctor Fields</h2>
+        <!-- Add doctor-specific fields here -->
+    </div>
+
+    <!-- Other form elements -->
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script th:inline="javascript">
+    function showFields() {
+        var userType = document.getElementById("userType");
+        var patientFields = document.getElementById("patientFields");
+        var doctorFields = document.getElementById("doctorFields");
+
+        // Hide all fields initially
+        patientFields.style.display = "none";
+        doctorFields.style.display = "none";
+
+        // Show fields based on user selection
+        if (userType.value === "4") { // Assuming 4 is the ID for Patient
+            patientFields.style.display = "block";
+        } else if (userType.value === "3") { // Assuming 3 is the ID for Doctor
+            doctorFields.style.display = "block";
+        }
+    }
+</script>
+
+    
+
+
+
+
+
+
+
+</body>
+</html>

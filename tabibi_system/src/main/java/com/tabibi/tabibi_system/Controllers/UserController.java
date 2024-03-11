@@ -58,13 +58,17 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public String saveUser(@ModelAttribute Patient patient)
+    public String saveUser(@ModelAttribute("patient") Patient patient)
      {
     System.err.println("bada2 ysave");
-     UserAcc currUser=patient.getUserAcc();
-     String encoddedPassword=BCrypt.hashpw(currUser.getPass(), BCrypt.gensalt(12)) ;
-      currUser.setPass(encoddedPassword);
-      this.PatientRepository.save(patient);
+    UserAcc currAcc=new UserAcc();
+    currAcc=patient.getUserAcc();
+     String encoddedPassword=BCrypt.hashpw(currAcc.getPass(), BCrypt.gensalt(12)) ;
+      currAcc.setPass(encoddedPassword);
+      currAcc.setImage("testimage");
+      currAcc.setUid(1);
+      System.err.println("password coded ");
+      this.patientRepository.save(patient);
       return "Added ya basha to DataBase";
      }
 
@@ -122,6 +126,12 @@ public class UserController {
         return mav;
      }
     
+     @GetMapping("patients")
+     public ModelAndView Getpatients()
+     {
+        ModelAndView mav=new ModelAndView("patients.html");
+        return mav;
+     }
          
      
      
