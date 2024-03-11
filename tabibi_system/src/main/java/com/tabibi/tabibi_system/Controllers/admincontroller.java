@@ -64,30 +64,38 @@ UserTypeRepository user_type_repo;
       return mav;
    }
 
-   // @GetMapping("addusers")
-   // public ModelAndView addusers() {
-   //    ModelAndView mav = new ModelAndView("addusers.html");
-   //    UserAcc user=new UserAcc();
-   //    UserTypes type = new UserTypes((long)3);
-   //    System.out.println("-------------------------type in get request =   "+ type);
-   //    user.setUsertype(type);
-   //    mav.addObject("user", user);
-   //  //  mav.addObject("usertype", user_type_repo.findAll());
-         
-   //    return mav;
-   
-   // }
-
    @GetMapping("addusers")
    public ModelAndView addusers() {
       ModelAndView mav = new ModelAndView("addusers.html");
       UserAcc user=new UserAcc();
+      
+      List<UserTypes>typeList = this.user_type_repo.findAll();
+      System.out.println("--------------------------- the type list =  --------------------------------------");
+for (UserTypes x : typeList) 
+{
+   System.out.println(x.getName());
+   System.out.println(x.getUtid());
+
+}
+
+
       mav.addObject("user", user);
-     mav.addObject("usertype", user_type_repo.findAll());
-         
+      mav.addObject("types", typeList);
+    //  mav.addObject("usertype", user_type_repo.findAll());
+
       return mav;
-   
    }
+
+   // @GetMapping("addusers")
+   // public ModelAndView addusers() {
+   //    ModelAndView mav = new ModelAndView("addusers.html");
+   //    UserAcc user=new UserAcc();
+   //    mav.addObject("user", user);
+   //   mav.addObject("usertype", user_type_repo.findAll());
+         
+   //    return mav;
+   
+   // }
 @PostMapping("addusers")
 public String saveuser(@ModelAttribute UserAcc user) {
    String hash_password=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
