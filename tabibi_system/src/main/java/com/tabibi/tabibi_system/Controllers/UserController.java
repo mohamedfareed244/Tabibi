@@ -1,6 +1,7 @@
 
 package com.tabibi.tabibi_system.Controllers;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.RestController;
 import com.tabibi.tabibi_system.Repositories.*;
 import com.tabibi.tabibi_system.Models.Clinic;
@@ -8,6 +9,9 @@ import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
+import com.tabibi.tabibi_system.Repositories.UserRepository;
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,6 +75,32 @@ public class UserController {
          return mav;
      }
 
+     @GetMapping("/Login")
+     public ModelAndView Login()
+     {
+         ModelAndView mav=new ModelAndView("Login.html"); 
+         UserAcc user=new UserAcc();
+         mav.addObject("user", user);
+         return mav;
+     }
+     @PostMapping("/Login")
+     public RedirectView loginprocess(@RequestParam("email")String email,@RequestParam("password")String password, HttpSession session)
+      {
+        UserAcc newUser=this.UserAccRepository.findByEmail(email);
+        Boolean PasswordsMatch=BCrypt.checkpw(password, newUser.getPass());
+        if(PasswordsMatch)
+        {
+            session.setAttribute("email", newUser.getEmail());
+            return new RedirectView("/accountSettings");
+        }
+        else
+        {
+            return new RedirectView("/Login");
+        }
+     }
+     
+
+
     // @GetMapping("/search")
     // public ModelAndView search(@RequestParam("name") String name, Model model) {
     //   List<User> users = UserRepository.findByName(name); 
@@ -87,7 +117,7 @@ public class UserController {
        return mav;
    }
      
-   @GetMapping("/account-settings")
+   @GetMapping("accountSettings")
    public ModelAndView getaccount_settings() {
     ModelAndView mav=new ModelAndView("AccountSettings.html");
        return mav;

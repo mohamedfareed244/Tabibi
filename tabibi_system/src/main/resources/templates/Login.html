@@ -1,88 +1,82 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="../css/interface.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
-        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-        <style>
-      body {
-        background-image: url('../images/b3.jpg');
-      }
-      #login-error{
-        text-align:left;
-        left:10;  
-      }
-    </style>
-    <script>
-        function validateForm() {
-            // Reset error messages
-            document.getElementById("user-err").innerHTML = "";
-            document.getElementById("pass-err").innerHTML = "";
-            document.getElementById("login-error").innerHTML = ""; 
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="../css/interface.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+            integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+            <style>
+        body {
+            background-image: url('../images/b3.jpg');
+        }
+        #login-error{
+            text-align:left;
+            left:10;  
+        }
+        </style>
+        <script>
+            function validateForm() {
+                // Reset error messages
+                document.getElementById("user-err").innerHTML = "";
+                document.getElementById("pass-err").innerHTML = "";
+                document.getElementById("login-error").innerHTML = ""; 
+                var email = document.getElementById("email").value;
+                var password = document.getElementById("password").value;
 
-            
-            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-            if (!emailPattern.test(email)) {
-                document.getElementById("user-err").innerHTML = "Invalid email address.";
-                return false;
+                
+                var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                if (!emailPattern.test(email)) {
+                    document.getElementById("user-err").innerHTML = "Invalid email address.";
+                    return false;
+                }
+
+                if (email === "") {
+                document.getElementById("user-err").innerHTML = " Email is required.";
+                isValid = false;
+            }
+            if (password === "") {
+                document.getElementById("pass-err").innerHTML = " Password is required.";
+                isValid = false;
             }
 
-            if (email === "") {
-            document.getElementById("user-err").innerHTML = " Email is required.";
-            isValid = false;
-        }
-        if (password === "") {
-            document.getElementById("pass-err").innerHTML = " Password is required.";
-            isValid = false;
-        }
-
-            return true; 
-        }
-    </script>
-</head>
+                return true; 
+            }
+        </script>
+    </head>
 
 
-<body>
-    <div id="cont">
-            <div id="frm">
-                <h1 id="wel">WELCOME</h1>
-              
-                <form action="" method="post" id="interface-form" name="form" onsubmit="return validateForm()">
-                    <div id="fields">
-                        <i class="fa fa-solid fa-user iicon"></i>
-                        
-                        
-                        <input class="login-field" type="text" name="email" placeholder="Email" id="email" required>
-                        <div id="user-err"></div>
-                        <br>
-                        <i class="fa-solid fa-lock icon"></i>
-                        <input class="login-field" type="password" name="password" placeholder="Password" id="password" required>
-                        <div id="pass-err"> </div>
-                        <br>
-                        <div id="login-error" style="color: red;"><?php if (isset($loginError)) echo $loginError; ?></div>
-                        <input type="submit" name="submit" id="sb" class="login-field">
-                    </div>
-                    <div id="sgu">
-                        <a class="link" href="signup.php">Sign Up</a> 
-                       
-                        <p> Not a member yet ? </p>
-                        
-                    </div>
+    <body>
+        <div id="cont">
+                <div id="frm">
+                    <h1 id="wel">WELCOME</h1>
+                
+                    <form th:action="@{/User/Login}" th:object="${user}" method="post" id="interface-form" name="form" onsubmit="return validateForm()">
+                        <div id="fields">
+                            <i class="fa fa-solid fa-user iicon"></i>
+                            
+                            <input class="login-field" type="text" th:field="*{email}" placeholder="Email" id="email" required>
+                            <br>
+                            <i class="fa-solid fa-lock icon"></i>
+                            <input class="login-field" type="password" th:field="*{password}" placeholder="Password" id="password" required>
+                            <br>
+                            <div id="login-error" style="color: red;"></div>
+                            <input type="submit" name="submit" id="sb" class="login-field">
+                        </div>
+                        <div id="sgu">
+                            <p> Not a member yet ? </p>
+                        </div>
+                    </form>
                     
-                </form>
-            </div>
-            
-    </div>
-</body>
+                </div>
+                
+        </div>
+    </body>
 
-   <footer>
- 
-   </footer>
-</html>
+    <footer>
+    
+    </footer>
+    </html>
