@@ -54,19 +54,21 @@
                 <div id="frm">
                     <h1 id="wel">WELCOME</h1>
                 
-                    <form th:action="@{/User/Login}" th:object="${user}" method="post" id="interface-form" name="form" onsubmit="return validateForm()">
+                    <form th:action="@{/User/Login}" th:object="${user}" method="POST" id="interface-form" name="form" onsubmit="return validateForm()">
                         <div id="fields">
                             <i class="fa fa-solid fa-user iicon"></i>
                             
                             <input class="login-field" type="text" th:field="*{email}" placeholder="Email" id="email" required>
                             <br>
                             <i class="fa-solid fa-lock icon"></i>
-                            <input class="login-field" type="password" th:field="*{password}" placeholder="Password" id="password" required>
+                            <input class="login-field" type="password" th:field="*{pass}" placeholder="Password" id="pass" required>
                             <br>
                             <div id="login-error" style="color: red;"></div>
                             <input type="submit" name="submit" id="sb" class="login-field">
                         </div>
                         <div id="sgu">
+                        <a class="link" href="signup.php">Sign Up</a> 
+
                             <p> Not a member yet ? </p>
                         </div>
                     </form>

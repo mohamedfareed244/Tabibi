@@ -34,8 +34,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
     @Autowired
     private UserRepository UserRepository;
-   private UserAccRepository UserAccRepository;
-   private PatientRepository patientRepository;
+    @Autowired
+    private UserAccRepository UserAccRepository;
+    @Autowired
+    private PatientRepository patientRepository;
+
 
 
 
@@ -84,20 +87,23 @@ public class UserController {
          return mav;
      }
      @PostMapping("/Login")
-     public RedirectView loginprocess(@RequestParam("email")String email,@RequestParam("password")String password, HttpSession session)
+     public RedirectView loginprocess(@RequestParam("email")String email,@RequestParam("pass")String pass, HttpSession session)
       {
+         System.out.println("post mapping");
+
         UserAcc newUser=this.UserAccRepository.findByEmail(email);
-        Boolean PasswordsMatch=BCrypt.checkpw(password, newUser.getPass());
+        Boolean PasswordsMatch=BCrypt.checkpw(pass, newUser.getPass());
         if(PasswordsMatch)
         {
             session.setAttribute("email", newUser.getEmail());
-            return new RedirectView("/accountSettings");
+            return new RedirectView("/User/accountSettings");
         }
         else
         {
             return new RedirectView("/Login");
         }
      }
+
      
 
 
