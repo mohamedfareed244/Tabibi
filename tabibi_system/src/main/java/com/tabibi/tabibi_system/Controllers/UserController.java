@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties.Http;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,7 +37,7 @@ public class UserController {
     @Autowired
     private UserAccRepository UserAccRepository;
     @Autowired
-    private PatientRepository patientRepository;
+    private PatientRepository PatientRepository;
 
 
 
@@ -63,7 +64,7 @@ public class UserController {
      UserAcc currUser=patient.getUserAcc();
      String encoddedPassword=BCrypt.hashpw(currUser.getPass(), BCrypt.gensalt(12)) ;
       currUser.setPass(encoddedPassword);
-      this.patientRepository.save(patient);
+      this.PatientRepository.save(patient);
       return "Added ya basha to DataBase";
      }
 
@@ -93,8 +94,12 @@ public class UserController {
          if (newUser != null) {
              Boolean PasswordsMatch = BCrypt.checkpw(pass, newUser.getPass());
              if (PasswordsMatch) {
-                 if (newUser.getUsertype().getUtid() == 4) {
+                 if (newUser.getUsertype().getUtid() == 4) 
+                 {
+                    Patient patient = this.PatientRepository.findByUserAcc(newUser);
                      session.setAttribute("email", newUser.getEmail());
+                     session.setAttribute("name", patient.getFirstname());
+                     System.out.println(session.getAttribute("email"));
                      return new RedirectView("/User/patientHomepage");
                  } else {
                      return new RedirectView("/User/Login?error=incorrectPassword");
@@ -109,9 +114,11 @@ public class UserController {
      
 
      @GetMapping("patientHomepage")
-     public ModelAndView GetIndex()
+     public ModelAndView GetIndex(HttpSession session)
      {
         ModelAndView mav=new ModelAndView("patientHomepage.html");
+        mav.addObject("email",(String) session.getAttribute("email"));
+        mav.addObject("name",(String) session.getAttribute("name"));
         return mav;
      }
     
@@ -133,10 +140,12 @@ public class UserController {
     
    
    @GetMapping("/navigation")
-   public ModelAndView getnavigation() {
-    ModelAndView mav=new ModelAndView("navigation.html");
-       return mav;
-   }
+public ModelAndView getnavigation(HttpSession session) {
+    ModelAndView mav = new ModelAndView("navigation.html");
+    mav.addObject("email", (String) session.getAttribute("email"));
+    return mav;
+}
+
      
    @GetMapping("accountSettings")
    public ModelAndView getaccount_settings() {

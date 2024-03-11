@@ -155,7 +155,8 @@
         <div class="target-vs-sales--container">
             <div class="section--title">
                 <div class="sales--value">
-                    <h3 class="uppercase-text">Welcome! <br> <?php echo $_SESSION["firstname"] . " " . $_SESSION["lastname"]; ?></h3>
+                    <h3 class="uppercase-text">Welcome! <br>                         <span th:text="${name}"></span>
+                    </h3>
 
                     <p>Lack knowledge about doctors? No issue, let's go straight to the
 
