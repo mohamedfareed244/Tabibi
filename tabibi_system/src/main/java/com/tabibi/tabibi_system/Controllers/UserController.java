@@ -9,7 +9,6 @@ import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
-import com.tabibi.tabibi_system.Repositories.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -87,22 +86,38 @@ public class UserController {
          return mav;
      }
      @PostMapping("/Login")
-     public RedirectView loginprocess(@RequestParam("email")String email,@RequestParam("pass")String pass, HttpSession session)
-      {
+     public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
          System.out.println("post mapping");
-
-        UserAcc newUser=this.UserAccRepository.findByEmail(email);
-        Boolean PasswordsMatch=BCrypt.checkpw(pass, newUser.getPass());
-        if(PasswordsMatch)
-        {
-            session.setAttribute("email", newUser.getEmail());
-            return new RedirectView("/User/accountSettings");
-        }
-        else
-        {
-            return new RedirectView("/Login");
-        }
+     
+         UserAcc newUser = this.UserAccRepository.findByEmail(email);
+         if (newUser != null) {
+             Boolean PasswordsMatch = BCrypt.checkpw(pass, newUser.getPass());
+             if (PasswordsMatch) {
+                 if (newUser.getUsertype().getUtid() == 4) {
+                     session.setAttribute("email", newUser.getEmail());
+                     return new RedirectView("/User/patientHomepage");
+                 } else {
+                     return new RedirectView("/User/Login?error=incorrectPassword");
+                 }
+             } else {
+                 return new RedirectView("/User/Login?error=incorrectPassword");
+             }
+         } else {
+             return new RedirectView("/User/Login?error=userNotFound");
+         }
      }
+     
+
+     @GetMapping("patientHomepage")
+     public ModelAndView GetIndex()
+     {
+        ModelAndView mav=new ModelAndView("patientHomepage.html");
+        return mav;
+     }
+    
+         
+     
+     
 
      
 
