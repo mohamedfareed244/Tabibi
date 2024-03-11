@@ -34,6 +34,7 @@ public class Patient {
     @ManyToOne
     @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
     private UserAcc userAcc;
+    
 
 
     public Patient() {
