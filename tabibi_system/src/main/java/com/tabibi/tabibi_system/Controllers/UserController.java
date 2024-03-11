@@ -37,7 +37,8 @@ public class UserController {
     private UserAccRepository UserAccRepository;
     @Autowired
     private PatientRepository patientRepository;
-
+    @Autowired
+    private DoctorRepository doctorRepository;
 
 
 
@@ -46,28 +47,52 @@ public class UserController {
     {
     ModelAndView mav=new ModelAndView("Registration.html");
     System.out.println("dakhal controller");
+    //models
     Patient patient=new Patient();
-    UserAcc userAcc=new UserAcc();
-    userAcc.setUid(1);
-    patient.setUserAcc(userAcc);
+    Doctor doctor=new Doctor();
+    Clinic clinic=new Clinic();
+//linking models to useracc
+    UserAcc userAccpatient=new UserAcc();
+    UserAcc userAccdoc=new UserAcc();
+    UserAcc 
+    userAccpatient.setUid(1);
+    patient.setUserAcc(userAccpatient);
+
+    userAccdoc.setUid(2);
+    doctor.setUserAcc(userAccdoc);
     mav.addObject("patient", patient);
+    mav.addObject("doctor", doctor);
       return mav;
     }
 
-
-
+    @PostMapping("/signupdoc")
+    public String saveUser(@ModelAttribute("doctor") Doctor doctor)
+     {
+        System.err.println("bada2 ysave");
+        UserAcc currAcc=new UserAcc();
+        currAcc=doctor.getUserAcc();
+        String encoddedPassword=BCrypt.hashpw(currAcc.getPass(), BCrypt.gensalt(12)) ;
+        currAcc.setPass(encoddedPassword);
+        currAcc.setImage("testimage");
+        currAcc.setUid(2);
+        System.err.println("password coded ");    
+       this.UserAccRepository.save(currAcc);
+       this.doctorRepository.save(doctor);
+       return "Added ya basha to DataBase";
+     }
     @PostMapping("/signup")
     public String saveUser(@ModelAttribute("patient") Patient patient)
      {
     System.err.println("bada2 ysave");
     UserAcc currAcc=new UserAcc();
-    currAcc=patient.getUserAcc();
+     currAcc=patient.getUserAcc();
      String encoddedPassword=BCrypt.hashpw(currAcc.getPass(), BCrypt.gensalt(12)) ;
       currAcc.setPass(encoddedPassword);
       currAcc.setImage("testimage");
       currAcc.setUid(1);
-      System.err.println("password coded ");
-      this.patientRepository.save(patient);
+      System.err.println("password coded ");    
+     this.UserAccRepository.save(currAcc);
+     this.patientRepository.save(patient);
       return "Added ya basha to DataBase";
      }
 
