@@ -1,6 +1,7 @@
 
 package com.tabibi.tabibi_system.Controllers;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.RestController;
 import com.tabibi.tabibi_system.Repositories.*;
 import com.tabibi.tabibi_system.Models.Clinic;
@@ -8,14 +9,15 @@ import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
-import com.tabibi.tabibi_system.Repositories.UserRepository;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
-import com.tabibi.tabibi_system.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,49 +33,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
     @Autowired
     private UserRepository UserRepository;
-   private UserAccRepository UserAccRepository;
-   private PatientRepository patientRepository;
+    @Autowired
+    private UserAccRepository UserAccRepository;
+    @Autowired
+    private PatientRepository patientRepository;
+
 
 
 
     @GetMapping("/Registration")
-    public ModelAndView addUser(@RequestParam("userType") String UserType)
+    public ModelAndView addUser()
     {
     ModelAndView mav=new ModelAndView("Registration.html");
     System.out.println("dakhal controller");
-
-    UserAcc newUser=new UserAcc(); 
-     mav.addObject("UserAcc", newUser);
-if(UserType.equals("Patient"))
- {
-    Patient newpatient=new Patient();
-    mav.addObject("Patient", newpatient);
-    newUser.setUid(1);
-  } 
-  else if(UserType=="Doctor")
-  {
-    Doctor newDoctor=new Doctor();
-    mav.addObject("Doctor", newDoctor);
-    newUser.setUid(2);
-    
-  }
-  else {
-    Clinic newClinic=new Clinic();
-    mav.addObject("Clinic", newClinic);
-    newUser.setUid(3);
-  }
-
+    Patient patient=new Patient();
+    UserAcc userAcc=new UserAcc();
+    userAcc.setUid(1);
+    patient.setUserAcc(userAcc);
+    mav.addObject("patient", patient);
       return mav;
     }
 
+
+
     @PostMapping("/signup")
-    public String saveUser(@ModelAttribute UserAcc user ,@ModelAttribute Patient patient)
+    public String saveUser(@ModelAttribute Patient patient)
      {
-      String encoddedPassword=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12)) ;
-      user.setPass(encoddedPassword);
-      this.UserAccRepository.save(user);
+    System.err.println("bada2 ysave");
+     UserAcc currUser=patient.getUserAcc();
+     String encoddedPassword=BCrypt.hashpw(currUser.getPass(), BCrypt.gensalt(12)) ;
+      currUser.setPass(encoddedPassword);
       this.patientRepository.save(patient);
-      return "ADDed ya basha to DataBAse";
+      return "Added ya basha to DataBase";
      }
 
 
@@ -85,6 +76,51 @@ if(UserType.equals("Patient"))
          mav.addObject("users", users);
          return mav;
      }
+
+     @GetMapping("/Login")
+     public ModelAndView Login()
+     {
+         ModelAndView mav=new ModelAndView("Login.html"); 
+         UserAcc user=new UserAcc();
+         mav.addObject("user", user);
+         return mav;
+     }
+     @PostMapping("/Login")
+     public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
+         System.out.println("post mapping");
+     
+         UserAcc newUser = this.UserAccRepository.findByEmail(email);
+         if (newUser != null) {
+             Boolean PasswordsMatch = BCrypt.checkpw(pass, newUser.getPass());
+             if (PasswordsMatch) {
+                 if (newUser.getUsertype().getUtid() == 4) {
+                     session.setAttribute("email", newUser.getEmail());
+                     return new RedirectView("/User/patientHomepage");
+                 } else {
+                     return new RedirectView("/User/Login?error=incorrectPassword");
+                 }
+             } else {
+                 return new RedirectView("/User/Login?error=incorrectPassword");
+             }
+         } else {
+             return new RedirectView("/User/Login?error=userNotFound");
+         }
+     }
+     
+
+     @GetMapping("patientHomepage")
+     public ModelAndView GetIndex()
+     {
+        ModelAndView mav=new ModelAndView("patientHomepage.html");
+        return mav;
+     }
+    
+         
+     
+     
+
+     
+
 
     // @GetMapping("/search")
     // public ModelAndView search(@RequestParam("name") String name, Model model) {
@@ -102,7 +138,7 @@ if(UserType.equals("Patient"))
        return mav;
    }
      
-   @GetMapping("/account-settings")
+   @GetMapping("accountSettings")
    public ModelAndView getaccount_settings() {
     ModelAndView mav=new ModelAndView("AccountSettings.html");
        return mav;

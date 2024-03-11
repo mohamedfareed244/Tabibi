@@ -1,44 +1,19 @@
-function toggleDoctorFields() 
-{
-  var doctorFields = document.getElementById("doctor-fields");
-  var userTypeSelect = document.getElementById("userType");
-  var allfields=document.getElementById("fields");
-var clincfields = document.getElementById("Clinc-fields");
-  if (userTypeSelect.value === "doctor") 
-  {
-      doctorFields.style.display = "block";
-      clincfields.style.display = "none";
-      allfields.style.display="block";
-  } 
-  else if(userTypeSelect.value === "Clinc")
-   {
-    allfields.style.display = "none";
-    doctorFields.style.display = "none";
-    clincfields.style.display = "block";
-  }
-  else
-  {
-    allfields.style.display="block";
-    clincfields.style.display = "none";
-    doctorFields.style.display = "none";
-  }
-}
-  
+const selectOption = document.getElementById('selectOption');
+const formOption1 = document.getElementById('formOption1');
+const formOption2 = document.getElementById('formOption2');
 
-// function toggleclincFileds()
-//  {
-  
-//     var userTypeSelect = document.getElementById("userType");
-  
-//     if 
-//      {
-//         clincfields.style.display = "block";
-//      } 
-//     else 
-//     {
-       
-//     }
-//   }
+selectOption.addEventListener('change', function() {
+  if (selectOption.value === 'option1') {
+    formOption1.style.display = 'block';
+    formOption2.style.display = 'none';
+  } else if (selectOption.value === 'option2') {
+    formOption1.style.display = 'none';
+    formOption2.style.display = 'block';
+  } else {
+    formOption1.style.display = 'none';
+    formOption2.style.display = 'none';
+  }
+});
 
 function validateForm() {
   // Reset error messages
@@ -120,4 +95,6 @@ function validateForm() {
   }
 
   return isValid; 
+
 }
+
