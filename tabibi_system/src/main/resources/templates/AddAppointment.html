@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/appointmentForm.css">
+
+    <title>add appointments</title>
+</head>
+<body>
+    <form th:action="@{/appointments/add}" method="post" th:object="${appointment}">
+        
+        <input type="date" th:field="*{date}" placeholder="enter appointment's date">
+      
+        <input type="text" th:field="*{time}" placeholder="enter appointment's time">
+        
+        <input type="text" th:field="*{price}" placeholder="enter appointment's price">
+        
+        select status
+        <select th:field="*{status}">
+            <option value="available">available</option>
+            <option value="reserved">reserved</option>
+        </select>
+       
+       select clinic
+        <select th:field="*{clinic.cid}">
+            <option th:each="x : ${clinics}" th:value="${x.cid}" th:text="${x.cname}"></option>
+        </select>
+       
+      select doctor
+        <select th:field="*{doctor.did}">
+            <option th:each="y : ${doctors}" th:value="${y.did}" th:text="${y.firstname + ' ' + y.lastname}"></option>
+        </select>
+     
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
