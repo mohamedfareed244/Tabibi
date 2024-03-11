@@ -1,6 +1,33 @@
     <!DOCTYPE html>
     <html xmlns:th="http://www.thymeleaf.org">
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="../css/interface.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+            integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+            <style>
+        body {
+            background-image: url('../images/b3.jpg');
+        }
+        #login-error{
+            text-align:left;
+            left:10;  
+        }
+        </style>
+        <script>
+            function validateForm() {
+                // Reset error messages
+                document.getElementById("user-err").innerHTML = "";
+                document.getElementById("pass-err").innerHTML = "";
+                document.getElementById("login-error").innerHTML = ""; 
+                var email = document.getElementById("email").value;
+                var password = document.getElementById("password").value;
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
