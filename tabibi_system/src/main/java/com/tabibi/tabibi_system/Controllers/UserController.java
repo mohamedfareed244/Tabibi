@@ -115,6 +115,12 @@ public class UserController {
         return mav;
      }
     
+     @GetMapping("patients")
+     public ModelAndView Getpatients()
+     {
+        ModelAndView mav=new ModelAndView("patients.html");
+        return mav;
+     }
          
      
      
