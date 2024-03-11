@@ -56,5 +56,14 @@ public String addAppointment(@ModelAttribute Appointment appointment )
     return "added to db";
 }
 
+@GetMapping("view")
+public ModelAndView viewAppointmentForm(){
+    ModelAndView mav = new ModelAndView("viewappointments.html");
+    List<Appointment> appointmentList = this.appointmentRepository.findAll();
+    mav.addObject("appointmentList", appointmentList);
+    
+    return mav;
+}
+
 
 }
