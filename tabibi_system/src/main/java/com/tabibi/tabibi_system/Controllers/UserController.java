@@ -39,6 +39,8 @@ public class UserController {
     private PatientRepository patientRepository;
     @Autowired
     private DoctorRepository doctorRepository;
+    @Autowired
+    private ClinicRepository clinicRepository;
 
 
 
@@ -54,16 +56,40 @@ public class UserController {
 //linking models to useracc
     UserAcc userAccpatient=new UserAcc();
     UserAcc userAccdoc=new UserAcc();
-    UserAcc 
+    UserAcc userAccClinic=new UserAcc();
+
+    //adjusting the userID
     userAccpatient.setUid(1);
     patient.setUserAcc(userAccpatient);
 
     userAccdoc.setUid(2);
     doctor.setUserAcc(userAccdoc);
+
+    userAccClinic.setUid(3);
+    clinic.setUserAcc(userAccClinic);
+
     mav.addObject("patient", patient);
     mav.addObject("doctor", doctor);
+    mav.addObject("Clinic", clinic);
       return mav;
     }
+
+
+    @PostMapping("/signupClinic")
+    public String saveUser(@ModelAttribute("Clinic") Clinic clinic)
+     {
+        System.err.println("bada2 ysave");
+        UserAcc currAcc=new UserAcc();
+        currAcc=clinic.getUserAcc();
+        String encoddedPassword=BCrypt.hashpw(currAcc.getPass(), BCrypt.gensalt(12)) ;
+        currAcc.setPass(encoddedPassword);
+        currAcc.setImage("testimage");
+        currAcc.setUid(2);
+        System.err.println("password coded ");    
+       this.UserAccRepository.save(currAcc);
+       this.clinicRepository.save(clinic);
+       return "Added ya basha to DataBase";
+     }
 
     @PostMapping("/signupdoc")
     public String saveUser(@ModelAttribute("doctor") Doctor doctor)
