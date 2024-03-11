@@ -254,3 +254,7 @@ body{
     border: 1px solid #e6e4e9;
     border-radius: 8px;
 }
+#search-results{
+  
+  width: 100%;
+}

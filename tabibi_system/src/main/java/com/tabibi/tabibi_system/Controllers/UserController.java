@@ -1,6 +1,7 @@
 
 package com.tabibi.tabibi_system.Controllers;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.RestController;
 import com.tabibi.tabibi_system.Repositories.*;
 import com.tabibi.tabibi_system.Models.Clinic;
@@ -8,6 +9,8 @@ import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,8 +33,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
     @Autowired
     private UserRepository UserRepository;
-   private UserAccRepository UserAccRepository;
-   private PatientRepository patientRepository;
+    @Autowired
+    private UserAccRepository UserAccRepository;
+    @Autowired
+    private PatientRepository patientRepository;
+
 
 
 
@@ -75,6 +81,57 @@ public class UserController {
          return mav;
      }
 
+     @GetMapping("/Login")
+     public ModelAndView Login()
+     {
+         ModelAndView mav=new ModelAndView("Login.html"); 
+         UserAcc user=new UserAcc();
+         mav.addObject("user", user);
+         return mav;
+     }
+     @PostMapping("/Login")
+     public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
+         System.out.println("post mapping");
+     
+         UserAcc newUser = this.UserAccRepository.findByEmail(email);
+         if (newUser != null) {
+             Boolean PasswordsMatch = BCrypt.checkpw(pass, newUser.getPass());
+             if (PasswordsMatch) {
+                 if (newUser.getUsertype().getUtid() == 4) {
+                     session.setAttribute("email", newUser.getEmail());
+                     return new RedirectView("/User/patientHomepage");
+                 } else {
+                     return new RedirectView("/User/Login?error=incorrectPassword");
+                 }
+             } else {
+                 return new RedirectView("/User/Login?error=incorrectPassword");
+             }
+         } else {
+             return new RedirectView("/User/Login?error=userNotFound");
+         }
+     }
+     
+
+     @GetMapping("patientHomepage")
+     public ModelAndView GetIndex()
+     {
+        ModelAndView mav=new ModelAndView("patientHomepage.html");
+        return mav;
+     }
+    
+     @GetMapping("patients")
+     public ModelAndView Getpatients()
+     {
+        ModelAndView mav=new ModelAndView("patients.html");
+        return mav;
+     }
+         
+     
+     
+
+     
+
+
     // @GetMapping("/search")
     // public ModelAndView search(@RequestParam("name") String name, Model model) {
     //   List<User> users = UserRepository.findByName(name); 
@@ -91,7 +148,7 @@ public class UserController {
        return mav;
    }
      
-   @GetMapping("/account-settings")
+   @GetMapping("accountSettings")
    public ModelAndView getaccount_settings() {
     ModelAndView mav=new ModelAndView("AccountSettings.html");
        return mav;

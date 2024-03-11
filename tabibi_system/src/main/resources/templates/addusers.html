@@ -56,12 +56,26 @@
                   <input type="password" id="confpass" class="form-control form-control-lg" />
                   <label class="form-label" for="confpass">Confirm password</label>
                 </div>
+<<<<<<< HEAD
+               <!-- Other form elements -->
+
+<div class="form-outline mb-4">
+  <label class="form-label" for="userType">Select User Type:</label>
+  <select th:field="*{usertype}" id="userType" class="form-select">
+      <option th:each="type : ${types}" th:value="${type.utid}" th:text="${type.name}"></option>
+  </select>
+</div>
+
+<!-- Other form elements -->
+
+=======
                 <div class="form-outline mb-4">
                   <input type="radio"  th:field="*{usertype}"  id="type" value="doctor"/>
                   <class="form-label" for="userType">Doctor</label><br>
                   <input type="radio"  th:field="*{usertype}" id="type" value="patient" />
                   <label class="form-label" for="userType">Patient</label>
                 </div>
+>>>>>>> e6c103175ab0189d746caac294d75f28252bfe94
                
                 <input type="submit" class="btn btn-success btn-block btn-lg">
                 </div>

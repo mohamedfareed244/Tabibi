@@ -5,25 +5,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-   <h1 id="h1h1">Showing appointmnts for: Example </h1>
+   <h1 id="h1h1">Showing appointmnts for:  </h1>
 
    <table class="table table-dark">
     <thead>
       <tr>
-        <th scope="col">Appointment ID</th>
-        <th scope="col">Date</th>
-        <th scope="col">Time</th>
-        <th scope="col">Status</th>
-        <th scope="col">Actions</th>
-        <th scope="col">Clinic</th>
+        <th>Appointment ID</th>
+        <th >Date</th>
+        <th >Time</th>
+        <th >Status</th>
+        <th >Clinic</th>
+        <th >Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+      <tr th:each="app : ${appointmentList}" >
+        
+        <td th:text="${app.appId}"></td>
+        <td th:text="${app.date}"></td>
+        <td th:text="${app.time}"></td>
+        <td th:text="${app.status}"></td>
+        <td th:text="${app.clinic.cname}"></td>
+
       </tr>
       
     </tbody>
