@@ -68,7 +68,7 @@ public class UserController {
       currAcc.setImage("testimage");
       currAcc.setUid(1);
       System.err.println("password coded ");
-      this.patientRepository.save(patient);
+      this.PatientRepository.save(patient);
       return "Added ya basha to DataBase";
      }
 
