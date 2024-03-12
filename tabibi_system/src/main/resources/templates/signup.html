@@ -31,17 +31,34 @@
     var userTypeSelect = document.getElementById("userType");
     var doctorFields = document.getElementById("doctor-fields");
     var patientFields = document.getElementById("fields");
+    var clinicFields = document.getElementById("Clinc-fields");
 
     if (userTypeSelect.value === "doctor") {
         doctorFields.style.display = "block";
         patientFields.style.display = "none";
+        clinicFields.style.display="none";
+
         disableFields(false, doctorFields);
         disableFields(true, patientFields);
-    } else {
+        disableFields(true, clinicFields);
+
+    } else if (userTypeSelect.value === "patient") {
         doctorFields.style.display = "none";
         patientFields.style.display = "block";
+        clinicFields.style.display="none";
+
         disableFields(true, doctorFields);
         disableFields(false, patientFields);
+        disableFields(true, clinicFields);
+
+    }else if (userTypeSelect.value === "clinic") {
+        doctorFields.style.display = "none";
+        patientFields.style.display = "none";
+        clinicFields.style.display="block";
+        disableFields(true, doctorFields);
+        disableFields(true, patientFields);
+        disableFields(false, clinicFields);
+
     }
 }
 
@@ -81,6 +98,14 @@ function disableFields(disable, container) {
                         <br>
                         <label for="cnumber">Clinic Number:</label>
                         <input type="text" class="form-control" id="cnumber" name="cnumber">
+                        <label for="doctorEmail">Clinic Email:</label>
+                        <input type="email" class="form-control" id="ClinicEmail" name="email" placeholder="Email Address" required>
+                        <br>
+                        <label for="doctorPassword">Clinic Password:</label>
+                        <input type="password" class="form-control" id="ClinicPassword"  placeholder="Password" required>
+                    
+                        <label for="doctorCpassword">Confirm password:</label>
+                        <input type="password" class="form-control" id="ClinicCpassword" placeholder="Confirm Password" name="cpassword" required>
                     </div>
 
 
