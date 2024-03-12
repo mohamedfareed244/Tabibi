@@ -2,7 +2,7 @@
 <head>
     <link rel="stylesheet" href="/css/Registration_styling.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="/tabibi_system/src/main/resources/static/js/signup.js"></script>
+    <script src="/js/signup.js"></script>
     <title>Registration</title>
 </head>
 
@@ -79,9 +79,9 @@
 </form>
 
 
-<form id="patientForm" style="display: none;"  th:action="@{/User/signup}" th:object="${patient}" method="POST" >
+<form id="patientForm" style="display: none;" onsubmit="return validateForm()"  th:action="@{/User/signup}" th:object="${patient}" method="POST" >
 
-    <input type="text"  th:field="*{firstname}" placeholder="First Name" required>
+    <input type="text"  th:field="*{firstname}"id='firstname' placeholder="First Name" >
     <div id="fname-error" class="error-message text-danger"></div>
 
     <input type="text" th:field="*{lastname}" placeholder="Last Name" required>
@@ -112,34 +112,7 @@
 
 
 <script>
-  function toggleForm() {
-    var userType = document.getElementById("userType").value;
 
-    var doctorForm = document.getElementById("doctorForm");
-    var patientForm = document.getElementById("patientForm");
-    var ClinicForm=document.getElementById("ClinicForm");
-
-    if (userType === "doctor") {
-      doctorForm.style.display = "block";
-      patientForm.style.display = "none";
-      ClinicForm.style.display = "none";
-    } else if (userType === "patient") {
-      doctorForm.style.display = "none";
-      patientForm.style.display = "block";
-      ClinicForm.style.display = "none";
-    } else if(userType==="Clinic") 
-    {
-      doctorForm.style.display = "none";
-      patientForm.style.display = "none";
-      ClinicForm.style.display = "block";
-    }
-    else
-    {
-      doctorForm.style.display = "none";
-      patientForm.style.display = "none";
-      ClinicForm.style.display = "none";
-    }
-  }
 </script>
 
 <!-- <select id="selectOption">

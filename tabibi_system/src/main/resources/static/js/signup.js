@@ -1,19 +1,3 @@
-const selectOption = document.getElementById('selectOption');
-const formOption1 = document.getElementById('formOption1');
-const formOption2 = document.getElementById('formOption2');
-
-selectOption.addEventListener('change', function() {
-  if (selectOption.value === 'option1') {
-    formOption1.style.display = 'block';
-    formOption2.style.display = 'none';
-  } else if (selectOption.value === 'option2') {
-    formOption1.style.display = 'none';
-    formOption2.style.display = 'block';
-  } else {
-    formOption1.style.display = 'none';
-    formOption2.style.display = 'none';
-  }
-});
 
 function validateForm() {
   // Reset error messages
@@ -23,7 +7,9 @@ function validateForm() {
   }
 
 
-  var fname = document.getElementById("Fname").value;
+  var fname = document.getElementById("firstname").value;
+  alert(fname);
+  console.log(fname);
   var lname = document.getElementById("Lname").value;
   var email = document.getElementById("email").value;
   var age = document.getElementById("age").value;
@@ -98,3 +84,32 @@ function validateForm() {
 
 }
 
+
+function toggleForm() {
+  var userType = document.getElementById("userType").value;
+
+  var doctorForm = document.getElementById("doctorForm");
+  var patientForm = document.getElementById("patientForm");
+  var ClinicForm=document.getElementById("ClinicForm");
+
+  if (userType === "doctor") {
+    doctorForm.style.display = "block";
+    patientForm.style.display = "none";
+    ClinicForm.style.display = "none";
+  } else if (userType === "patient") {
+    doctorForm.style.display = "none";
+    patientForm.style.display = "block";
+    ClinicForm.style.display = "none";
+  } else if(userType==="Clinic") 
+  {
+    doctorForm.style.display = "none";
+    patientForm.style.display = "none";
+    ClinicForm.style.display = "block";
+  }
+  else
+  {
+    doctorForm.style.display = "none";
+    patientForm.style.display = "none";
+    ClinicForm.style.display = "none";
+  }
+}

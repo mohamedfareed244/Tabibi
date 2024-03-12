@@ -116,7 +116,6 @@ private DoctorRepository doctorRepository;
      String encoddedPassword=BCrypt.hashpw(currAcc.getPass(), BCrypt.gensalt(12)) ;
       currAcc.setPass(encoddedPassword);
       currAcc.setImage("testimage");
-      currAcc.setUid(1);
       System.err.println("password coded ");
       this.UserAccRepository.save(currAcc);
       this.patientRepository.save(patient);
