@@ -3,7 +3,18 @@ package com.tabibi.tabibi_system.Models;
 public class sup {
     private UserAcc user;
     private Patient patient;
+    private Clinic clinic;
     private Doctor doctor;
+
+    
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
+
 
     public UserAcc getUser() {
         return user;

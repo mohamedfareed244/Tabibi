@@ -7,26 +7,14 @@
     <title>Registration or Sign Up form</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap">
-    <style>
-        body {
-            background-image: url('../images/b3.jpg');
-
-        }
-
-        .form-control {
-            width: 350px;
-        }
-
-        .card {
-            max-width: 400px;
-            margin: 0 auto;
-            margin-top: 5vh;
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-    </style>
-    <script>
+    <link rel="stylesheet" href="/css/Signup_styling.css">
+ 
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+  <script src="/js/signup.js"></script>
+<script>
  function toggleFields() {
     var userTypeSelect = document.getElementById("userType");
     var doctorFields = document.getElementById("doctor-fields");
@@ -69,9 +57,130 @@ function disableFields(disable, container) {
 }
 
 
+//validations :
 
 
-    </script>
+function validateForm() {
+  // Reset error messages
+  var errorElements = document.querySelectorAll(".error-message");
+  for (var i = 0; i < errorElements.length; i++) {
+      errorElements[i].innerHTML = "";
+  }
+
+
+  var fname = document.getElementById("patient.firstname").value;
+  console.log(fname);
+  var docfname= document.getElementById("doctor.firstname").value;
+  var doclname= document.getElementById("doctor.lastname").value;
+  var docnumber=document.getElementById("doctor.number").value;
+  var doctorSpecialization=doucment.getElementById("doctor.specialization");
+  var doctorEducation=doucment.getElementById("doctor.educ");
+  var clinicname=doucment.getElementById("clinic.cname");
+  var clinicnumber=doucment.getElementById("clinic.cnumber");
+ var clinicloc=doucment.getElementById("clinic.cloc");
+  var lname = document.getElementById("patient.lastname").value;
+  var email = document.getElementById("user.email").value;
+  var age = document.getElementById("patient.age").value;
+  var address = document.getElementById("patient.address").value;
+  var phone = document.getElementById("patient.number").value;
+  var password = document.getElementById("user.pass").value;
+  var cpassword = document.getElementById("cpassword").value;
+//   var otpp = document.getElementById("OTP").value;
+
+
+  var isValid = true;
+
+  if (fname === "") {
+      document.getElementById("fname-error").innerHTML = "First Name is required.";
+      isValid = false;
+  }
+  if (docfname === "") {
+      document.getElementById("fname-error").innerHTML = "First Name is required.";
+      isValid = false;
+  }
+  if (doclname === "") {
+      document.getElementById("lname-error").innerHTML = "LAst Name is required.";
+      isValid = false;
+  }
+  if (docnumber === "") {
+      document.getElementById("phone-error").innerHTML = "phone  is required.";
+      isValid = false;
+  }
+  if (doctorSpecialization === "") {
+      document.getElementById("specilization-error").innerHTML = "specilization is required.";
+      isValid = false;
+  }
+  if (doctorEducation === "") {
+      document.getElementById("education-error").innerHTML = "specilization is required.";
+      isValid = false;
+  }
+  if (clinicname === "") {
+      document.getElementById("fname-error").innerHTML = "name is required.";
+      isValid = false;
+  }
+  if (clinicloc === "") {
+      document.getElementById("loc-error").innerHTML = "location is required.";
+      isValid = false;
+  }
+  if (lname === "") {
+      document.getElementById("lname-error").innerHTML = "Last Name is required.";
+      isValid = false;
+  }
+  if (email === "") {
+      document.getElementById("email-error").innerHTML = "Email is required.";
+      isValid = false;
+  }
+  if (age === "") {
+      document.getElementById("age-error").innerHTML = "Age is required.";
+      isValid = false;
+  }
+  if (address === "") {
+      document.getElementById("address-error").innerHTML = "Address is required.";
+      isValid = false;
+  }
+  if (phone === "") {
+      document.getElementById("phone-error").innerHTML = "Phone Number is required.";
+      isValid = false;
+  }
+  if (password === "") {
+      document.getElementById("password-error").innerHTML = "Password is required.";
+      isValid = false;
+  }
+  if (cpassword === "") {
+      document.getElementById("cpassword-error").innerHTML = "Confirm Password is required.";
+      isValid = false;
+  }
+
+  var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  if (!emailPattern.test(email)) {
+      document.getElementById("email-error").innerHTML = "Invalid email address.";
+      isValid = false;
+  }
+
+  if (password !== cpassword) {
+      document.getElementById("cpassword-error").innerHTML = "Passwords do not match.";
+      isValid = false;
+  }
+  if (phone.length <11||phone.length>11) {
+    document.getElementById("phone-error").innerHTML = "Please enter a valid number.";
+    isValid = false;
+}
+  if(age<16)
+  {
+    document.getElementById("age-error").innerHTML = "You have to be older than 16 years old.";
+      isValid = false;
+  }
+
+  if (password.length <6) {
+      document.getElementById("password-error").innerHTML = "Password must be atleast 6 characters.";
+      isValid = false;
+  }
+
+  return isValid; 
+
+}
+</script>
+
 </head>
 
 <body>
@@ -79,7 +188,7 @@ function disableFields(disable, container) {
         <div class="card">
             <div class="card-body">
                 <h2 class="card-title">Registration</h2>
-                <form th:action="@{/User/sgnp}" th:object="${signupForm}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/User/signup}"  th:object="${signupForm}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()" >
                     <div class="form-group">
                         <label for="userType">User Type:</label>
                         <select class="form-control" id="userType" name="userType" onchange="toggleFields();">
@@ -91,18 +200,19 @@ function disableFields(disable, container) {
 
                     <div class="form-group" id="Clinc-fields" style="display: none;">
                         <label for="cloc">Clinic Address:</label>
-                        <input type="text" class="form-control" id="cloc" name="cloc">
-                        <br>
+                        <input type="text"  class="form-control" id="cloc" name="cloc" th:field="*{clinic.cloc}">
+                        <br><div id="loc-error" class="error-message "></div>
                         <label for="cname">Clinic Name:</label>
-                        <input type="text" class="form-control" id="cname" name="cname">
+                        <input type="text" class="form-control"id="cname" th:field="*{clinic.cname}" name="cname">
+                        <div id="fname-error" class="error-message "></div>
                         <br>
                         <label for="cnumber">Clinic Number:</label>
-                        <input type="text" class="form-control" id="cnumber" name="cnumber">
+                        <input type="text" class="form-control"  th:field="*{clinic.cnumber}"  id="cnumber" name="cnumber">
                         <label for="doctorEmail">Clinic Email:</label>
-                        <input type="email" class="form-control" id="ClinicEmail" name="email" placeholder="Email Address" required>
+                        <input type="email" class="form-control" th:field="*{user.email}"  id="ClinicEmail" name="email" placeholder="Email Address" required>
                         <br>
                         <label for="doctorPassword">Clinic Password:</label>
-                        <input type="password" class="form-control" id="ClinicPassword"  placeholder="Password" required>
+                        <input type="password" class="form-control" id="ClinicPassword" th:field="*{user.pass}"  placeholder="Password" required>
                     
                         <label for="doctorCpassword">Confirm password:</label>
                         <input type="password" class="form-control" id="ClinicCpassword" placeholder="Confirm Password" name="cpassword" required>
@@ -112,45 +222,56 @@ function disableFields(disable, container) {
                     <div class="form-group" id="doctor-fields" style="display: none;">
                         <label for="doctorFirstname">Doctor First Name:</label>
                         <input type="text" class="form-control" id="doctorFirstname" name="fname" th:field="*{doctor.firstname}" placeholder="First Name" required>
+                        <div id="fname-error" class="error-message "></div>
                     
                         <label for="doctorLastname">Doctor Last Name:</label>
                         <input type="text" class="form-control" id="doctorLastname" name="lname" th:field="*{doctor.lastname}" placeholder="Last Name" required>
+                        <div id="lname-error" class="error-message "></div>
                     
                         <label for="doctorNumber">Doctor Phone Number:</label>
                         <input type="text" class="form-control" id="doctorNumber" name="number" th:field="*{doctor.number}" placeholder="Phone Number" required>
                     
                         <label for="doctorEmail">Doctor Email:</label>
                         <input type="email" class="form-control" id="doctorEmail" name="email" th:field="*{user.email}" placeholder="Email Address" required>
+                        <div id="specilization-error" class="error-message "></div>
                     
                         <label for="doctorSpecialization">Doctor Specialization:</label>
                         <input type="text" class="form-control" id="doctorSpecialization" th:field="*{doctor.specialization}" name="specialization" placeholder="Specialization">
+                        <div id="email-error" class="error-message "></div>
                     
                         <label for="doctorEducation">Doctor Education:</label>
                         <input type="text" class="form-control" id="doctorEducation" th:field="*{doctor.educ}" name="education" placeholder="Education">
+                        <div id="education-error" class="error-message "></div>
                     
                         <label for="doctorPassword">Doctor Password:</label>
                         <input type="password" class="form-control" id="doctorPassword" th:field="*{user.pass}" placeholder="Password" required>
+                        <div id="password-error" class="error-message "></div>
                     
                         <label for="doctorCpassword">Confirm password:</label>
                         <input type="password" class="form-control" id="doctorCpassword" placeholder="Confirm Password" name="cpassword" required>
+                        <div id="cpassword-error" class="error-message "></div>
                     </div>
 
                     <div id="fields">
                         <div class="form-group">
                             <label for="firstname">First Name:</label>
-                            <input type="text" class="form-control" id="firstname" th:field="*{patient.firstname}" placeholder="First Name" required>
+                            <input type="text" class="form-control" id="firstname" th:field="*{patient.firstname}" placeholder="First Name" >
+                            <div id="fname-error" class="error-message"></div>
                         </div>
                         <div class="form-group">
                             <label for="lastname">Last Name:</label>
-                            <input type="text" class="form-control" id="lastname" th:field="*{patient.lastname}" placeholder="Last Name" required>
+                            <input type="text" class="form-control" id="lastname" th:field="*{patient.lastname}" placeholder="Last Name" >
+                            <div id="lname-error" class="error-message"></div>
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" th:field="*{user.email}" placeholder="Email Address" required>
+                            <input type="email" class="form-control" id="email" th:field="*{user.email}" placeholder="Email Address" >
+                            <div id="email-error" class="error-message "></div>
                         </div>
                         <div class="form-group">
                             <label for="age">Age:</label>
-                            <input type="number" class="form-control" id="age" th:field="*{patient.age}" required>
+                            <input type="number" class="form-control" id="age" th:field="*{patient.age}" >
+                            <div id="age-error" class="error-message"></div>
                         </div>
                         <div class="form-group">
                             <label for="gender">Gender:</label>
@@ -161,19 +282,23 @@ function disableFields(disable, container) {
                         </div>
                         <div class="form-group">
                             <label for="address">Address:</label>
-                            <input type="text" class="form-control" id="address" th:field="*{patient.address}" placeholder="Address" required>
+                            <input type="text" class="form-control" id="address" th:field="*{patient.address}" placeholder="Address" >
+                            <div id="address-error" class="error-message"></div>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number:</label>
-                            <input type="text" class="form-control" id="phone" th:field="*{patient.number}" placeholder="Phone Number" required>
+                            <input type="text" class="form-control" id="phone" th:field="*{patient.number}" placeholder="Phone Number" >
+                            <div id="phone-error" class="error-message"></div>
                         </div>
                         <div class="form-group">
                             <label for="password">Password:</label>
-                            <input type="password" class="form-control" id="password" th:field="*{user.pass}" placeholder="Password" required>
+                            <input type="password" class="form-control" id="password" th:field="*{user.pass}" placeholder="Password" >
+                            <div id="password-error" class="error-message"></div>
                         </div>
                         <div class="form-group">
                             <label for="cpassword">Confirm password:</label>
-                            <input type="password" class="form-control" id="cpassword" placeholder="Confirm Password" name="cpassword" required>
+                            <input type="password" class="form-control" id="cpassword" placeholder="Confirm Password" name="cpassword" >
+                            <div id="cpassword-error" class="error-message"></div>
                         </div>
                     </div>
 
@@ -190,9 +315,7 @@ function disableFields(disable, container) {
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
 </body>
 
 </html>

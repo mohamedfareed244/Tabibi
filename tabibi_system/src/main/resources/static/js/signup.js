@@ -1,3 +1,44 @@
+function toggleFields() {
+  var userTypeSelect = document.getElementById("userType");
+  var doctorFields = document.getElementById("doctor-fields");
+  var patientFields = document.getElementById("fields");
+  var clinicFields = document.getElementById("Clinc-fields");
+
+  if (userTypeSelect.value === "doctor") {
+      doctorFields.style.display = "block";
+      patientFields.style.display = "none";
+      clinicFields.style.display="none";
+
+      disableFields(false, doctorFields);
+      disableFields(true, patientFields);
+      disableFields(true, clinicFields);
+
+  } else if (userTypeSelect.value === "patient") {
+      doctorFields.style.display = "none";
+      patientFields.style.display = "block";
+      clinicFields.style.display="none";
+
+      disableFields(true, doctorFields);
+      disableFields(false, patientFields);
+      disableFields(true, clinicFields);
+
+  }else if (userTypeSelect.value === "clinic") {
+      doctorFields.style.display = "none";
+      patientFields.style.display = "none";
+      clinicFields.style.display="block";
+      disableFields(true, doctorFields);
+      disableFields(true, patientFields);
+      disableFields(false, clinicFields);
+
+  }
+}
+
+function disableFields(disable, container) {
+  container.querySelectorAll("input, select").forEach(function(input) {
+      input.disabled = disable;
+  });
+}
+
 
 function validateForm() {
   // Reset error messages
@@ -85,31 +126,3 @@ function validateForm() {
 }
 
 
-function toggleForm() {
-  var userType = document.getElementById("userType").value;
-
-  var doctorForm = document.getElementById("doctorForm");
-  var patientForm = document.getElementById("patientForm");
-  var ClinicForm=document.getElementById("ClinicForm");
-
-  if (userType === "doctor") {
-    doctorForm.style.display = "block";
-    patientForm.style.display = "none";
-    ClinicForm.style.display = "none";
-  } else if (userType === "patient") {
-    doctorForm.style.display = "none";
-    patientForm.style.display = "block";
-    ClinicForm.style.display = "none";
-  } else if(userType==="Clinic") 
-  {
-    doctorForm.style.display = "none";
-    patientForm.style.display = "none";
-    ClinicForm.style.display = "block";
-  }
-  else
-  {
-    doctorForm.style.display = "none";
-    patientForm.style.display = "none";
-    ClinicForm.style.display = "none";
-  }
-}
