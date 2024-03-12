@@ -6,27 +6,28 @@ import java.util.Objects;
 @Table(name = "user_acc")
 
 public class UserAcc {
+ 
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int uid;
-
+    
     @Column(name = "email", nullable = false)
     private String email;
-
+    
     @Column(name = "pass", nullable = false)
     private String pass;
-
+    
     @ManyToOne
     @JoinColumn(name = "usertype_id", nullable = true)
     private UserTypes usertype;
-
+    
     @Column(name = "image", nullable = true)
     private String image;
-
-
+    
     public UserAcc() {
     }
-
+    
     public UserAcc(int uid, String email, String pass, UserTypes usertype, String image) {
         this.uid = uid;
         this.email = email;
@@ -34,73 +35,6 @@ public class UserAcc {
         this.usertype = usertype;
         this.image = image;
     }
-
-    public int getUid() {
-        return this.uid;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPass() {
-        return this.pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    public UserTypes getUsertype() {
-        return this.usertype;
-    }
-
-    public void setUsertype(UserTypes usertype) {
-        this.usertype = usertype;
-    }
-    public void setUsertype(long id) {
-        if (this.usertype == null) {
-            this.usertype = new UserTypes();
-        }
-        this.usertype.setUtid(id);
-    }
-
-    public String getImage() {
-        return this.image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public UserAcc uid(int uid) {
-        setUid(uid);
-        return this;
-    }
-
-    public UserAcc email(String email) {
-        setEmail(email);
-        return this;
-    }
-
-    public UserAcc pass(String pass) {
-        setPass(pass);
-        return this;
-    }
-
-    public UserAcc usertype(UserTypes usertype) {
-        setUsertype(usertype);
-        return this;
-    }
-
     public UserAcc image(String image) {
         setImage(image);
         return this;
@@ -131,6 +65,46 @@ public class UserAcc {
             ", usertype='" + getUsertype() + "'" +
             ", image='" + getImage() + "'" +
             "}";
+    }
+    // getters and setters
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public UserTypes getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(UserTypes usertype) {
+        this.usertype = usertype;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
     
 }

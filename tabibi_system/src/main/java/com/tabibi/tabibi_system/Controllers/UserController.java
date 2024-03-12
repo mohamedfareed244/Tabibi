@@ -3,12 +3,16 @@ package com.tabibi.tabibi_system.Controllers;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.tabibi.tabibi_system.Repositories.*;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
+import com.tabibi.tabibi_system.Models.UserTypes;
+import com.tabibi.tabibi_system.Models.sup;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -45,83 +49,78 @@ private DoctorRepository doctorRepository;
 
 
 
-    @GetMapping("/Registration")
-    public ModelAndView addUser()
-    {
-    ModelAndView mav=new ModelAndView("Registration.html");
-    System.out.println("dakhal controller");
-    //models
-    Patient patient=new Patient();
-    Doctor doctor=new Doctor();
-    Clinic clinic=new Clinic();
-//linking models to useracc
-    UserAcc userAccpatient=new UserAcc();
-    UserAcc userAccdoc=new UserAcc();
-    UserAcc userAccClinic=new UserAcc();
+    // @GetMapping("/Registration")
+    // public ModelAndView addUser()
+    // {
+    // ModelAndView mav=new ModelAndView("Registration.html");
+    // System.out.println("dakhal controller");
+    // Patient patient=new Patient();
+    // UserAcc userAcc=new UserAcc();
+    // userAcc.setUid(1);
+    // patient.setUserAcc(userAcc);
+    // mav.addObject("patient", patient);
+    //   return mav;
+    // }
 
-    //adjusting the userID
-    userAccpatient.setUid(1);
-    patient.setUserAcc(userAccpatient);
+    @GetMapping("/sgnp")
+public ModelAndView showSignupForm() {
+    ModelAndView mav = new ModelAndView("signup.html");
+    sup signupForm = new sup();
+    UserAcc userAcc = new UserAcc();
+    Patient patient = new Patient();
+    signupForm.setUser(userAcc);
+    signupForm.setPatient(patient);
+    mav.addObject("signupForm", signupForm);
+    return mav;
+}
 
-    userAccdoc.setUid(2);
-    doctor.setUserAcc(userAccdoc);
+@PostMapping("/sgnp")
+public RedirectView processSignupForm(@ModelAttribute("signupForm") sup signupForm,@RequestParam("userType") String userType) {
+            UserAcc userAcc = signupForm.getUser();
+            Patient patient = signupForm.getPatient();
+      String encoddedPassword = BCrypt.hashpw(userAcc.getPass(), BCrypt.gensalt(12));
+        userAcc.setPass(encoddedPassword);
+    
+        switch (userType) {
+            case "patient":
+            userAcc.setUsertype(new UserTypes(4L)); 
+            patient.setUserAcc(userAcc);
+            this.UserAccRepository.save(userAcc);
+            patient.setUserAcc(userAcc);
+            this.PatientRepository.save(patient);
+            break;
+            case "doctor":
+            break;
+            case "clinic":
+                break;
+            default:
+            // Default case
+            break;
+        }
+    
+        return new RedirectView("/User/Login");
 
-    userAccClinic.setUid(3);
-    clinic.setUserAcc(userAccClinic);
-
-    mav.addObject("patient", patient);
-    mav.addObject("doctor", doctor);
-    mav.addObject("Clinic", clinic);
-      return mav;
+        
     }
+    
+    
+ 
 
 
-    @PostMapping("/signupClinic")
-    public String saveUser(@ModelAttribute("Clinic") Clinic clinic)
-     {
-        System.err.println("bada2 ysave");
-        UserAcc currAcc=new UserAcc();
-        currAcc=clinic.getUserAcc();
-        String encoddedPassword=BCrypt.hashpw(currAcc.getPass(), BCrypt.gensalt(12)) ;
-        currAcc.setPass(encoddedPassword);
-        currAcc.setImage("testimage");
-        currAcc.setUid(2);
-        System.err.println("password coded ");    
-       this.UserAccRepository.save(currAcc);
-       this.clinicRepository.save(clinic);
-       return "Added ya basha to DataBase";
-     }
-
-    @PostMapping("/signupdoc")
-    public String saveUser(@ModelAttribute("doctor") Doctor doctor)
-     {
-        System.err.println("bada2 ysave");
-        UserAcc currAcc=new UserAcc();
-        currAcc=doctor.getUserAcc();
-        String encoddedPassword=BCrypt.hashpw(currAcc.getPass(), BCrypt.gensalt(12)) ;
-        currAcc.setPass(encoddedPassword);
-        currAcc.setImage("testimage");
-        currAcc.setUid(2);
-        System.err.println("password coded ");    
-       this.UserAccRepository.save(currAcc);
-       this.doctorRepository.save(doctor);
-       return "Added ya basha to DataBase";
-     }
-    @PostMapping("/signup")
-    public String saveUser(@ModelAttribute("patient") Patient patient)
-     {
-    System.err.println("bada2 ysave");
-    UserAcc currAcc=new UserAcc();
-     currAcc=patient.getUserAcc();
-     String encoddedPassword=BCrypt.hashpw(currAcc.getPass(), BCrypt.gensalt(12)) ;
-      currAcc.setPass(encoddedPassword);
-      currAcc.setImage("testimage");
-      currAcc.setUid(1);
-      System.err.println("password coded ");
-      this.UserAccRepository.save(currAcc);
-      this.patientRepository.save(patient);
-      return "Added ya basha to DataBase";
-     }
+    // @PostMapping("/signup")
+    // public String saveUser(@ModelAttribute("patient") Patient patient)
+    //  {
+    // System.err.println("bada2 ysave");
+    // UserAcc currAcc=new UserAcc();
+    // currAcc=patient.getUserAcc();
+    //  String encoddedPassword=BCrypt.hashpw(currAcc.getPass(), BCrypt.gensalt(12)) ;
+    //   currAcc.setPass(encoddedPassword);
+    //   currAcc.setImage("testimage");
+    //   currAcc.setUid(1);
+    //   System.err.println("password coded ");
+    //   this.PatientRepository.save(patient);
+    //   return "Added ya basha to DataBase";
+    //  }
 
 
     @GetMapping("/AllUsers")
