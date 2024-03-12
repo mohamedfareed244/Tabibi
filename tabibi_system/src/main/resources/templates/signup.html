@@ -27,25 +27,33 @@
         }
     </style>
     <script>
-        function toggleDoctorFields() {
-            var doctorFields = document.getElementById("doctor-fields");
-            var userTypeSelect = document.getElementById("userType");
-            var allfields = document.getElementById("fields");
-            var clincfields = document.getElementById("Clinc-fields");
-            if (userTypeSelect.value === "doctor") {
-                doctorFields.style.display = "block";
-                clincfields.style.display = "none";
-                allfields.style.display = "block";
-            } else if (userTypeSelect.value === "Clinc") {
-                allfields.style.display = "none";
-                doctorFields.style.display = "none";
-                clincfields.style.display = "block";
-            } else {
-                allfields.style.display = "block";
-                clincfields.style.display = "none";
-                doctorFields.style.display = "none";
-            }
-        }
+ function toggleFields() {
+    var userTypeSelect = document.getElementById("userType");
+    var doctorFields = document.getElementById("doctor-fields");
+    var patientFields = document.getElementById("fields");
+
+    if (userTypeSelect.value === "doctor") {
+        doctorFields.style.display = "block";
+        patientFields.style.display = "none";
+        disableFields(false, doctorFields);
+        disableFields(true, patientFields);
+    } else {
+        doctorFields.style.display = "none";
+        patientFields.style.display = "block";
+        disableFields(true, doctorFields);
+        disableFields(false, patientFields);
+    }
+}
+
+function disableFields(disable, container) {
+    container.querySelectorAll("input, select").forEach(function(input) {
+        input.disabled = disable;
+    });
+}
+
+
+
+
     </script>
 </head>
 
@@ -57,7 +65,7 @@
                 <form th:action="@{/User/sgnp}" th:object="${signupForm}" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="userType">User Type:</label>
-                        <select class="form-control" id="userType" name="userType" onchange="toggleDoctorFields()">
+                        <select class="form-control" id="userType" name="userType" onchange="toggleFields();">
                             <option value="patient">Patient</option>
                             <option value="doctor">Doctor</option>
                             <option value="clinic">Clinic</option>
@@ -73,6 +81,33 @@
                         <br>
                         <label for="cnumber">Clinic Number:</label>
                         <input type="text" class="form-control" id="cnumber" name="cnumber">
+                    </div>
+
+
+                    <div class="form-group" id="doctor-fields" style="display: none;">
+                        <label for="doctorFirstname">Doctor First Name:</label>
+                        <input type="text" class="form-control" id="doctorFirstname" name="fname" th:field="*{doctor.firstname}" placeholder="First Name" required>
+                    
+                        <label for="doctorLastname">Doctor Last Name:</label>
+                        <input type="text" class="form-control" id="doctorLastname" name="lname" th:field="*{doctor.lastname}" placeholder="Last Name" required>
+                    
+                        <label for="doctorNumber">Doctor Phone Number:</label>
+                        <input type="text" class="form-control" id="doctorNumber" name="number" th:field="*{doctor.number}" placeholder="Phone Number" required>
+                    
+                        <label for="doctorEmail">Doctor Email:</label>
+                        <input type="email" class="form-control" id="doctorEmail" name="email" th:field="*{user.email}" placeholder="Email Address" required>
+                    
+                        <label for="doctorSpecialization">Doctor Specialization:</label>
+                        <input type="text" class="form-control" id="doctorSpecialization" th:field="*{doctor.specialization}" name="specialization" placeholder="Specialization">
+                    
+                        <label for="doctorEducation">Doctor Education:</label>
+                        <input type="text" class="form-control" id="doctorEducation" th:field="*{doctor.educ}" name="education" placeholder="Education">
+                    
+                        <label for="doctorPassword">Doctor Password:</label>
+                        <input type="password" class="form-control" id="doctorPassword" th:field="*{user.pass}" placeholder="Password" required>
+                    
+                        <label for="doctorCpassword">Confirm password:</label>
+                        <input type="password" class="form-control" id="doctorCpassword" placeholder="Confirm Password" name="cpassword" required>
                     </div>
 
                     <div id="fields">
@@ -102,13 +137,6 @@
                         <div class="form-group">
                             <label for="address">Address:</label>
                             <input type="text" class="form-control" id="address" th:field="*{patient.address}" placeholder="Address" required>
-                        </div>
-                        <div class="form-group" id="doctor-fields" style="display: none;">
-                            <label for="specialization">Specialization:</label>
-                            <input type="text" class="form-control" id="specialization" name="specialization" placeholder="Specialization">
-                            <br>
-                            <label for="education">Education:</label>
-                            <input type="text" class="form-control" id="education" name="education" placeholder="Education">
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number:</label>
