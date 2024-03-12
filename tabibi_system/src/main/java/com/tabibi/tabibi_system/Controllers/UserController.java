@@ -127,46 +127,46 @@ UserAcc currAcc=new UserAcc();
   return "Added ya basha to DataBase";
  }
 
-//     @GetMapping("/sgnp")
-// public ModelAndView showSignupForm() {
-//     ModelAndView mav = new ModelAndView("signup.html");
-//     sup signupForm = new sup();
-//     UserAcc userAcc = new UserAcc();
-//     Patient patient = new Patient();
-//     signupForm.setUser(userAcc);
-//     signupForm.setPatient(patient);
-//     mav.addObject("signupForm", signupForm);
-//     return mav;
-// }
+    @GetMapping("/sgnp")
+public ModelAndView showSignupForm() {
+    ModelAndView mav = new ModelAndView("signup.html");
+    sup signupForm = new sup();
+    UserAcc userAcc = new UserAcc();
+    Patient patient = new Patient();
+    signupForm.setUser(userAcc);
+    signupForm.setPatient(patient);
+    mav.addObject("signupForm", signupForm);
+    return mav;
+}
 
-// @PostMapping("/sgnp")
-// public RedirectView processSignupForm(@ModelAttribute("signupForm") sup signupForm,@RequestParam("userType") String userType) {
-//             UserAcc userAcc = signupForm.getUser();
-//             Patient patient = signupForm.getPatient();
-//       String encoddedPassword = BCrypt.hashpw(userAcc.getPass(), BCrypt.gensalt(12));
-//         userAcc.setPass(encoddedPassword);
+@PostMapping("/sgnp")
+public RedirectView processSignupForm(@ModelAttribute("signupForm") sup signupForm,@RequestParam("userType") String userType) {
+            UserAcc userAcc = signupForm.getUser();
+            Patient patient = signupForm.getPatient();
+      String encoddedPassword = BCrypt.hashpw(userAcc.getPass(), BCrypt.gensalt(12));
+        userAcc.setPass(encoddedPassword);
     
-//         switch (userType) {
-//             case "patient":
-//             userAcc.setUsertype(new UserTypes(4L)); 
-//             patient.setUserAcc(userAcc);
-//             this.UserAccRepository.save(userAcc);
-//             patient.setUserAcc(userAcc);
-//             this.patientRepository.save(patient);
-//             break;
-//             case "doctor":
-//             break;
-//             case "clinic":
-//                 break;
-//             default:
-//             // Default case
-//             break;
-//         }
+        switch (userType) {
+            case "patient":
+            userAcc.setUsertype(new UserTypes(4L)); 
+            patient.setUserAcc(userAcc);
+            this.UserAccRepository.save(userAcc);
+            patient.setUserAcc(userAcc);
+            this.patientRepository.save(patient);
+            break;
+            case "doctor":
+            break;
+            case "clinic":
+                break;
+            default:
+            // Default case
+            break;
+        }
     
-//         return new RedirectView("/User/Login");
+        return new RedirectView("/User/Login");
 
         
-//     }
+    }
     
     
  
