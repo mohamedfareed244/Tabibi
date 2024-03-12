@@ -1,5 +1,4 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,13 +23,13 @@
 
             <div class="row align-items-center pt-4 pb-3">
               <div class="col-md-3 ps-5">
-<form action="" method="post">
+                  <form th:action="@{/Admin/addpage}" th:object="${page}" method="POST" >
                 <h6 class="mb-0">page name</h6>
 
               </div>
               <div class="col-md-9 pe-5">
 
-                <input type="text" name="name" class="form-control form-control-lg" />
+                <input type="text" name="name"  th:field="*{page.name}" class="form-control form-control-lg" />
 
               </div>
             </div>
@@ -46,7 +45,7 @@
               </div>
               <div class="col-md-9 pe-5">
 
-                <input type="text" name="address" class="form-control form-control-lg" placeholder="example.php" />
+                <input type="text" name="address"  th:field="*{page.linkaddress}" class="form-control form-control-lg" placeholder="example.php" />
 
               </div>
             </div>
@@ -61,7 +60,7 @@
               </div>
               <div class="col-md-9 pe-5">
 
-              <input name="icon" class="form-control form-control-lg" placeholder=""></input>
+              <input name="icon"th:field="*{page.icons}" class="form-control form-control-lg" placeholder=""></input>
 
               </div>
             </div>
@@ -76,7 +75,7 @@
               </div>
               <div class="col-md-9 pe-5">
 
-                <input class="form-control form-control-lg" name="class" id="formFileLg" type="text" />
+                <input class="form-control form-control-lg" th:field="*{page.classX}" name="class" id="formFileLg" type="text" />
                 
             </div>
 

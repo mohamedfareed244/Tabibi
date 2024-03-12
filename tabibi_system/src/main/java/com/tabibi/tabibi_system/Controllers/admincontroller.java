@@ -4,11 +4,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tabibi.tabibi_system.Models.Doctor;
+import com.tabibi.tabibi_system.Models.Pages;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
+import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserRepository;
@@ -34,16 +36,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/Admin")
 public class admincontroller {
 
-@Autowired
-PatientRepository patientrepo;
+   @Autowired
+   PatientRepository patientrepo;
 
-@Autowired
-DoctorRepository doctorrepo;
+   @Autowired
+   DoctorRepository doctorrepo;
 
-@Autowired
-UserAccRepository userrepo;
-@Autowired
-UserTypeRepository user_type_repo;
+   @Autowired
+   UserAccRepository userrepo;
+   @Autowired
+   UserTypeRepository user_type_repo;
+
+   @Autowired
+   PagesRepository pages_repo;
 
    @GetMapping("/admin-dashboard")
    public ModelAndView getadmin_dashboard() {
@@ -55,57 +60,75 @@ UserTypeRepository user_type_repo;
    public ModelAndView getpage() {
 
       ModelAndView mav = new ModelAndView("addpage.html");
+      Pages page = new Pages();
+      mav.addObject("page", page);
+
       return mav;
    }
+
+   @PostMapping("/addpage")
+   public String savepage(@ModelAttribute Pages page) {
+      this.pages_repo.save(page);
+
+      return "added";
+   }
+   @GetMapping("/addpermission")
+   public ModelAndView addpermission(){
+      ModelAndView mav=new ModelAndView("addpermission.html");
+      UserTypes type=new UserTypes();
+      Pages page=new Pages();
+      mav.addObject("type",type );
+      mav.addObject("page", page);
+      return mav;
+   }
+
+
 
    @GetMapping("/settings")
    public ModelAndView account() {
       ModelAndView mav = new ModelAndView("Profile.html");
       return mav;
    }
+
    @GetMapping("/addusers")
    public ModelAndView addusers() {
       ModelAndView mav = new ModelAndView("addusers.html");
-      UserAcc user=new UserAcc();
-      List<UserTypes>typeList = this.user_type_repo.findAll();
+      UserAcc user = new UserAcc();
+      List<UserTypes> typeList = this.user_type_repo.findAll();
       System.out.println("--------------------------- the type list =  --------------------------------------");
-for (UserTypes x : typeList) 
-{
-   System.out.println(x.getName());
-   System.out.println(x.getUtid());
-}
+      for (UserTypes x : typeList) {
+         System.out.println(x.getName());
+         System.out.println(x.getUtid());
+      }
       mav.addObject("user", user);
       mav.addObject("types", typeList);
       return mav;
-}
+   }
 
+   @PostMapping("addusers")
+   public String saveuser(@ModelAttribute UserAcc user) {
+      String hash_password = BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
+      user.setPass(hash_password);
+      this.userrepo.save(user);
 
-@PostMapping("addusers")
-public String saveuser(@ModelAttribute UserAcc user) {
-   String hash_password=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
-   user.setPass(hash_password);
-   this.userrepo.save(user);
-     
-    return "added";
-   
-}
+      return "added";
 
+   }
 
+   // @PostMapping("addusers")
+   // public String saveuser(@ModelAttribute UserAcc user) {
+   // String hash_password=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
+   // user.setPass(hash_password);
 
-// @PostMapping("addusers")
-// public String saveuser(@ModelAttribute UserAcc user) {
-//    String hash_password=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
-//    user.setPass(hash_password);
+   // this.userrepo.save(user);
 
-//    this.userrepo.save(user);
-     
-//     return "added";
-   
-// }
-@GetMapping("/patients")
-public ModelAndView getpatientspage(){
-   ModelAndView mav=new ModelAndView("patients.html");
-   return mav;
-}
+   // return "added";
+
+   // }
+   @GetMapping("/patients")
+   public ModelAndView getpatientspage() {
+      ModelAndView mav = new ModelAndView("patients.html");
+      return mav;
+   }
 
 }
