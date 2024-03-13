@@ -159,6 +159,7 @@ public RedirectView processSignupForm(@ModelAttribute("signupForm") sup signupFo
                      session.setAttribute("firstname", patient.getFirstname());
                      session.setAttribute("number", patient.getNumber());
                      session.setAttribute("lastname", patient.getLastname());
+                     session.setAttribute("uid", newUser.getUid());
                      System.out.println(session.getAttribute("email"));
                      return new RedirectView("/User/patientHomepage");
                  } else {
