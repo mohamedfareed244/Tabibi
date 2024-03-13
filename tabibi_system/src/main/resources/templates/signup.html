@@ -188,7 +188,7 @@ function validateForm() {
         <div class="card">
             <div class="card-body">
                 <h2 class="card-title">Registration</h2>
-                <form th:action="@{/User/signup}"  th:object="${signupForm}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()" >
+                <form th:action="@{/User/sgnp}"  th:object="${signupForm}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()" >
                     <div class="form-group">
                         <label for="userType">User Type:</label>
                         <select class="form-control" id="userType" name="userType" onchange="toggleFields();">
