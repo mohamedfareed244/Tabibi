@@ -16,6 +16,7 @@ import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +37,7 @@ public class AppointmentsController
 @GetMapping("add")
 public ModelAndView appointmentForm() 
 {
-   ModelAndView mav = new ModelAndView("AddAppointment.html");
+   ModelAndView mav = new ModelAndView("addAppointment.html");
    mav.addObject("appointment", new Appointment());
    List<Doctor> doctors = this.doctorRepository.findAll();
    List<Clinic> clinics = this.clinicRepository.findAll();
@@ -64,6 +65,31 @@ public ModelAndView viewAppointmentForm(){
     
     return mav;
 }
+
+@GetMapping("edit/{appId}")
+public ModelAndView editAppointmentForm(@PathVariable long appId) 
+{
+ModelAndView mav = new ModelAndView("editAppointments.html");
+Appointment oldApp=this.appointmentRepository.findByappId(appId);
+System.out.println("-------------------------------------the appointment sent in the edit form :" + oldApp);
+mav.addObject("oldApp", oldApp);
+List<Doctor> doctors = this.doctorRepository.findAll();
+   List<Clinic> clinics = this.clinicRepository.findAll();
+mav.addObject("doctors", doctors);
+mav.addObject("clinics", clinics);
+return mav;
+}
+@PostMapping("edit/{appId}")
+public String updateAppointment(@ModelAttribute("oldApp") Appointment oldAppointment, @PathVariable Long appId) 
+{
+oldAppointment.setAppId(appId);
+this.appointmentRepository.save(oldAppointment);
+    return "added to db";
+}
+
+
+
+
 
 
 }
