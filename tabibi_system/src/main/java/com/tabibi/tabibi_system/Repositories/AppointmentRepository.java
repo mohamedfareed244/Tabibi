@@ -8,6 +8,8 @@ import com.tabibi.tabibi_system.Models.Appointment;
 public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
 
     Appointment findByappId(long appId);
+
+    void deleteByappId(long appId);
    
 
     
