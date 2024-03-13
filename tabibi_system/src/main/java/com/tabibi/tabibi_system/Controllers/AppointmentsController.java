@@ -3,9 +3,11 @@ package com.tabibi.tabibi_system.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.tabibi.tabibi_system.Models.Appointment;
 import com.tabibi.tabibi_system.Models.Clinic;
@@ -50,11 +52,11 @@ public ModelAndView appointmentForm()
 }
 
 @PostMapping("add")
-public String addAppointment(@ModelAttribute Appointment appointment ) 
+public RedirectView addAppointment(@ModelAttribute Appointment appointment ) 
 {
 
     this.appointmentRepository.save(appointment);
-    return "added to db";
+    return new RedirectView("/appointments/view");
 }
 
 @GetMapping("view")
@@ -80,11 +82,20 @@ mav.addObject("clinics", clinics);
 return mav;
 }
 @PostMapping("edit/{appId}")
-public String updateAppointment(@ModelAttribute("oldApp") Appointment oldAppointment, @PathVariable Long appId) 
+public RedirectView updateAppointment(@ModelAttribute("oldApp") Appointment oldAppointment, @PathVariable Long appId) 
 {
 oldAppointment.setAppId(appId);
 this.appointmentRepository.save(oldAppointment);
-    return "added to db";
+return new RedirectView("/appointments/view");
+}
+
+@GetMapping("delete/{appId}")
+@Transactional
+public RedirectView deleteAppointment(@PathVariable long appId){
+    this.appointmentRepository.deleteByappId(appId);
+    return new RedirectView("/appointments/view");
+}
+
 }
 
 
@@ -92,4 +103,3 @@ this.appointmentRepository.save(oldAppointment);
 
 
 
-}
