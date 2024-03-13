@@ -6,5 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.tabibi.tabibi_system.Models.Appointment;
 
 public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
+
+    Appointment findByappId(long appId);
+   
+
+    
     
 }

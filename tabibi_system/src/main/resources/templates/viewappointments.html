@@ -10,12 +10,12 @@
    <table class="table table-dark">
     <thead>
       <tr>
-        <th>Appointment ID</th>
-        <th >Date</th>
-        <th >Time</th>
-        <th >Status</th>
-        <th >Clinic</th>
-        <th >Actions</th>
+        <th>APPOINTMENT ID</th>
+        <th >DATE</th>
+        <th >TIME</th>
+        <th >STATUS</th>
+        <th >CLINIC</th>
+        <th >ACTIONS</th>
       </tr>
     </thead>
     <tbody>
@@ -26,7 +26,11 @@
         <td th:text="${app.time}"></td>
         <td th:text="${app.status}"></td>
         <td th:text="${app.clinic.cname}"></td>
-
+<td>
+    <a id="edit"    th:href="@{'edit/' + ${app.appId}}">EDIT</a>
+    ||
+    <a id="delete"  th:href="@{'delete/' + ${app.appId}}">DELETE</a>
+</td>
       </tr>
       
     </tbody>
