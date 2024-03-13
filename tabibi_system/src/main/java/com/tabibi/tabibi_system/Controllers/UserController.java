@@ -61,6 +61,12 @@ public class UserController {
 //     return mav;
 // }
 
+@GetMapping("")
+public ModelAndView getlanding() {
+    ModelAndView mav = new ModelAndView("LandingPage.html");
+    return mav;
+}
+
 @GetMapping("/signup")
 public ModelAndView showSignupForm() {
     ModelAndView mav = new ModelAndView("signup.html");
