@@ -40,6 +40,15 @@ public class PatientController {
         mav.addObject("number",(String) session.getAttribute("number"));
         return mav;
      }
-  
+     @GetMapping("EditProfile")
+     public ModelAndView getEditProfile(HttpSession session)
+     {
+        ModelAndView mav=new ModelAndView("EditProfile.html");
+        mav.addObject("email",(String) session.getAttribute("email"));
+        mav.addObject("firstname",(String) session.getAttribute("firstname"));
+        mav.addObject("lastname",(String) session.getAttribute("lastname"));
+        mav.addObject("number",(String) session.getAttribute("number"));
+        return mav;
+     }
     
 }
