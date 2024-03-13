@@ -16,6 +16,7 @@
         background-color: white;
         margin: 0;
         padding: 0;
+        font-family: Arial, sans-serif;
     }
 
     .container {
@@ -31,6 +32,17 @@
     p {
         padding-top: 10px;
     }
+
+    #sessionValues {
+        font-size: 24px; 
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    #sessionValues span {
+        display: block;
+        margin-bottom: 10px;
+    }
 </style>
 
 <body>
@@ -39,30 +51,18 @@
     </div>
     <div class="container" style="margin-top: -670px;">
         <h1> View details.</h1>
-
-
-        <!-- <?php
-        if ($_SESSION["type"] === 'patient') {
-            echo "<p>Name: <br>" . $_SESSION["firstname"] . " " . $_SESSION["lastname"] . "</p>";
-            echo "<p>Email: <br>" . $_SESSION["email"] . "</p>";
-            echo "<p>Phone: <br>" . $_SESSION["number"] . "</p>";
-            echo "<p>Age: <br>" . $_SESSION["age"] . "</p>";
-            echo "<p>Gender: <br> " . $_SESSION["gender"] . "</p>";
-            echo "<p>Address: <br> " . $_SESSION["address"] . "</p>";
-        } elseif ($_SESSION["type"] === 'doctor') {
-            echo "<p>Name: <br>" . $_SESSION["firstname"] . " " . $_SESSION["lastname"] . "</p>";
-            echo "<p>Email: <br>" . $_SESSION["email"] . "</p>";
-            echo "<p>Phone: <br>" . $_SESSION["number"] . "</p>";
-            echo "<p>Specialization: <br>" . $_SESSION["specialization"] . "</p>";
-            echo "<p>Education: <br> " . $_SESSION["educ"] . "</p>";
-        } elseif ($_SESSION["type"] === 'clinic') {
-            echo "<p>Clinic Name: <br>" . $_SESSION["cname"] . "</p>";
-            echo "<p>Clinic Location: <br> " . $_SESSION["cloc"] . "</p>";
-            echo "<p>Clinic Number: <br> " . $_SESSION["cnumber"] . "</p>";
-        }
-        ?> -->
-
+    
+        <div id="sessionValues">
+            <label>EMAIL: </label> <span th:text="${email}"></span>
+            <br>
+            <label>First Name: </label> <span th:text="${firstname}"></span>
+            <br>
+            <label>Last Name: </label><span th:text="${lastname}"></span>
+            <br>
+            <label>Phone Number: </label><span th:text="${number}"></span>
+        </div>
     </div>
+    
 </body>
 
 <footer>

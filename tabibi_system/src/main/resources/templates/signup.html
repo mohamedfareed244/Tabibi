@@ -15,16 +15,16 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
   <script src="/js/signup.js"></script>
 <script>
- function toggleFields() {
+function toggleFields() {
     var userTypeSelect = document.getElementById("userType");
     var doctorFields = document.getElementById("doctor-fields");
-    var patientFields = document.getElementById("fields");
+    var patientFields = document.getElementById("patient-fields");
     var clinicFields = document.getElementById("Clinc-fields");
 
     if (userTypeSelect.value === "doctor") {
         doctorFields.style.display = "block";
         patientFields.style.display = "none";
-        clinicFields.style.display="none";
+        clinicFields.style.display = "none";
 
         disableFields(false, doctorFields);
         disableFields(true, patientFields);
@@ -33,16 +33,17 @@
     } else if (userTypeSelect.value === "patient") {
         doctorFields.style.display = "none";
         patientFields.style.display = "block";
-        clinicFields.style.display="none";
+        clinicFields.style.display = "none";
 
         disableFields(true, doctorFields);
         disableFields(false, patientFields);
         disableFields(true, clinicFields);
 
-    }else if (userTypeSelect.value === "clinic") {
+    } else if (userTypeSelect.value === "clinic") {
         doctorFields.style.display = "none";
         patientFields.style.display = "none";
-        clinicFields.style.display="block";
+        clinicFields.style.display = "block";
+
         disableFields(true, doctorFields);
         disableFields(true, patientFields);
         disableFields(false, clinicFields);
@@ -51,10 +52,11 @@
 }
 
 function disableFields(disable, container) {
-    container.querySelectorAll("input, select").forEach(function(input) {
+    container.querySelectorAll("input, select").forEach(function (input) {
         input.disabled = disable;
     });
 }
+
 
 
 //validations :
@@ -188,7 +190,7 @@ function validateForm() {
         <div class="card">
             <div class="card-body">
                 <h2 class="card-title">Registration</h2>
-                <form th:action="@{/User/sgnp}"  th:object="${signupForm}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()" >
+                <form th:action="@{/User/signup}"  th:object="${signupForm}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()" >
                     <div class="form-group">
                         <label for="userType">User Type:</label>
                         <select class="form-control" id="userType" name="userType" onchange="toggleFields();">
@@ -252,7 +254,7 @@ function validateForm() {
                         <div id="cpassword-error" class="error-message "></div>
                     </div>
 
-                    <div id="fields">
+                    <div id="patient-fields">
                         <div class="form-group">
                             <label for="firstname">First Name:</label>
                             <input type="text" class="form-control" id="firstname" th:field="*{patient.firstname}" placeholder="First Name" >
@@ -309,7 +311,7 @@ function validateForm() {
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary" name="submit">Register Now</button>
-                    <p class="mt-3">Already have an account? <a href="login.php">Login now</a></p>
+                    <p class="mt-3">Already have an account? <a th:href="@{/User/Login}">Login now</a></p>
                 </form>
             </div>
         </div>

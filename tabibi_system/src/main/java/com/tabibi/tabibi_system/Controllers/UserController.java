@@ -61,7 +61,7 @@ public class UserController {
 //     return mav;
 // }
 
-@GetMapping("/sgnp")
+@GetMapping("/signup")
 public ModelAndView showSignupForm() {
     ModelAndView mav = new ModelAndView("signup.html");
     sup signupForm = new sup();
@@ -73,7 +73,7 @@ public ModelAndView showSignupForm() {
     return mav;
 }
 
-@PostMapping("/sgnp")
+@PostMapping("/signup")
 public RedirectView processSignupForm(@ModelAttribute("signupForm") sup signupForm, @RequestParam("userType") String userType) {
     UserAcc userAcc = signupForm.getUser();
     String encoddedPassword = BCrypt.hashpw(userAcc.getPass(), BCrypt.gensalt(12));
@@ -156,7 +156,9 @@ public RedirectView processSignupForm(@ModelAttribute("signupForm") sup signupFo
                  {
                     Patient patient = this.patientRepository.findByUserAcc(newUser);
                      session.setAttribute("email", newUser.getEmail());
-                     session.setAttribute("name", patient.getFirstname());
+                     session.setAttribute("firstname", patient.getFirstname());
+                     session.setAttribute("number", patient.getNumber());
+                     session.setAttribute("lastname", patient.getLastname());
                      System.out.println(session.getAttribute("email"));
                      return new RedirectView("/User/patientHomepage");
                  } else {
@@ -176,7 +178,7 @@ public RedirectView processSignupForm(@ModelAttribute("signupForm") sup signupFo
      {
         ModelAndView mav=new ModelAndView("patientHomepage.html");
         mav.addObject("email",(String) session.getAttribute("email"));
-        mav.addObject("name",(String) session.getAttribute("name"));
+        mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;
      }
     
@@ -211,11 +213,7 @@ public ModelAndView getnavigation(HttpSession session) {
 }
 
      
-   @GetMapping("accountSettings")
-   public ModelAndView getaccount_settings() {
-    ModelAndView mav=new ModelAndView("AccountSettings.html");
-       return mav;
-   }
+
    @GetMapping("/footer")
    public ModelAndView getfooter() {
     ModelAndView mav=new ModelAndView("footer.html");
