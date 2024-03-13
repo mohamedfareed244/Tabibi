@@ -82,5 +82,38 @@ public class PatientController {
      
      }
      
+     @GetMapping("/deleteAccount")
+     public RedirectView deleteAccount(HttpSession session) {
+         Integer uid = (Integer) session.getAttribute("uid");
+         UserAcc userAcc = this.UserAccRepository.findByUid(uid);
+         if (userAcc != null) {
+             Patient patient = this.patientRepository.findByUserAcc(userAcc);
+             if (patient != null) {
+                 this.patientRepository.delete(patient);
+                this.UserAccRepository.delete(userAcc);
+                 session.invalidate(); 
+                 return new RedirectView("/User/login"); 
+             }
+         }
+         return new RedirectView("/patient/Profile"); 
+     }
+     
+
+//      @PostMapping("/deletePatient")
+// public RedirectView deletePatient(HttpSession session) {
+//     Integer uid = (Integer) session.getAttribute("uid");
+//     UserAcc userAcc = this.UserAccRepository.findByUid(uid);
+//     if (userAcc != null) {
+//         Patient patient = this.patientRepository.findByUserAcc(userAcc);
+//         if (patient != null) {
+//             this.patientRepository.delete(patient);
+//             this.UserAccRepository.delete(userAcc);
+//             session.invalidate(); 
+//             return new RedirectView("/login");
+//         }
+//     }
+//     return new RedirectView("/patient/Profile");
+// }
+
     
 }
