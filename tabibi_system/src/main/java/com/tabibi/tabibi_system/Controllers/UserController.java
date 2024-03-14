@@ -15,6 +15,7 @@ import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Models.sup;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties.Http;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,33 +82,58 @@ public ModelAndView showSignupForm() {
 }
 
 @PostMapping("/signup")
-public RedirectView processSignupForm(@ModelAttribute("signupForm") sup signupForm, @RequestParam("userType") String userType) {
+public RedirectView processSignupForm(@Valid sup sign_vali, BindingResult result, @ModelAttribute("signupForm")sup signupForm, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
     UserAcc userAcc = signupForm.getUser();
+    sign_vali=signupForm;
     String encoddedPassword = BCrypt.hashpw(userAcc.getPass(), BCrypt.gensalt(12));
-    userAcc.setPass(encoddedPassword);
-
-    switch (userType) {
+    userAcc.setPass(encoddedPassword); 
+    switch (userType)
+    {
         case "patient":
+if (result.hasErrors()) 
+{
+    System.err.println("Stop error fel vali");
+    return new RedirectView("/User/Login");
+}
+else
+{
             userAcc.setUsertype(new UserTypes(4L));
             Patient patient = signupForm.getPatient();
             patient.setUserAcc(userAcc);
             this.UserAccRepository.save(userAcc);
             this.patientRepository.save(patient);
             break;
+}
         case "doctor":
-            userAcc.setUsertype(new UserTypes(3L));
-            Doctor doctor = signupForm.getDoctor();
-            doctor.setUserAcc(userAcc);
-            this.UserAccRepository.save(userAcc);
-            this.doctorRepository.save(doctor);
-            break;
+        if (result.hasErrors()) 
+{
+    System.err.println("Stop error fel vali");
+    return new RedirectView("/User/Login");
+}
+else
+{
+          userAcc.setUsertype(new UserTypes(3L));
+          Doctor doctor = signupForm.getDoctor();
+          doctor.setUserAcc(userAcc);
+           this.UserAccRepository.save(userAcc);
+          this.doctorRepository.save(doctor);
+          break;
+}
         case "clinic":
+        if (result.hasErrors()) 
+{
+    System.err.println("Stop error fel vali");
+    return new RedirectView("/User/Login");
+}
+else
+{
         userAcc.setUsertype(new UserTypes(2L));
         Clinic clinic=signupForm.getClinic();
         clinic.setUserAcc(userAcc);
         this.UserAccRepository.save(userAcc);
         this.clinicRepository.save(clinic);
             break;
+}
         default:
             // Default case
             break;

@@ -1,5 +1,7 @@
 package com.tabibi.tabibi_system.Models;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+
 import java.util.Objects;
 
 @Entity
@@ -12,8 +14,10 @@ public class UserAcc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int uid;
     
+    @Email
     @Column(name = "email", nullable = false)
     private String email;
+    
     
     @Column(name = "pass", nullable = false)
     private String pass;

@@ -14,6 +14,7 @@ public class Clinic
     @Column(name = "Cid")
     private Long cid;
 
+    
     @Column(name = "cname")
     private String cname;
 
