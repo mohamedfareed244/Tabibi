@@ -21,6 +21,7 @@ import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -167,5 +168,11 @@ utp.setUsertype(type);
       ModelAndView mav = new ModelAndView("patients.html");
       return mav;
    }
-
+  @GetMapping("/navigation")
+public ModelAndView getnavigation(HttpSession session) {
+    ModelAndView mav = new ModelAndView("navigation.html");
+    
+    mav.addObject("email", (String) session.getAttribute("email"));
+    return mav;
+}
 }
