@@ -1,6 +1,8 @@
 package com.tabibi.tabibi_system.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.Objects;
 
 @Entity
@@ -14,12 +16,16 @@ public class Clinic
     @Column(name = "Cid")
     private Long cid;
 
-    
+    @NotEmpty(message = "Clinic name is Required")
     @Column(name = "cname")
     private String cname;
 
+
+    @NotEmpty(message = "Clinic Location is Required")
     @Column(name = "cloc")
     private String cloc;
+ 
+    @NotEmpty(message = "Clinic name is Required")
 
     @Column(name = "workhrs")
     private String workhrs;
@@ -27,6 +33,7 @@ public class Clinic
     @Column(name = "reviews")
     private String reviews;
 
+    @NotEmpty(message = "Clinic Number is Required")
     @Column(name = "cnumber")
     private String cnumber;
 

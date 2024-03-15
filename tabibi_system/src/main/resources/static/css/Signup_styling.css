@@ -15,7 +15,10 @@ body {
 }
 .error-message
 {
-  font-size: 20px;
+/* 
+  font-family: "Rubik", sans-serif;
+  font-style: italic;   */
+  font-size: 28px;
   color: red;
   
 
