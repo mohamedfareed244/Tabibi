@@ -16,8 +16,8 @@ public class UserAcc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int uid;
 
-    
- @NotNull
+    @Email
+    @NotBlank
     @Column(name = "email", nullable = false)
     private String email;
     

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 public class sup {
 
 @Valid
+@NotNull
     private UserAcc user;
 
     @Valid

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="/css/Login_styling.css">
     <link rel="stylesheet" href="../css/interface.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
@@ -20,34 +21,7 @@
         }
 
     </style>
-    <script>
-        function validateForm() {
-            // Reset error messages
-            document.getElementById("user-err").innerHTML = "";
-            document.getElementById("pass-err").innerHTML = "";
-            document.getElementById("login-error").innerHTML = "";
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
 
-            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-            if (!emailPattern.test(email)) {
-                document.getElementById("user-err").innerHTML = "Invalid email address.";
-                return false;
-            }
-
-            if (email === "") {
-                document.getElementById("user-err").innerHTML = " Email is required.";
-                isValid = false;
-            }
-            if (password === "") {
-                document.getElementById("pass-err").innerHTML = " Password is required.";
-                isValid = false;
-            }
-
-            return true;
-        }
-
-    </script>
 </head>
 
 <body>
@@ -55,26 +29,54 @@
         <div id="frm">
             <h1 id="wel">WELCOME</h1>
 
-            <form th:action="@{/User/Login}" th:object="${user}" method="POST" id="interface-form" name="form"
-                onsubmit="return validateForm()">
+
+            <form id="login-form" action="@{/User/Login}" method="POST" onsubmit="return validateLoginForm()">
                 <div id="fields">
                     <i class="fa fa-solid fa-user iicon"></i>
-
-                    <input class="login-field" type="text" th:field="*{email}" placeholder="Email" id="email" required>
+                    <input class="login-field" type="text" name="email" id="email" placeholder="Email">
                     <br>
+                    <span id="email-error" class="error-message"></span>
+                    
                     <i class="fa fa-solid fa-lock icon"></i>
-                    <input class="login-field" type="password" th:field="*{pass}" placeholder="Password" id="pass"
-                        required>
+                    <input class="login-field" type="password" name="pass" id="pass" placeholder="Password">
                     <br>
-                    <div id="login-error" style="color: red;"></div>
+                    <span id="pass-error" class="error-message"></span>
+                    
                     <input type="submit" name="submit" id="sb" class="login-field">
                 </div>
                 <div id="sgu">
-                    <a class="link" th:href="@{/User/signup}">Sign Up</a>
-
-                    <p> Not a member yet ? </p>
+                    <a class="link" href="/User/signup">Sign Up</a>
+                    <p> Not a member yet? </p>
                 </div>
             </form>
+            
+            <script>
+                function validateLoginForm() {
+                    var email = document.getElementById("email").value.trim();
+                    var pass = document.getElementById("pass").value.trim();
+                    var emailError = document.getElementById("email-error");
+                    var passError = document.getElementById("pass-error");
+                    var isValid = true;
+            
+                    // Clear previous error messages
+                    emailError.textContent = "";
+                    passError.textContent = "";
+            
+                    // Validate email
+                    if (email === "") {
+                        emailError.textContent = "Email is required";
+                        isValid = false;
+                    }
+            
+                    // Validate password
+                    if (pass === "") {
+                        passError.textContent = "Password is required";
+                        isValid = false;
+                    }
+            
+                    return isValid;
+                }
+            </script>
 
         </div>
 

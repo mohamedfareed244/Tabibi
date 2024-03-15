@@ -25,8 +25,7 @@ public class Clinic
     @Column(name = "cloc")
     private String cloc;
  
-    @NotEmpty(message = "Clinic name is Required")
-
+    // @NotEmpty(message = "Clinic hours")
     @Column(name = "workhrs")
     private String workhrs;
 

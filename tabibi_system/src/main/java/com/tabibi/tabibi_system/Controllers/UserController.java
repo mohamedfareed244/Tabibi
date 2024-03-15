@@ -88,11 +88,16 @@ public ModelAndView showSignupForm() {
     return mav;
 }
 
+public String hashpassword(String password)
+{
+    String encoddedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+    return encoddedPassword;
+}
 @PostMapping("/signup")
 public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  sup signupForm, BindingResult result, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
     UserAcc userAcc = signupForm.getUser(); 
      ModelAndView SignupModel=new ModelAndView("signup.html");
-    String encoddedPassword = BCrypt.hashpw(userAcc.getPass(), BCrypt.gensalt(12));
+    String encoddedPassword =hashpassword(userAcc.getPass());
     userAcc.setPass(encoddedPassword); 
     ModelAndView LoginModel=new ModelAndView("Login.html");
 
@@ -119,7 +124,10 @@ errorMessages.add("Password and confirm password doesn't match");
 else
 System.err.println("password match");
 
-
+if (userAcc.getPass().isEmpty())
+ {
+    errorMessages.add("Password is required");
+}
 
 
     switch (userType)
@@ -232,9 +240,10 @@ else
          mav.addObject("user", user);
          return mav;
      }
-     
+
      @PostMapping("/Login")
-     public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
+     public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) 
+     {
      
          UserAcc newUser = this.UserAccRepository.findByEmail(email);
          if (newUser != null) {
