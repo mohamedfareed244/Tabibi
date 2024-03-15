@@ -1,9 +1,19 @@
 package com.tabibi.tabibi_system.Models;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 public class sup {
+
+@Valid
     private UserAcc user;
+
+    @Valid
     private Patient patient;
+
+    @Valid
     private Clinic clinic;
+
+    @Valid
     private Doctor doctor;
 
     
@@ -13,6 +23,8 @@ public class sup {
 
     public void setClinic(Clinic clinic) {
         this.clinic = clinic;
+        this.patient=null;
+        this.doctor=null;
     }
 
 
@@ -29,6 +41,8 @@ public class sup {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+        this.clinic=null;
+        this.patient=null;
     }
 
     public Patient getPatient() {
@@ -37,5 +51,7 @@ public class sup {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+        this.doctor = null;
+        this.clinic = null;
     }
 }

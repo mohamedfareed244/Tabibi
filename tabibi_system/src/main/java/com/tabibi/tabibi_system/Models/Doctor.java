@@ -1,6 +1,8 @@
 package com.tabibi.tabibi_system.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.Objects;
 
 @Entity
@@ -14,18 +16,24 @@ public class Doctor  {
     @Column(name = "Did")
     private Long did;
 
+    @NotEmpty(message = "Doctor first name is Required")
+
     @Column(name = "firstname")
     private String firstname;
 
+    @NotEmpty(message = "Doctor Last name is Required")
     @Column(name = "lastname")
     private String lastname;
 
+    @NotEmpty(message = "Doctor Specialization  is Required")
     @Column(name = "specialization")
     private String specialization;
 
+    @NotEmpty(message = "Doctor Number is Required")
     @Column(name = "number")
     private String number;
 
+    @NotEmpty(message = "Doctor education is Required")
     @Column(name = "educ")
     private String educ;
 

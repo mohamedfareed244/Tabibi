@@ -1,6 +1,9 @@
 package com.tabibi.tabibi_system.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.Objects;
 
 @Entity
@@ -17,21 +20,28 @@ public class Patient {
     @Column(name = "Pid")
     private Long pid;
     
+    @NotBlank(message = "First Name is required")
     @Column(name = "firstname")
     private String firstname;
     
+    @NotBlank(message = "last Name is required")
     @Column(name = "lastname")
     private String lastname;
     
+
+    @NotBlank(message = "Age  is required")
     @Column(name = "age")
     private String age;
     
     @Column(name = "gender")
     private String gender;
     
+    @NotBlank(message = "Address  is required")
     @Column(name = "address")
     private String address;
     
+
+    @NotBlank(message = "Number is required")
     @Column(name = "number")
     private String number;
     

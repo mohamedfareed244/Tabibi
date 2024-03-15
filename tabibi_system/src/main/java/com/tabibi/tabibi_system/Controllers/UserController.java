@@ -1,6 +1,8 @@
 
 package com.tabibi.tabibi_system.Controllers;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,13 +22,18 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties.Http;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,33 +89,74 @@ public ModelAndView showSignupForm() {
 }
 
 @PostMapping("/signup")
-public RedirectView processSignupForm(@Valid sup sign_vali, BindingResult result, @ModelAttribute("signupForm")sup signupForm, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
-    UserAcc userAcc = signupForm.getUser();
-    sign_vali=signupForm;
+public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  sup signupForm, BindingResult result, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
+    UserAcc userAcc = signupForm.getUser(); 
+     ModelAndView SignupModel=new ModelAndView("signup.html");
     String encoddedPassword = BCrypt.hashpw(userAcc.getPass(), BCrypt.gensalt(12));
     userAcc.setPass(encoddedPassword); 
-    switch (userType)
-    {
-        case "patient":
-if (result.hasErrors()) 
+    ModelAndView LoginModel=new ModelAndView("Login.html");
+
+    // result.reject("", null, null);
+
+ List<String> errorMessages = new ArrayList<>();
+
+
+ UserAcc existingUser = UserAccRepository.findByEmail(userAcc.getEmail());
+ if (existingUser != null) 
+ {
+errorMessages.add("Email already exists. Please choose a different email.");
+ }
+//password length
+if (userAcc.getPass().length() < 8) {
+    errorMessages.add("Password must be at least 8 characters long.");
+}
+
+
+if(!BCrypt.checkpw(Confirm_pass, userAcc.getPass()))
 {
-    System.err.println("Stop error fel vali");
-    return new RedirectView("/User/Login");
+errorMessages.add("Password and confirm password doesn't match");
 }
 else
-{
+System.err.println("password match");
+
+
+
+
+    switch (userType)
+    {
+        
+        case "patient":
+
+        if (result.hasErrors()) 
+        {
+            System.err.println("fe error fe validations");
+                for (ObjectError error : result.getAllErrors()) 
+                {
+                errorMessages.add(error.getDefaultMessage());
+                }
+                // hot error messages to the model  
+                 SignupModel.addObject("errors", errorMessages);
+                 return SignupModel;
+        }
+            else
+            {
             userAcc.setUsertype(new UserTypes(4L));
             Patient patient = signupForm.getPatient();
             patient.setUserAcc(userAcc);
             this.UserAccRepository.save(userAcc);
             this.patientRepository.save(patient);
             break;
-}
+            }
         case "doctor":
         if (result.hasErrors()) 
 {
-    System.err.println("Stop error fel vali");
-    return new RedirectView("/User/Login");
+    for (ObjectError error : result.getAllErrors()) 
+    {
+    errorMessages.add(error.getDefaultMessage());
+    }
+    // hot error messages to the model  
+     SignupModel.addObject("errors", errorMessages);
+     return SignupModel;
 }
 else
 {
@@ -122,8 +170,13 @@ else
         case "clinic":
         if (result.hasErrors()) 
 {
-    System.err.println("Stop error fel vali");
-    return new RedirectView("/User/Login");
+    for (ObjectError error : result.getAllErrors()) 
+    {
+    errorMessages.add(error.getDefaultMessage());
+    }
+    // hot error messages to the model  
+     SignupModel.addObject("errors", errorMessages);
+     return SignupModel;
 }
 else
 {
@@ -139,8 +192,9 @@ else
             break;
     }
 
-    return new RedirectView("/User/Login");
+    return LoginModel;
 }
+
 
 
 
@@ -178,6 +232,7 @@ else
          mav.addObject("user", user);
          return mav;
      }
+     
      @PostMapping("/Login")
      public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
      
