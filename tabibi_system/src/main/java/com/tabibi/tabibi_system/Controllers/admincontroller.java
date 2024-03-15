@@ -8,13 +8,19 @@ import com.tabibi.tabibi_system.Models.Pages;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
+import com.tabibi.tabibi_system.Models.UserTypePages;
+// import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
+// import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -49,7 +55,11 @@ public class admincontroller {
 
    @Autowired
    PagesRepository pages_repo;
+   @Autowired
+   UserTypePagesRepository page_type_repo;
 
+   // @Autowired
+   // UserTypePagesRepository page_type_repo;
    @GetMapping("/admin-dashboard")
    public ModelAndView getadmin_dashboard() {
       ModelAndView mav = new ModelAndView("admindashboard.html");
@@ -72,17 +82,44 @@ public class admincontroller {
 
       return "added";
    }
+
    @GetMapping("/addpermission")
-   public ModelAndView addpermission(){
-      ModelAndView mav=new ModelAndView("addpermission.html");
-      UserTypes type=new UserTypes();
-      Pages page=new Pages();
-      mav.addObject("type",type );
-      mav.addObject("page", page);
+   public ModelAndView addpermission() {
+      ModelAndView mav = new ModelAndView("addpermission.html");
+      // UserTypes type=new UserTypes();
+      // Pages page=new Pages();
+      UserAcc user = new UserAcc();
+      List<UserTypes> typelist = this.user_type_repo.findAll();
+
+      List<Pages> pagelist = this.pages_repo.findAll();
+      mav.addObject("user", user);
+
+      mav.addObject("type", typelist);
+      mav.addObject("page", pagelist);
+      System.out.println("============================================ in get ");
+      System.out.println(user);
+      System.out.println(typelist);
+      System.out.println(pagelist);
       return mav;
    }
 
+   @PostMapping("/addpermission")
+   public String savePermissions(@RequestParam("usertype")String usertype,@RequestParam("chosenpage")List<String> chosenpages ) {
+      UserTypes type=this.user_type_repo.findByname(usertype);
+      for (String pagename : chosenpages) {
+      Pages p=this.pages_repo.findByname(pagename);
 
+      UserTypePages utp = new UserTypePages();
+utp.setPage(p);
+utp.setUsertype(type);
+      System.out.println("00000000000000000000000000000000e88392010============================");
+      System.out.println(utp);
+      System.out.println(usertype);
+
+      this.page_type_repo.save(utp);
+   }
+   return "granted";
+}
 
    @GetMapping("/settings")
    public ModelAndView account() {
