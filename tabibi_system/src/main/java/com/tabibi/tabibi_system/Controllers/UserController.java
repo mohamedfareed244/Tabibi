@@ -294,12 +294,7 @@ else
 
     
    
-   @GetMapping("/navigation")
-public ModelAndView getnavigation(HttpSession session) {
-    ModelAndView mav = new ModelAndView("navigation.html");
-    mav.addObject("email", (String) session.getAttribute("email"));
-    return mav;
-}
+ 
 
      
 
