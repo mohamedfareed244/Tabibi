@@ -253,7 +253,13 @@ else
                      session.setAttribute("number", patient.getNumber());
                      session.setAttribute("lastname", patient.getLastname());
                      session.setAttribute("uid", newUser.getUid());
+                     session.setAttribute("usertype", newUser.getUsertype().getName());
+                     session.setAttribute("usertypeID", newUser.getUsertype().getUtid());
                      System.out.println(session.getAttribute("email"));
+                     System.out.println(session.getAttribute("usertype"));
+                     System.out.println(session.getAttribute("usertypeID"));
+
+
 
          return new RedirectView("/User/patientHomepage");
         } else {
