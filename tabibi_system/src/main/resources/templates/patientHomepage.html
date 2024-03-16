@@ -142,7 +142,7 @@
 
 
 <body class="body">
-    <div th:include="/fragments/navigation.html">
+    <div th:insert="~{/fragments/navigation.html}">
 
     </div>
 
@@ -155,7 +155,7 @@
         <div class="target-vs-sales--container">
             <div class="section--title">
                 <div class="sales--value">
-                    <h3 class="uppercase-text">Welcome! <br>                         <span th:text="${firstname}"></span>
+                    <h3 class="uppercase-text">Welcome! <br> <span th:text="${firstname}"></span>
                     </h3>
 
                     <p>Lack knowledge about doctors? No issue, let's go straight to the

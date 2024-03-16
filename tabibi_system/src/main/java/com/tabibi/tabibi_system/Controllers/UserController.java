@@ -101,7 +101,6 @@ public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  sup
     userAcc.setPass(encoddedPassword); 
     ModelAndView LoginModel=new ModelAndView("Login.html");
 
-    // result.reject("", null, null);
 
  List<String> errorMessages = new ArrayList<>();
 
@@ -111,7 +110,6 @@ public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  sup
  {
 errorMessages.add("Email already exists. Please choose a different email.");
  }
-//password length
 if (userAcc.getPass().length() < 8) {
     errorMessages.add("Password must be at least 8 characters long.");
 }
@@ -142,7 +140,6 @@ if (userAcc.getPass().isEmpty())
                 {
                 errorMessages.add(error.getDefaultMessage());
                 }
-                // hot error messages to the model  
                  SignupModel.addObject("errors", errorMessages);
                  return SignupModel;
         }
@@ -162,7 +159,6 @@ if (userAcc.getPass().isEmpty())
     {
     errorMessages.add(error.getDefaultMessage());
     }
-    // hot error messages to the model  
      SignupModel.addObject("errors", errorMessages);
      return SignupModel;
 }
@@ -182,7 +178,6 @@ else
     {
     errorMessages.add(error.getDefaultMessage());
     }
-    // hot error messages to the model  
      SignupModel.addObject("errors", errorMessages);
      return SignupModel;
 }
@@ -251,6 +246,7 @@ else
              if (PasswordsMatch) {
                  if (newUser.getUsertype().getUtid() == 4) 
                  {
+  
                     Patient patient = this.patientRepository.findByUserAcc(newUser);
                      session.setAttribute("email", newUser.getEmail());
                      session.setAttribute("firstname", patient.getFirstname());
@@ -258,8 +254,9 @@ else
                      session.setAttribute("lastname", patient.getLastname());
                      session.setAttribute("uid", newUser.getUid());
                      System.out.println(session.getAttribute("email"));
-                     return new RedirectView("/User/patientHomepage");
-                 } else {
+
+         return new RedirectView("/User/patientHomepage");
+        } else {
                      return new RedirectView("/User/Login?error=incorrectPassword");
                  }
              } else {
