@@ -40,10 +40,13 @@ if(isset($_POST['submit'])){
 </head>
 
 <body>
-    <div th:insert="~{/fragments/navigation.html}">
-        
-    </div>
-    <div class="container" style="margin-top: -100px;">
+		<div class="container"   >
+		<div th:include="navigation.html">
+
+		</div>
+	
+			
+		
 	<form th:action="@{/Admin/addpermission}" method="POST" th:object="${user}">
         <table >
 			<tr>

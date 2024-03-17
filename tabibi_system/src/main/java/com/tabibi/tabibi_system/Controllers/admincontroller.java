@@ -44,8 +44,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/Admin")
 public class admincontroller {
 
-   @Autowired
-   PatientRepository patientrepo;
+  
 
    @Autowired
    DoctorRepository doctorrepo;
@@ -86,7 +85,7 @@ public class admincontroller {
    }
 
    @GetMapping("/addpermission")
-   public ModelAndView addpermission() {
+   public ModelAndView addpermission(HttpSession session) {
       ModelAndView mav = new ModelAndView("addpermission.html");
       // UserTypes type=new UserTypes();
       // Pages page=new Pages();
@@ -98,10 +97,14 @@ public class admincontroller {
 
       mav.addObject("type", typelist);
       mav.addObject("page", pagelist);
+      mav.addObject("usertypeID",session.getAttribute("usertypeID"));
+      mav.addObject("usertype",session.getAttribute("usertype"));
+      
       System.out.println("============================================ in get ");
       System.out.println(user);
       System.out.println(typelist);
       System.out.println(pagelist);
+      
       return mav;
    }
 
@@ -169,24 +172,53 @@ utp.setUsertype(type);
       ModelAndView mav = new ModelAndView("patients.html");
       return mav;
    }
+   
+   @GetMapping("/getdata")
+   public String getData(@RequestParam  String name) {
+       // Process the request with the "name" parameter
+       return "Received parameter: " + name;
+   }
    @GetMapping("/navigation")
    public ModelAndView getnavigation(HttpSession session) {
        ModelAndView mav = new ModelAndView("navigation.html");
    
    
        Long type=(Long) session.getAttribute("usertypeID");
-      
-       List<UserTypePages> pagelist=this.page_type_repo.findByupid(type);
-       mav.addObject("usertypeID",type);
        
-       mav.addObject("navtype", pagelist);
+       System.out.println(type);
+
+       List<UserTypePages> pagelist=this.page_type_repo.findByupid(type);
+       List<String> pageNames = new ArrayList<>();
+       List<String> pageLinks = new ArrayList<>();
+       List<String> pageClasses = new ArrayList<>();
+       List<String> pageIcons = new ArrayList<>();
+   
+       for(UserTypePages list:pagelist){
+         Pages page = list.getPage();
+
+      //   list.getPage().getName();
+      //   list.getPage().getLinkaddress();
+      //   list.getPage().getClassX();
+      //   list.getPage().getIcons();
+      pageNames.add(page.getName());
+      pageLinks.add(page.getLinkaddress());
+      pageClasses.add(page.getClassX());
+      pageIcons.add(page.getIcons());
+
+      //     Pages page=this.pages_repo.FindBypgid(list.getPage());
+        }
+       
+
+
+
+
+       mav.addObject("usertypeID",session.getAttribute("usertypeID"));
+       mav.addObject("usertype",session.getAttribute("usertype"));
+       mav.addObject("pageNames", pageNames); // Add page names to the model
+    mav.addObject("pageLinks", pageLinks); // Add page links to the model
+    mav.addObject("pageClasses", pageClasses); // Add page classes to the model
+    mav.addObject("pageIcons", pageIcons); // Add page icon
    
        return mav;
    }
-   @GetMapping("/getdata")
-   public String getData(@RequestParam  String name) {
-       // Process the request with the "name" parameter
-       return "Received parameter: " + name;
-   }
-       
 }
