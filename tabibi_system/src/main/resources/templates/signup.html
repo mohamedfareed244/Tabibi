@@ -59,6 +59,35 @@ function disableFields(disable, container) {
         input.disabled = disable;
     });
 }
+
+function validateForm() {
+        var email = document.getElementById('email').value.trim();
+        var password = document.getElementById('password').value.trim();
+        var emailError = document.getElementById("error-email");
+        var passError = document.getElementById("error-pass");
+        var isValid = true;
+
+        // bn3mel Validate email
+        if (!email) {
+        
+            emailError.textContent = "Email is required";
+            isValid=false;
+            return false;
+        }
+
+        // bn3mel Validate password
+        if (password.length < 6) {
+            passError.textContent = "password cannot be less that 6 characters";
+            isValid=false;
+            return false; 
+        }
+
+        if(!isValid)
+        {
+            event.preventDefault();
+        }
+        return isValid;
+    }
 </script>
 
 </head>
@@ -74,7 +103,7 @@ function disableFields(disable, container) {
 
 
 
-                <form th:action="@{/User/signup}"  th:object="${signupForm}" method="post" enctype="multipart/form-data" >
+                <form th:action="@{/User/signup}"  th:object="${signupForm}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()" >
                     <div class="form-group">
                         <label for="userType">User Type:</label>
                         <select class="form-control" id="userType" name="userType" onchange="toggleFields();">
@@ -179,16 +208,19 @@ function disableFields(disable, container) {
                         <label for="email">Email:</label>
                         <input type="text" class="form-control" id="email" th:field="*{user.email}" placeholder="Email Address" >
                         <span th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}" class="error-message"></span>
+                        <span id="error-email" class="error-message"> </span>
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
                         <input type="password" class="form-control" id="password" th:field="*{user.pass}" placeholder="Password" >
                         <span th:if="${#fields.hasErrors('user.pass')}" th:errors="*{user.pass}" class="error-message"></span>
+                         <span id="error-pass" class="error-message"> </span>
                     </div>
 
                     <div class="form-group">
                         <label for="cpassword">Confirm password:</label>
                         <input type="password" class="form-control" id="cpassword" placeholder="Confirm Password" name="cpassword" >
+                       
                         
                     </div>
      
