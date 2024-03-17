@@ -76,7 +76,7 @@ public class UserController {
 
 @GetMapping("")
 public ModelAndView getlanding() {
-    ModelAndView mav = new ModelAndView("LandingPage.html");
+    ModelAndView mav = new ModelAndView("landingPage.html");
     return mav;
 }
 
@@ -103,7 +103,7 @@ public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  Sig
      ModelAndView SignupModel=new ModelAndView("signup.html");
     String encoddedPassword =hashpassword(userAcc.getPass());
     userAcc.setPass(encoddedPassword); 
-    ModelAndView LoginModel=new ModelAndView("Login.html");
+    ModelAndView LoginModel=new ModelAndView("login.html");
 
 
  List<String> errorMessages = new ArrayList<>();
@@ -234,52 +234,59 @@ else
      @GetMapping("/Login")
      public ModelAndView Login()
      {
-         ModelAndView mav=new ModelAndView("Login.html"); 
+         ModelAndView mav=new ModelAndView("login.html"); 
          UserAcc user=new UserAcc();
          mav.addObject("user", user);
          return mav;
      }
 
      @PostMapping("/Login")
-     public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) 
-     {
-     
+     public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
          UserAcc newUser = this.UserAccRepository.findByEmail(email);
          if (newUser != null) {
              Boolean PasswordsMatch = BCrypt.checkpw(pass, newUser.getPass());
              if (PasswordsMatch) {
-                 if (newUser.getUsertype().getUtid() == 4) 
-                 {
-  
-                    Patient patient = this.patientRepository.findByUserAcc(newUser);
-                     session.setAttribute("email", newUser.getEmail());
+                 session.setAttribute("email", newUser.getEmail());
+                 session.setAttribute("uid", newUser.getUid());
+                 session.setAttribute("usertype", newUser.getUsertype().getName());
+                 session.setAttribute("usertypeID", newUser.getUsertype().getUtid());
+     
+                 if (newUser.getUsertype().getUtid() == 4) {
+                     Patient patient = this.patientRepository.findByUserAcc(newUser);
                      session.setAttribute("firstname", patient.getFirstname());
                      session.setAttribute("number", patient.getNumber());
                      session.setAttribute("lastname", patient.getLastname());
-                     session.setAttribute("uid", newUser.getUid());
-                     session.setAttribute("usertype", newUser.getUsertype().getName());
-                     session.setAttribute("usertypeID", newUser.getUsertype().getUtid());
-
-
-
-
-         return new RedirectView("/User/patientHomepage");
-        } else {
-                     return new RedirectView("/User/Login?error=incorrectPassword");
+                     return new RedirectView("/User/patientHomepage");
+                 } else if (newUser.getUsertype().getUtid() == 2) {
+                     Clinic clinic = this.clinicRepository.findByUserAcc(newUser);
+                     session.setAttribute("firstname", clinic.getCname());
+                     session.setAttribute("Location", clinic.getCloc());
+                     session.setAttribute("number", clinic.getCnumber());
+                     return new RedirectView("/User/clinicHomepage");
                  }
              } else {
                  return new RedirectView("/User/Login?error=incorrectPassword");
              }
-         } else {
-             return new RedirectView("/User/Login?error=userNotFound");
          }
+         return new RedirectView("/User/Login?error=userNotFound");
      }
+     
+     
      
 
      @GetMapping("patientHomepage")
      public ModelAndView GetIndex(HttpSession session)
      {
         ModelAndView mav=new ModelAndView("patientHomepage.html");
+        mav.addObject("email",(String) session.getAttribute("email"));
+        mav.addObject("firstname",(String) session.getAttribute("firstname"));
+        return mav;
+     }
+
+     @GetMapping("clinicHomepage")
+     public ModelAndView getClinicPage(HttpSession session)
+     {
+        ModelAndView mav=new ModelAndView("ClinicHomePage.html");
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;

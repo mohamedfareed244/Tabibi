@@ -15,6 +15,11 @@ public interface PatientRepository extends JpaRepository<Patient,Long>
     Patient  findByUserAcc(UserAcc userAcc);
 
     // @Query("SELECT * FROM patient e WHERE WHERE CONCAT(firstName, ' ', lastName) LIKE %:substring%")
+<<<<<<< HEAD
+=======
+    // @Query("SELECT e FROM patient e WHERE CONCAT(firstName, ' ', lastName) LIKE :substring" );
+>>>>>>> 89ba6af206e1d3aa21bef41ecb7698762fc2c677
     // List<Patient> findBySubstring(String substring);
     
 }
+

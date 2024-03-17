@@ -125,7 +125,7 @@ utp.setUsertype(type);
 
    @GetMapping("/settings")
    public ModelAndView account() {
-      ModelAndView mav = new ModelAndView("Profile.html");
+      ModelAndView mav = new ModelAndView("profile.html");
       return mav;
    }
 

@@ -70,13 +70,17 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
 </style>
 
 <body>
-    <div th:include="/fragments/navigation.html">
+    <div th:include="navigation.html">
 
     </div>
     <div class="container ">
         <h1>Edit Profile</h1>
+<<<<<<< HEAD
 
         <form id="userForm" action="" method="post" onsubmit="return Validation()">
+=======
+        <form th:action="@{/patient/EditProfile}" method="post">
+>>>>>>> 89ba6af206e1d3aa21bef41ecb7698762fc2c677
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="text" class="form-control" id="email" name="email" th:value>
