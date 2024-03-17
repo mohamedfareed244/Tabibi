@@ -6,68 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/Editprofile_Styling.css">
 
     <script>
-function Validation(){
-document.getElementById('userForm').addEventListener('submit', function(event) {
+    function Validation() {
         var email = document.getElementById('email').value.trim();
         var firstname = document.getElementById('firstname').value.trim();
         var lastname = document.getElementById('lastname').value.trim();
         var number = document.getElementById('number').value.trim();
-        var isValid = true;
+        
+        var emailerror=document.getElementById("email-error");
+        var firstnameerror=document.getElementById("firstname-error");
+        var lastnameerror=document.getElementById("lastname-error");
+        var numbererror=document.getElementById("number-error");
 
-        // Validation for email
-        if (!email) {
-            document.getElementById('email-error').innerHTML = 'Email is required';
-            isValid = false;
-        } else {
-            document.getElementById('email-error').innerHTML = '';
+        if( number === '')
+        {
+             numbererror.textContent="Number is required";
+             return false;
         }
+       
 
-        // Validation for first name
-        if (!firstname) {
-            document.getElementById('fname-error').innerHTML = 'First Name is required';
-            isValid = false;
-        } else {
-            document.getElementById('fname-error').innerHTML = '';
+        if(lastname === '' )
+        {
+              lastnameerror.textContent="last name is required"; 
+              return false;
         }
+     
+       
+        if(firstname === ''){
+              firstnameerror.textContent="first name is required";
+              return false;
+        }
+      
 
-        // Validation for last name
-        if (!lastname) {
-            document.getElementById('lname-error').innerHTML = 'Last Name is required';
-            isValid = false;
-        } else {
-            document.getElementById('lname-error').innerHTML = '';
+        if(email === '')
+        {
+              emailerror.textContent="email is required ";
+              return false;
         }
+      
 
-        // Validation for phone number
-        if (!number) {
-            document.getElementById('phone-error').innerHTML = 'Phone is required';
-            isValid = false;
-        } else {
-            document.getElementById('phone-error').innerHTML = '';
-        }
 
-        if (!isValid) {
-            event.preventDefault(); // Prevent form submission if validation fails
-        }
-    });
-}
+        // Check if any field is blank
+        // if (email === '' || firstname === '' || lastname === '' || number === '') {
+        //     alert('Please fill in all fields');
+        //     return false; // Prevent form submission
+        // }
+
+        return true; // Allow form submission if all fields are filled
+    }
     </script>
 </head>
-
-<style>
-    .container {
-        padding-left: 250px;
-    }
-
-    body {
-        background-color: white;
-        margin: 0;
-        padding: 0;
-
-    }
-</style>
 
 <body>
     <div th:include="navigation.html">
@@ -79,23 +69,23 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
         <form id="userForm" th:action="@{/patient/EditProfile}"  method="post" onsubmit="return Validation()">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" name="email" th:value>
-                <div class="error-message" id="email-error"></div>
+                <input type="text" class="form-control" id="email" name="email" th:value="${email}" >
+                <span class="error-message" id="email-error"></span>
             </div>
             <div class="form-group">
                 <label for="firstname">First Name</label>
-                <input type="text" class="form-control" id="firstname" name="firstname" th:value="${firstname}">
-                <div class="error-message" id="fname-error"></div>
+                <input type="text" class="form-control" id="firstname" name="firstname" th:value="${firstname}" >
+                <span class="error-message" id="firstname-error"></span>
             </div>
             <div class="form-group">
                 <label for="lastname">Last Name</label>
                 <input type="text" class="form-control" id="lastname" name="lastname" th:value="${lastname}">
-                <div class="error-message" id="lname-error"></div>
+                <span class="error-message" id="lastname-error"></span>
             </div>
             <div class="form-group">
                 <label for="number">Phone</label>
-                <input type="tel" class="form-control" id="number" name="number" th:value="${number}">
-                <div class="error-message" id="phone-error"></div>
+                <input type="tel" class="form-control" id="number" name="number" th:value="${number}" >
+                <span class="error-message" id="number-error"></span>
             </div>
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>

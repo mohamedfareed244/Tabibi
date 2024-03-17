@@ -76,6 +76,13 @@ function validateForm() {
         }
 
         // bn3mel Validate password
+        if(password==="")
+        {
+         passError.textContent="password can't be empty "
+         isValid=false;
+         return false;
+         
+        }
         if (password.length < 6) {
             passError.textContent = "password cannot be less that 6 characters";
             isValid=false;
