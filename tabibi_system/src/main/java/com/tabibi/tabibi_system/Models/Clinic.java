@@ -3,7 +3,9 @@ package com.tabibi.tabibi_system.Models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 
@@ -40,6 +42,8 @@ public class Clinic
     @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
     private UserAcc userAcc;
 
+    @Transient
+    private Appointment appointment;
 
     public Clinic() {
     }

@@ -8,11 +8,82 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <title>Tabeeby</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="stylesheet" href="../css/admin.css">
 
 </head>
 
 <body >
-    <div th:include="~{navigation.html}">
+    <!-- <div th:include="~{navigation.html}"> -->
+
+
+
+      
+            
+            <div  th:fragment="navigation">
+            <section class="header">
+                <div class="logo">
+                    <i class="ri-menu-line menu"></i>
+                    <h2><span>Ta</span>BeeBy</h2>
+                </div>
+                <div class="header--items"> 
+                <div class="dark--theme--btn">
+                    <i class="ri-notification-2-line"></i>
+                    <span th:text="${#dates.format(#dates.createNow(), 'MMMM d, yyyy')}"></span>
+                    </div>
+         
+            </section>
+            
+            <section class="main">
+                <div class="sidebar">
+                    <ul class="sidebar--items">
+                <div class="profile-box">
+                
+                        <span > <div class="header--items">
+                            <div class="dark--theme--btn">
+                                <i class="ri-notification-2-line"></i>
+                               <span th:text="${email}"></span>
+                            </div>
+                        </div> </span> 
+                        
+                    </div>
+        
+        
+     
+                    <span th:text="${usertype}"></span>
+                    <a class="active" href="" ></a>
+                    <!-- <input type="text" th:value="${usertypeID}">
+                    <th:block th:each="page : ${navtype}"> -->
+                        <!-- <li>
+                            <a th:href="@{${page.linkaddress}}" th:class="${page.classX}">
+                                <span class="icon" th:text="${page.icons}"></span>
+                                <div class="sidebar--item" th:text="${page.name}"></div>
+                            </a>
+                        </li>
+                    </th:block> -->
+        <li>
+            
+                <a th:href="@{/appointments/add}"> add Appointment </a>
+                <a th:href="@{/appointments/view}"> view Appointment </a>
+            
+            
+        </li>
+            
+            
+            </div>
+        
+        
+        
+        </div>
+        
+
+
+
+
+
 
     </div>
 
@@ -113,4 +184,36 @@
     <script src="assets/js/customers.js"></script>
     <script src="assets/js/tarsale.js"></script>
 </body>
+<style>
+       .profile-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .profile-box img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        
+        .profile-box span {
+            font-weight: 600;
+        }
+        
+        .sidebar--items {
+            margin-top: 22px;
+        }
+        
+        li {
+            padding-top: 10px;
+        }
+        .uppercase-text {
+                text-transform: uppercase;
+            }
+</style>
 </html>

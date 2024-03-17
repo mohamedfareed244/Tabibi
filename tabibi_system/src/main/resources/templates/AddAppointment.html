@@ -3,40 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/appointmentForm.css">
+    <!-- <link rel="stylesheet" href="../css/appointmentForm.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="stylesheet" href="../css/admin.css">
 
     <title>add appointments</title>
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        } */
+
+        .add {
+            margin: 20px;
+        }
+
+        form {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            top:-650px;
+        }
+
+        form input,
+        form select,
+        form button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+        form button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <form th:action="@{/appointments/add}" method="post" th:object="${appointment}">
-        
-        <input type="date" th:field="*{date}" placeholder="enter appointment's date">
-      
-        <input type="text" th:field="*{time}" placeholder="enter appointment's time">
-        
-        <input type="text" th:field="*{price}" placeholder="enter appointment's price">
-        
-       
-
-        
-        select status
-        <select th:field="*{status}">
-            <option value="available">available</option>
-            <option value="reserved">reserved</option>
-        </select>
-       
-       select clinic
-        <select th:field="*{clinic.cid}">
-            <option th:each="x : ${clinics}" th:value="${x.cid}" th:text="${x.cname}"></option>
-        </select>
-       
-      select doctor
-        <select th:field="*{doctor.did}">
-            <option th:each="y : ${doctors}" th:value="${y.did}" th:text="${y.firstname + ' ' + y.lastname}"></option>
-        </select>
-     
-
-        <button type="submit">Submit</button>
-    </form>
+    <div class="navvv">
+        <div th:fragment="navigation">
+            <section class="header">
+                <div class="logo">
+                    <i class="ri-menu-line menu"></i>
+                    <h2><span>Ta</span>BeeBy</h2>
+                </div>
+                <div class="header--items">
+                    <div class="dark--theme--btn">
+                        <i class="ri-notification-2-line"></i>
+                        <span th:text="${#dates.format(#dates.createNow(), 'MMMM d, yyyy')}"></span>
+                    </div>
+                </div>
+            </section>
+            <section class="main">
+                <div class="sidebar">
+                    <ul class="sidebar--items">
+                        <div class="profile-box">
+                            <span>
+                                <div class="header--items">
+                                    <div class="dark--theme--btn">
+                                        <i class="ri-notification-2-line"></i>
+                                        <span th:text="${email}"></span>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <span th:text="${usertype}"></span>
+                        <a class="active" href=""></a>
+                        <li>
+                            <a th:href="@{/appointments/add}"> add Appointment </a>
+                            <a th:href="@{/appointments/view}"> view Appointment </a>
+                            <a th:href="@{/User/clinicHomepage}"> home </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="add">
+        <form th:action="@{/appointments/add}" method="post" th:object="${appointment}">
+            <input type="date" th:field="*{date}" placeholder="enter appointment's date">
+            <input type="text" th:field="*{time}" placeholder="enter appointment's time">
+            <input type="text" th:field="*{price}" placeholder="enter appointment's price">
+            select status
+            <select th:field="*{status}">
+                <option value="available">available</option>
+                <option value="reserved">reserved</option>
+            </select>
+            select clinic
+            <select th:field="*{clinic.cid}">
+                <option th:each="x : ${clinics}" th:value="${x.cid}" th:text="${x.cname}"></option>
+            </select>
+            select doctor
+            <select th:field="*{doctor.did}">
+                <option th:each="y : ${doctors}" th:value="${y.did}" th:text="${y.firstname + ' ' + y.lastname}"></option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>
