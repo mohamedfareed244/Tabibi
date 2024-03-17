@@ -102,46 +102,7 @@ public class PatientController {
          return new RedirectView("/patient/Profile"); 
      }
 
-     @GetMapping("/getdata")
-     public String getData(@RequestParam  String name) {
-        List<Patient> mylist=this.patientRepository.findByfirstname(name);
-        if(mylist.size()==0){
-           return "no patients fonded ";
-        }else{
-           String data="";
-           for(int i=0;i<mylist.size();i++){
-              Patient patient=mylist.get(i);
-         data+="<tr onclick='edit(";
-         data+=(patient.getPid()+")'>");
-         data+="<td>";
-  data+=(patient.getPid());
-  data+="</td>";
-  data+="<td>";
-  data+=(patient.getFirstname());
-  data+="</td>";
-  data+="<td>";
-  data+=(patient.getLastname());
-  data+="</td>";
-  data+="<td>";
-  data+=(patient.getNumber());
-  data+="</td> </tr>";
-  
-           }
-           return data;
-        }
-      
-     }
-     @GetMapping("/info")
-     public ModelAndView getinfopage(@RequestParam Long id ,HttpSession session){
-        
-        Patient patient=this.patientRepository.findBypid(id);
-        session.setAttribute("editPid", id);
-        session.setAttribute("editAge", patient.getAge());
-        session.setAttribute("editAddress",patient.getAddress());
-ModelAndView mav=new ModelAndView("patientinfo.html");
-mav.addObject("patient", patient);
-return mav;
-     }
+    
      @PostMapping("/edit")
      public RedirectView editpatient(@ModelAttribute Patient patient,HttpSession session){
         patient.setAge( (String)session.getAttribute("editAge"));

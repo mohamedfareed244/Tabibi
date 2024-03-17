@@ -168,11 +168,7 @@ utp.setUsertype(type);
    // return "added";
 
    // }
-   @GetMapping("/patients")
-   public ModelAndView getpatientspage() {
-      ModelAndView mav = new ModelAndView("patients.html");
-      return mav;
-   }
+  
    @GetMapping("/search")
    public ModelAndView getsearch() {
       ModelAndView mav = new ModelAndView("search_and_delete.html");
