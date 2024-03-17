@@ -18,6 +18,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
   <script src="/js/signup.js"></script>
 <script>
+    
 function toggleFields() {
     var userTypeSelect = document.getElementById("userType");
     var doctorFields = document.getElementById("doctor-fields");
@@ -60,7 +61,11 @@ function disableFields(disable, container) {
     });
 }
 
-function validateForm() {
+
+
+
+function validateForm()
+ {
         var email = document.getElementById('email').value.trim();
         var password = document.getElementById('password').value.trim();
         var emailError = document.getElementById("error-email");

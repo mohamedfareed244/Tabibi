@@ -15,8 +15,7 @@
     <h1 id="user_search_word">User Search</h1>
     <div class="search-box">
         <button class="btn-search"><i class="fas fa-search"></i></button>
-        <form action="/User/search" method="GET">
-            
+        <form action="@{/User/search}" method="GET">
             <input type="text" name="name" class="input-search"  placeholder="Enter name to search">
             <button type="submit">Search</button>
         </form>
@@ -25,14 +24,17 @@
 <table class="table">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">specialization</th>
+
       </tr>
     </thead>
     <tbody>
-          <tr th:each="user : ${users}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.name}"></td>
+          <tr th:each="user : ${doctors}">
+            <td th:text="${user.firstname}"></td>
+            <td th:text="${user.lastname}"></td>
+            <td th:text="${user.specialization}"></td>
         </tr>
     </tbody>
   </table>

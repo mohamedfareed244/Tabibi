@@ -142,8 +142,46 @@
 
 
 <body class="body">
-    <div th:include="~{navigation.html}">
+    <div class="navvv">
+        <div th:fragment="navigation">
+            <section class="header">
+                <div class="logo">
+                    <i class="ri-menu-line menu"></i>
+                    <h2><span>Ta</span>BeeBy</h2>
+                </div>
+                <div class="header--items">
+                    <div class="dark--theme--btn">
+                        <i class="ri-notification-2-line"></i>
+                        <span th:text="${#dates.format(#dates.createNow(), 'MMMM d, yyyy')}"></span>
+                    </div>
+                </div>
+            </section>
+            <section class="main">
+                <div class="sidebar">
+                    <ul class="sidebar--items">
+                        <div class="profile-box">
+                            <span>
+                                <div class="header--items">
+                                    <div class="dark--theme--btn">
+                                        <i class="ri-notification-2-line"></i>
+                                        <span th:text="${email}"></span> 
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <a class="active" href=""></a>
+                        <li>
+                            <a th:href="@{/User/patientHomepage}"> HOME </a>
+                            <a th:href="@{/patient/accountSettings}"> Account Settings </a>
+                            <a th:href="@{/patient/Profile}"> Profile </a>
+                            <a th:href="@{/User/logout}"> LOGOUT </a>
 
+
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
     </div>
 
     <div class="main--container">
@@ -160,20 +198,22 @@
 
                     <p>Lack knowledge about doctors? No issue, let's go straight to the
 
-                        <a href="#" class="non-style-link"><b>"All Doctors"</b></a> or
+                        <a href="search.html" class="non-style-link"><b>"All Doctors"</b></a> or
                         <a href="#" class="non-style-link"><b>"Sessions"</b> </a>sections<br>
                         Track your past and future appointments history.<br>Also find out the expected arrival time of
                         your doctor or medical consultant.<br><br>
                     </p>
             
                     <h3>Channel a Doctor Here</h3>
-                    <form action="schedule.php" method="post" style="display: flex">
 
+
+                        <form action="/User/search" method="GET">
+                      
                         <input type="search" name="search" class="input-text "
-                            placeholder="Search Doctor and We will Find The Session Available" list="doctors"
-                            style="width:45%;">&nbsp;&nbsp;
+                            placeholder="Search Doctor and We will Find The Session Available" 
+                            style="width:45%;">;
                             <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-
+  </form>
                 </div>
             </div>
             <div class="target--vs--sales">

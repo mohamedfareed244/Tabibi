@@ -62,7 +62,6 @@ public class UserController {
     UserTypePagesRepository page_type_repo;
  
 
-
     public UserController() {
     }
 
@@ -90,18 +89,6 @@ public class UserController {
     }
    
 
-
-// @GetMapping("/signup")
-// public ModelAndView showSignupForm() {
-//     ModelAndView mav = new ModelAndView("signup.html");
-//     sup signupForm = new sup();
-//     signupForm.setUser(new UserAcc());
-//     signupForm.setPatient(new Patient());
-//     signupForm.setDoctor(new Doctor());
-//     signupForm.setClinic(new Clinic());
-//     mav.addObject("signupForm", signupForm);
-//     return mav;
-// }
 
 @GetMapping("")
 public ModelAndView getlanding() {
@@ -143,7 +130,9 @@ public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  Sig
  {
 errorMessages.add("Email already exists. Please choose a different email.");
  }
-if (userAcc.getPass().length() < 8) {
+
+if (userAcc.getPass().length() < 8) 
+{
     errorMessages.add("Password must be at least 8 characters long.");
 }
 
@@ -216,6 +205,7 @@ else
 }
 else
 {
+
         userAcc.setUsertype(new UserTypes(2L));
         Clinic clinic=signupForm.getClinic();
         clinic.setUserAcc(userAcc);
@@ -230,25 +220,6 @@ else
 
     return LoginModel;
 }
-
-
-
-
-
-    // @PostMapping("/signup")
-    // public String saveUser(@ModelAttribute("patient") Patient patient)
-    //  {
-    // System.err.println("bada2 ysave");
-    // UserAcc currAcc=new UserAcc();
-    // currAcc=patient.getUserAcc();
-    //  String encoddedPassword=BCrypt.hashpw(currAcc.getPass(), BCrypt.gensalt(12)) ;
-    //   currAcc.setPass(encoddedPassword);
-    //   currAcc.setImage("testimage");
-    //   currAcc.setUid(1);
-    //   System.err.println("password coded ");
-    //   this.patientRepository.save(patient);
-    //   return "Added ya basha to DataBase";
-    //  }
 
 
     @GetMapping("/AllUsers")
@@ -303,6 +274,13 @@ public String passtest(@RequestParam("pass") String pass) {
                      session.setAttribute("number", clinic.getCnumber());
                      return new RedirectView("/User/clinicHomepage");
                  }
+                 else if (newUser.getUsertype().getUtid() == 3) {
+                    Doctor doctor = this.doctorRepository.findByUserAcc(newUser);
+                    session.setAttribute("firstname", doctor.getFirstname());
+                    session.setAttribute("Location", doctor.getLastname());
+                    session.setAttribute("number", doctor.getNumber());
+                    return new RedirectView("/User/DoctorHomePage");
+                }         
              } else {
                  return new RedirectView("/User/Login?error=incorrectPassword"+email);
              }
@@ -330,6 +308,14 @@ public String passtest(@RequestParam("pass") String pass) {
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;
      }
+     @GetMapping("DoctorHomePage")
+     public ModelAndView getDoctorPage(HttpSession session)
+     {
+        ModelAndView mav=new ModelAndView("DoctorHomePage.html");
+        mav.addObject("email",(String) session.getAttribute("email"));
+        mav.addObject("firstname",(String) session.getAttribute("firstname"));
+        return mav;
+     }
     
      @GetMapping("patients")
      public ModelAndView Getpatients()
@@ -338,27 +324,36 @@ public String passtest(@RequestParam("pass") String pass) {
         return mav;
      }
          
-     
-     
+     @GetMapping("/logout")
+public RedirectView logout(HttpSession session) {
+    session.invalidate(); 
+    return new RedirectView("/User/Login");
+}
+
 
      
 
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam("search") String name, Model model) {
+    List<Doctor> Doctors=doctorRepository.findByspecialization(name); 
+       ModelAndView mag=new ModelAndView("searchResult.html");
+        model.addAttribute("doctors", Doctors);
+      return mag;
+    }
 
-    // @GetMapping("/search")
-    // public ModelAndView search(@RequestParam("name") String name, Model model) {
-    //   List<User> users = UserRepository.findByName(name); 
-    //    ModelAndView mag=new ModelAndView("searchResult.html");
-    //     model.addAttribute("users", users);
-    //   return mag;
-    // }
-  
-   
-    
+    @PostMapping("/search")
+    public ModelAndView searchresult(@RequestParam("name") String name, Model model) {
+    List<Doctor> Doctors=doctorRepository.findByspecialization(name); 
+       ModelAndView mag=new ModelAndView("searchResult.html");
+        model.addAttribute("doctors", Doctors);
+      return mag;
+    }
 
-     
+
 
    @GetMapping("/footer")
-   public ModelAndView getfooter() {
+   public ModelAndView getfooter()
+    {
     ModelAndView mav=new ModelAndView("footer.html");
        return mav;
    }
