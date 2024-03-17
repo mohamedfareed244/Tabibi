@@ -6,6 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script>
+function Validation(){
+document.getElementById('userForm').addEventListener('submit', function(event) {
+        var email = document.getElementById('email').value.trim();
+        var firstname = document.getElementById('firstname').value.trim();
+        var lastname = document.getElementById('lastname').value.trim();
+        var number = document.getElementById('number').value.trim();
+        var isValid = true;
+
+        // Validation for email
+        if (!email) {
+            document.getElementById('email-error').innerHTML = 'Email is required';
+            isValid = false;
+        } else {
+            document.getElementById('email-error').innerHTML = '';
+        }
+
+        // Validation for first name
+        if (!firstname) {
+            document.getElementById('fname-error').innerHTML = 'First Name is required';
+            isValid = false;
+        } else {
+            document.getElementById('fname-error').innerHTML = '';
+        }
+
+        // Validation for last name
+        if (!lastname) {
+            document.getElementById('lname-error').innerHTML = 'Last Name is required';
+            isValid = false;
+        } else {
+            document.getElementById('lname-error').innerHTML = '';
+        }
+
+        // Validation for phone number
+        if (!number) {
+            document.getElementById('phone-error').innerHTML = 'Phone is required';
+            isValid = false;
+        } else {
+            document.getElementById('phone-error').innerHTML = '';
+        }
+
+        if (!isValid) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+}
+    </script>
 </head>
 
 <style>
@@ -27,10 +75,11 @@
     </div>
     <div class="container ">
         <h1>Edit Profile</h1>
-        <form th:action="@{/patient/EditProfile}" method="post">
+
+        <form id="userForm" th:action="@{/patient/EditProfile}"  method="post" onsubmit="return Validation()">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" name="email" th:value="${email}">
+                <input type="text" class="form-control" id="email" name="email" th:value>
                 <div class="error-message" id="email-error"></div>
             </div>
             <div class="form-group">
@@ -48,7 +97,6 @@
                 <input type="tel" class="form-control" id="number" name="number" th:value="${number}">
                 <div class="error-message" id="phone-error"></div>
             </div>
-
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
     </div>
