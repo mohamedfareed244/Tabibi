@@ -286,7 +286,7 @@ else
      @GetMapping("clinicHomepage")
      public ModelAndView getClinicPage(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("admin.html");
+        ModelAndView mav=new ModelAndView("ClinicHomePage.html");
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;
