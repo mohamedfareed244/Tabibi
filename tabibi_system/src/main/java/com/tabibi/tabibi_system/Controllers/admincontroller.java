@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.usertype.UserType;
@@ -168,11 +169,19 @@ utp.setUsertype(type);
       ModelAndView mav = new ModelAndView("patients.html");
       return mav;
    }
-  @GetMapping("/navigation")
-public ModelAndView getnavigation(HttpSession session) {
-    ModelAndView mav = new ModelAndView("navigation.html");
-    
-    mav.addObject("email", (String) session.getAttribute("email"));
-    return mav;
-}
+   @GetMapping("/navigation")
+   public ModelAndView getnavigation(HttpSession session) {
+       ModelAndView mav = new ModelAndView("navigation.html");
+   
+   
+       int type=(Integer) session.getAttribute("usertypeID");
+      
+       List<UserTypePages> pagelist=this.page_type_repo.findByupid(type);
+       mav.addObject("usertypeID",type);
+       
+       mav.addObject("navtype", pagelist);
+   
+       return mav;
+   }
+       
 }

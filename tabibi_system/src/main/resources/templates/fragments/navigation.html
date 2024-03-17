@@ -74,7 +74,7 @@ li {
                 <span > <div class="header--items">
                     <div class="dark--theme--btn">
                         <i class="ri-notification-2-line"></i>
-                        <span th:text="${email}"></span>
+                       <!-- <span th:text="${session.email}"></span> -->
                     </div>
                 </div> </span> 
                 
@@ -99,9 +99,18 @@ li {
                 </a>
                 
             </li> -->
-              <a class="active" href="">overview</a>
-            
-        <!-- } -->
+            <span th:value="${usertypeID}"></span>
+            <a class="active" href="" ></a>
+            <input type="text" th:value="${usertypeID}">
+            <th:block th:each="page : ${navtype}">
+                <li>
+                    <a th:href="@{${page.linkaddress}}" th:class="${page.classX}">
+                        <span class="icon" th:text="${page.icons}"></span>
+                        <div class="sidebar--item" th:text="${page.name}"></div>
+                    </a>
+                </li>
+            </th:block>
+            <!-- } -->
         
         
         

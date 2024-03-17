@@ -13,6 +13,7 @@ import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
+import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Models.sup;
 
@@ -55,7 +56,9 @@ public class UserController {
     private ClinicRepository clinicRepository;
     @Autowired 
     private DoctorRepository doctorRepository;
-
+    @Autowired
+    UserTypePagesRepository page_type_repo;
+ 
 
 
 // @GetMapping("/signup")
@@ -303,8 +306,7 @@ else
     //     model.addAttribute("users", users);
     //   return mag;
     // }
-
-    
+  
    
  
 
