@@ -242,7 +242,9 @@ else
 
      @PostMapping("/Login")
      public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
+        
          UserAcc newUser = this.UserAccRepository.findByEmail(email);
+
          if (newUser != null) {
              Boolean PasswordsMatch = BCrypt.checkpw(pass, newUser.getPass());
              if (PasswordsMatch) {
