@@ -183,5 +183,10 @@ utp.setUsertype(type);
    
        return mav;
    }
+   @GetMapping("/getdata")
+   public String getData(@RequestParam  String name) {
+       // Process the request with the "name" parameter
+       return "Received parameter: " + name;
+   }
        
 }

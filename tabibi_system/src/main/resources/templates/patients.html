@@ -12,7 +12,7 @@
 
 
 <body >
-    <div th:include="/fragments/navigation.html">
+    <div th:include="navigation.html">
 
     </div>
 
@@ -38,7 +38,7 @@
                                 </div>
                                 
                                 <div>
-                                <button type="submit" class="btn btn-base">
+                                <button type="submit" class="btn btn-base" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                                     </button>
                                 </div>
@@ -48,19 +48,22 @@
 
                                 
                                 <div id="search-results">
-                                    <table>
+                                    <table >
                                         <tr>
                                             <th>Id</th>
                                             <th>First Name </th>
                                             <th>Last Name </th>
                                             <th>Email </th>
                                         </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Mohamed </td>
-                                            <td>Fareed</td>
-                                            <td>mohamedfareed429@gmail.com</td>
-                                        </tr>
+                                        <tbody id="search-body">
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Mohamed </td>
+                                                <td>Fareed</td>
+                                                <td>mohamedfareed429@gmail.com</td>
+                                            </tr>
+                                        </tbody>
+                                      
                                     </table>
                                 </div>
                                 <div class="col-lg-1 col-md-3 col-sm-12 p-0">
@@ -76,25 +79,26 @@
 </div>
 
 <script>
-      /*  $(document).ready(function() {
+        $(document).ready(function() {
             $("#search").on("input", function() {
-                var query = $(this).val();
+                var name = $(this).val();
                 var type=$("select[name='type']").val();
-                if (query !== "") {
-                    $.ajax({
-                        url: "livesearch.php",
-                        method: "POST",
-                        data: { query: query, type: type },
-                        success: function(data) {
-                            $("#search-results").html(data);
-                        }
+                if(name!==""){
+                    fetch(`/Admin/getdata?name=${name}`, {
+                        method: 'GET'
+                    })
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(response => { 
+                        $("#search-body").html(response);
                     });
-                } else {
-                    $("#search-results").empty();
+                       
                 }
+               
             });
         });
-        */
+        
     </script>
 
 
