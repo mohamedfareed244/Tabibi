@@ -334,8 +334,8 @@ public RedirectView logout(HttpSession session) {
      
 
     @GetMapping("/search")
-    public ModelAndView search(@RequestParam("name") String name, Model model) {
-    List<Doctor> Doctors=doctorRepository.findByfirstname(name); 
+    public ModelAndView search(@RequestParam("search") String name, Model model) {
+    List<Doctor> Doctors=doctorRepository.findByspecialization(name); 
        ModelAndView mag=new ModelAndView("searchResult.html");
         model.addAttribute("doctors", Doctors);
       return mag;
@@ -343,7 +343,7 @@ public RedirectView logout(HttpSession session) {
 
     @PostMapping("/search")
     public ModelAndView searchresult(@RequestParam("name") String name, Model model) {
-    List<Doctor> Doctors=doctorRepository.findByfirstname(name); 
+    List<Doctor> Doctors=doctorRepository.findByspecialization(name); 
        ModelAndView mag=new ModelAndView("searchResult.html");
         model.addAttribute("doctors", Doctors);
       return mag;

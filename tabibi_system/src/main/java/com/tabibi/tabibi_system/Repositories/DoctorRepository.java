@@ -10,6 +10,6 @@ import com.tabibi.tabibi_system.Models.UserAcc;
 
 public interface DoctorRepository extends JpaRepository<Doctor,Long>
 {
-     List<Doctor> findByfirstname(String firstname);
+     List<Doctor> findByspecialization(String firstname);
             Doctor  findByUserAcc(UserAcc userAcc);
 }
