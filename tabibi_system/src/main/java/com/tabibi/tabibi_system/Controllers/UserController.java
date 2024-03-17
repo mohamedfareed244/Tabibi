@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Objects;
 
 
 
@@ -50,7 +51,7 @@ public class UserController {
     @Autowired
     private UserRepository UserRepository;
     @Autowired
-    private UserAccRepository UserAccRepository;
+     UserAccRepository UserAccRepository;
     @Autowired
     private PatientRepository patientRepository;
     @Autowired
@@ -60,6 +61,8 @@ public class UserController {
     @Autowired
     UserTypePagesRepository page_type_repo;
  
+
+   
 
 
 // @GetMapping("/signup")
@@ -239,6 +242,13 @@ else
          mav.addObject("user", user);
          return mav;
      }
+
+@PostMapping("/Login")
+public String loginprocess(@RequestParam("pass") String pass) {
+    
+    return pass;
+}
+
 
      @PostMapping("/Login")
      public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
