@@ -62,9 +62,6 @@ public class UserController {
     UserTypePagesRepository page_type_repo;
  
 
-
-<<<<<<< HEAD
-=======
     public UserController() {
     }
 
@@ -93,19 +90,6 @@ public class UserController {
    
 
 
-// @GetMapping("/signup")
-// public ModelAndView showSignupForm() {
-//     ModelAndView mav = new ModelAndView("signup.html");
-//     sup signupForm = new sup();
-//     signupForm.setUser(new UserAcc());
-//     signupForm.setPatient(new Patient());
-//     signupForm.setDoctor(new Doctor());
-//     signupForm.setClinic(new Clinic());
-//     mav.addObject("signupForm", signupForm);
-//     return mav;
-// }
-
->>>>>>> 9d75fc01df146704cafdab4be8c9670437234653
 @GetMapping("")
 public ModelAndView getlanding() {
     ModelAndView mav = new ModelAndView("landingPage.html");
@@ -340,15 +324,13 @@ public String passtest(@RequestParam("pass") String pass) {
         return mav;
      }
          
-<<<<<<< HEAD
-=======
      @GetMapping("/logout")
 public RedirectView logout(HttpSession session) {
     session.invalidate(); 
     return new RedirectView("/User/Login");
 }
 
->>>>>>> 9d75fc01df146704cafdab4be8c9670437234653
+
      
 
     @GetMapping("/search")
