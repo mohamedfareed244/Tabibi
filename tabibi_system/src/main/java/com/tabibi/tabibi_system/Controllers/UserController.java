@@ -76,7 +76,7 @@ public class UserController {
 
 @GetMapping("")
 public ModelAndView getlanding() {
-    ModelAndView mav = new ModelAndView("LandingPage.html");
+    ModelAndView mav = new ModelAndView("landingPage.html");
     return mav;
 }
 
@@ -103,7 +103,7 @@ public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  Sig
      ModelAndView SignupModel=new ModelAndView("signup.html");
     String encoddedPassword =hashpassword(userAcc.getPass());
     userAcc.setPass(encoddedPassword); 
-    ModelAndView LoginModel=new ModelAndView("Login.html");
+    ModelAndView LoginModel=new ModelAndView("login.html");
 
 
  List<String> errorMessages = new ArrayList<>();
@@ -234,7 +234,7 @@ else
      @GetMapping("/Login")
      public ModelAndView Login()
      {
-         ModelAndView mav=new ModelAndView("Login.html"); 
+         ModelAndView mav=new ModelAndView("login.html"); 
          UserAcc user=new UserAcc();
          mav.addObject("user", user);
          return mav;

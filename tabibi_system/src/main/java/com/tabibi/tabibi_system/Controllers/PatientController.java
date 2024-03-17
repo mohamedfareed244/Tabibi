@@ -29,7 +29,7 @@ public class PatientController {
  @GetMapping("accountSettings")
      public ModelAndView getSettings(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("AccountSettings.html");
+        ModelAndView mav=new ModelAndView("accountSettings.html");
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;
@@ -37,7 +37,7 @@ public class PatientController {
      @GetMapping("Profile")
      public ModelAndView getProfile(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("Profile.html");
+        ModelAndView mav=new ModelAndView("profile.html");
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         mav.addObject("lastname",(String) session.getAttribute("lastname"));
@@ -47,7 +47,7 @@ public class PatientController {
      @GetMapping("EditProfile")
      public ModelAndView getEditProfile(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("EditProfile.html");
+        ModelAndView mav=new ModelAndView("editProfile.html");
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         mav.addObject("lastname",(String) session.getAttribute("lastname"));
