@@ -1,5 +1,8 @@
 package com.tabibi.tabibi_system.Controllers;
 
+import java.util.List;
+
+import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +17,7 @@ import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -96,6 +100,17 @@ public class PatientController {
              }
          }
          return new RedirectView("/patient/Profile"); 
+     }
+
+    
+     @PostMapping("/edit")
+     public RedirectView editpatient(@ModelAttribute Patient patient,HttpSession session){
+        patient.setAge( (String)session.getAttribute("editAge"));
+        patient.setAddress( (String)session.getAttribute("editAddress"));
+        patient.setPid((Long) session.getAttribute("editPid"));
+this.patientRepository.save(patient);
+return new RedirectView("/patient/info?id="+(Long) session.getAttribute("editPid"));
+
      }
      
 

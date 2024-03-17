@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Objects;
 
 
 
@@ -50,7 +51,7 @@ public class UserController {
     @Autowired
     private UserRepository UserRepository;
     @Autowired
-    private UserAccRepository UserAccRepository;
+     UserAccRepository UserAccRepository;
     @Autowired
     private PatientRepository patientRepository;
     @Autowired
@@ -62,6 +63,49 @@ public class UserController {
  
 
 
+<<<<<<< HEAD
+=======
+    public UserController() {
+    }
+
+    public UserController(UserAccRepository UserAccRepository) {
+        this.UserAccRepository = UserAccRepository;
+    }
+
+    public UserAccRepository getUserAccRepository() {
+        return this.UserAccRepository;
+    }
+
+    public void setUserAccRepository(UserAccRepository UserAccRepository) {
+        this.UserAccRepository = UserAccRepository;
+    }
+
+    public UserController UserAccRepository(UserAccRepository UserAccRepository) {
+        setUserAccRepository(UserAccRepository);
+        return this;
+    }
+    @Override
+    public String toString() {
+        return "{" +
+            " UserAccRepository='" + getUserAccRepository() + "'" +
+            "}";
+    }
+   
+
+
+// @GetMapping("/signup")
+// public ModelAndView showSignupForm() {
+//     ModelAndView mav = new ModelAndView("signup.html");
+//     sup signupForm = new sup();
+//     signupForm.setUser(new UserAcc());
+//     signupForm.setPatient(new Patient());
+//     signupForm.setDoctor(new Doctor());
+//     signupForm.setClinic(new Clinic());
+//     mav.addObject("signupForm", signupForm);
+//     return mav;
+// }
+
+>>>>>>> 9d75fc01df146704cafdab4be8c9670437234653
 @GetMapping("")
 public ModelAndView getlanding() {
     ModelAndView mav = new ModelAndView("landingPage.html");
@@ -203,6 +247,7 @@ else
          return mav;
      }
 
+
      @GetMapping("/Login")
      public ModelAndView Login()
      {
@@ -211,6 +256,13 @@ else
          mav.addObject("user", user);
          return mav;
      }
+
+@PostMapping("/test")
+public String passtest(@RequestParam("pass") String pass) {
+    
+    return pass;
+}
+
 
      @PostMapping("/Login")
      public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
@@ -238,11 +290,18 @@ else
                      session.setAttribute("number", clinic.getCnumber());
                      return new RedirectView("/User/clinicHomepage");
                  }
+                 else if (newUser.getUsertype().getUtid() == 3) {
+                    Doctor doctor = this.doctorRepository.findByUserAcc(newUser);
+                    session.setAttribute("firstname", doctor.getFirstname());
+                    session.setAttribute("Location", doctor.getLastname());
+                    session.setAttribute("number", doctor.getNumber());
+                    return new RedirectView("/User/DoctorHomePage");
+                }         
              } else {
-                 return new RedirectView("/User/Login?error=incorrectPassword");
+                 return new RedirectView("/User/Login?error=incorrectPassword"+email);
              }
          }
-         return new RedirectView("/User/Login?error=userNotFound");
+         return new RedirectView("/User/Login?error=userNotFound"+email);
      }
      
      
@@ -265,6 +324,14 @@ else
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;
      }
+     @GetMapping("DoctorHomePage")
+     public ModelAndView getDoctorPage(HttpSession session)
+     {
+        ModelAndView mav=new ModelAndView("DoctorHomePage.html");
+        mav.addObject("email",(String) session.getAttribute("email"));
+        mav.addObject("firstname",(String) session.getAttribute("firstname"));
+        return mav;
+     }
     
      @GetMapping("patients")
      public ModelAndView Getpatients()
@@ -273,6 +340,15 @@ else
         return mav;
      }
          
+<<<<<<< HEAD
+=======
+     @GetMapping("/logout")
+public RedirectView logout(HttpSession session) {
+    session.invalidate(); 
+    return new RedirectView("/User/Login");
+}
+
+>>>>>>> 9d75fc01df146704cafdab4be8c9670437234653
      
 
     @GetMapping("/search")
@@ -299,4 +375,6 @@ else
     ModelAndView mav=new ModelAndView("footer.html");
        return mav;
    }
+
+   
 }

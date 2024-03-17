@@ -1,6 +1,7 @@
 package com.tabibi.tabibi_system.Controllers;
 
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tabibi.tabibi_system.Models.Doctor;
@@ -78,10 +79,10 @@ public class admincontroller {
    }
 
    @PostMapping("/addpage")
-   public String savepage(@ModelAttribute Pages page) {
+   public RedirectView savepage(@ModelAttribute Pages page) {
       this.pages_repo.save(page);
 
-      return "added";
+      return new RedirectView("/Admin/admin-dashboard");
    }
 
    @GetMapping("/addpermission")
@@ -109,7 +110,7 @@ public class admincontroller {
    }
 
    @PostMapping("/addpermission")
-   public String savePermissions(@RequestParam("usertype")String usertype,@RequestParam("chosenpage")List<String> chosenpages ) {
+   public RedirectView savePermissions(@RequestParam("usertype")String usertype,@RequestParam("chosenpage")List<String> chosenpages ) {
       UserTypes type=this.user_type_repo.findByname(usertype);
       for (String pagename : chosenpages) {
       Pages p=this.pages_repo.findByname(pagename);
@@ -123,7 +124,7 @@ utp.setUsertype(type);
 
       this.page_type_repo.save(utp);
    }
-   return "granted";
+   return new RedirectView("/Admin/admin-dashboard");
 }
 
    @GetMapping("/settings")
@@ -148,12 +149,12 @@ utp.setUsertype(type);
    }
 
    @PostMapping("addusers")
-   public String saveuser(@ModelAttribute UserAcc user) {
+   public RedirectView saveuser(@ModelAttribute UserAcc user) {
       String hash_password = BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
       user.setPass(hash_password);
       this.userrepo.save(user);
 
-      return "added";
+      return new RedirectView("/Admin/admin-dashboard");
 
    }
 
@@ -167,9 +168,10 @@ utp.setUsertype(type);
    // return "added";
 
    // }
-   @GetMapping("/patients")
-   public ModelAndView getpatientspage() {
-      ModelAndView mav = new ModelAndView("patients.html");
+  
+   @GetMapping("/search")
+   public ModelAndView getsearch() {
+      ModelAndView mav = new ModelAndView("search_and_delete.html");
       return mav;
    }
    
@@ -180,7 +182,7 @@ utp.setUsertype(type);
    }
    @GetMapping("/navigation")
    public ModelAndView getnavigation(HttpSession session) {
-       ModelAndView mav = new ModelAndView("navigation.html");
+       ModelAndView mav = new ModelAndView("admin_navigation.html");
    
    
        Long type=(Long) session.getAttribute("usertypeID");

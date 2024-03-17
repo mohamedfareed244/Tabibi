@@ -99,10 +99,16 @@ li {
                 </a>
                 
             </li> -->
-            <a class="active" href="" >overview</a>
+            <a class="active" th:href="@{/Admin/admin-dashboard}" >overview</a>
             <div>
 
-<a class="" th:href="@{Admin/addusers}" >Addusers</a>
+<a class="" th:href="@{/Admin/addusers}" >Add Users</a>
+<a class="" th:href="@{/Admin/addpage}" >Add Page</a>
+<a class="" th:href="@{/Admin/addpermission}" >Add Permission</a>
+<a class="" th:href="@{/Admin/search}" >Search</a>
+
+
+
 
             <!-- <th:block th:each="page : ${navtype}">
                 <li>
