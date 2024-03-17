@@ -3,12 +3,13 @@ package com.tabibi.tabibi_system.Models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 
 @Table(name = "dr")
-public class Doctor  {
+public class Doctor implements Serializable {
     
 
     @Id

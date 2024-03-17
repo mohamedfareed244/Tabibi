@@ -1,27 +1,41 @@
 package com.tabibi.tabibi_system.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
+
+
 @Entity
 @Table(name = "appointments")
-public class Appointment {
+public class Appointment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Appid")
     private Long appId;
 
+    @NotNull (message = "please enter a value")
+    @FutureOrPresent (message = "please enter a valid date (future or present)")
     @Column(name="date")
     private Date date;
 
+    @NotBlank (message = "please enter a value")
     @Column(name="status")
     private String status ;
 
+    @NotBlank (message = "please enter a value")
+    @Pattern(regexp = "\\d{1,2}:\\d{2} (am|pm)", message = "Invalid time format. Please use format like '2:45 pm'.")
     @Column(name="time")
     private String time ;
     
+    @NotBlank (message = "please enter a value")
+    @Pattern(regexp = "\\d+(\\.\\d{1,2})?", message = "Price must be a number.")
     @Column(name="price")
     private String price;
 

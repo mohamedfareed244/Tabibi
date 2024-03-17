@@ -3,6 +3,7 @@ package com.tabibi.tabibi_system.Models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 @Entity
 
 @Table(name = "clinic")
-public class Clinic 
+public class Clinic implements Serializable
 {
 
     @Id

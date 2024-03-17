@@ -58,6 +58,9 @@
         form button:hover {
             background-color: #45a049;
         }
+        span{
+            color:  red;
+        }
     </style>
 </head>
 <body>
@@ -102,20 +105,31 @@
     </div>
     <div class="add">
         <form th:action="@{/appointments/add}" method="post" th:object="${appointment}">
-            <input type="date" th:field="*{date}" placeholder="enter appointment's date">
-            <input type="text" th:field="*{time}" placeholder="enter appointment's time">
-            <input type="text" th:field="*{price}" placeholder="enter appointment's price">
-            select status
-            <select th:field="*{status}">
+
+            select the date  <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}">date Error</span>
+            <input type="date" th:field="*{date}" placeholder="enter appointment's date" required>
+           
+           
+      
+
+            select the time <span th:if="${#fields.hasErrors('time')}" th:errors="*{time}">price Error</span>
+            <input type="text" th:field="*{time}" placeholder="enter appointment's time"required>
+       
+
+            specify the price <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}">price Error</span>
+            <input type="text" th:field="*{price}" placeholder="enter appointment's price" required>
+         
+            select status <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}">status Error</span>
+            <select th:field="*{status}" required>
                 <option value="available">available</option>
                 <option value="reserved">reserved</option>
             </select>
-            select clinic
-            <select th:field="*{clinic.cid}">
+            select clinic 
+            <select th:field="*{clinic.cid}" required>
                 <option th:each="x : ${clinics}" th:value="${x.cid}" th:text="${x.cname}"></option>
             </select>
             select doctor
-            <select th:field="*{doctor.did}">
+            <select th:field="*{doctor.did}" required>
                 <option th:each="y : ${doctors}" th:value="${y.did}" th:text="${y.firstname + ' ' + y.lastname}"></option>
             </select>
             <button type="submit">Submit</button>
