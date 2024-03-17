@@ -84,7 +84,7 @@
                 var name = $(this).val();
                 var type=$("select[name='type']").val();
                 if(name!==""){
-                    fetch(`/patient/getdata?name=${name}`, {
+                    fetch(`/Doctor/getdata?name=${name}`, {
                         method: 'GET'
                     })
                     .then(response => {
@@ -99,7 +99,7 @@
             });
         });
         function edit(num){
-            location.href=`/patient/info?id=${num}`;
+            location.href=`/Doctor/info?id=${num}`;
         }
         
     </script>
