@@ -62,6 +62,32 @@ public class UserController {
     UserTypePagesRepository page_type_repo;
  
 
+
+    public UserController() {
+    }
+
+    public UserController(UserAccRepository UserAccRepository) {
+        this.UserAccRepository = UserAccRepository;
+    }
+
+    public UserAccRepository getUserAccRepository() {
+        return this.UserAccRepository;
+    }
+
+    public void setUserAccRepository(UserAccRepository UserAccRepository) {
+        this.UserAccRepository = UserAccRepository;
+    }
+
+    public UserController UserAccRepository(UserAccRepository UserAccRepository) {
+        setUserAccRepository(UserAccRepository);
+        return this;
+    }
+    @Override
+    public String toString() {
+        return "{" +
+            " UserAccRepository='" + getUserAccRepository() + "'" +
+            "}";
+    }
    
 
 
@@ -234,6 +260,7 @@ else
          return mav;
      }
 
+
      @GetMapping("/Login")
      public ModelAndView Login()
      {
@@ -243,11 +270,11 @@ else
          return mav;
      }
 
-// @PostMapping("/Login")
-// public String loginprocess(@RequestParam("pass") String pass) {
+@PostMapping("/test")
+public String passtest(@RequestParam("pass") String pass) {
     
-//     return pass;
-// }
+    return pass;
+}
 
 
      @PostMapping("/Login")
@@ -277,10 +304,10 @@ else
                      return new RedirectView("/User/clinicHomepage");
                  }
              } else {
-                 return new RedirectView("/User/Login?error=incorrectPassword");
+                 return new RedirectView("/User/Login?error=incorrectPassword"+email);
              }
          }
-         return new RedirectView("/User/Login?error=userNotFound");
+         return new RedirectView("/User/Login?error=userNotFound"+email);
      }
      
      
