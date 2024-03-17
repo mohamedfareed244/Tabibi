@@ -20,4 +20,5 @@ public class Diagnosis {
     private UserAcc userAcc;
 
     
+    
 }

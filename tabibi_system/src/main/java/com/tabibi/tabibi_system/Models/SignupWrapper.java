@@ -2,7 +2,7 @@ package com.tabibi.tabibi_system.Models;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
-public class sup {
+public class SignupWrapper {
 
 @Valid
 @NotNull

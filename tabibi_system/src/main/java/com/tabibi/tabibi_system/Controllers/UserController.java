@@ -11,11 +11,12 @@ import com.tabibi.tabibi_system.Repositories.*;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
+import com.tabibi.tabibi_system.Models.SignupWrapper;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
-import com.tabibi.tabibi_system.Models.sup;
+import com.tabibi.tabibi_system.Models.SignupWrapper;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -82,7 +83,7 @@ public ModelAndView getlanding() {
 @GetMapping("/signup")
 public ModelAndView showSignupForm() {
     ModelAndView mav = new ModelAndView("signup.html");
-    sup signupForm = new sup();
+    SignupWrapper signupForm = new SignupWrapper();
     signupForm.setUser(new UserAcc());
     signupForm.setPatient(new Patient());
     signupForm.setDoctor(new Doctor());
@@ -97,7 +98,7 @@ public String hashpassword(String password)
     return encoddedPassword;
 }
 @PostMapping("/signup")
-public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  sup signupForm, BindingResult result, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
+public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  SignupWrapper signupForm, BindingResult result, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
     UserAcc userAcc = signupForm.getUser(); 
      ModelAndView SignupModel=new ModelAndView("signup.html");
     String encoddedPassword =hashpassword(userAcc.getPass());
@@ -258,9 +259,7 @@ else
                      session.setAttribute("uid", newUser.getUid());
                      session.setAttribute("usertype", newUser.getUsertype().getName());
                      session.setAttribute("usertypeID", newUser.getUsertype().getUtid());
-                     System.out.println(session.getAttribute("email"));
-                     System.out.println(session.getAttribute("usertype"));
-                     System.out.println(session.getAttribute("usertypeID"));
+
 
 
 
@@ -308,7 +307,23 @@ else
     // }
   
    
- 
+    @GetMapping("/navigation")
+   public ModelAndView getnavigation(HttpSession session) {
+       ModelAndView mav = new ModelAndView("navigation.html");
+   
+   
+       Long type=(Long) session.getAttribute("usertypeID");
+       
+        System.out.println(type);
+
+       List<UserTypePages> pagelist=this.page_type_repo.findByupid(type);
+       mav.addObject("usertypeID",session.getAttribute("usertypeID"));
+       mav.addObject("usertype",session.getAttribute("usertype"));
+       
+    //    mav.addObject("navtype", pagelist);
+   
+       return mav;
+   }
 
      
 

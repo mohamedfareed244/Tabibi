@@ -9,6 +9,6 @@ import com.tabibi.tabibi_system.Models.UserTypePages;
 
 public interface UserTypePagesRepository extends JpaRepository<UserTypePages,Long>
 {
-        List<UserTypePages> findByupid(int id);
+        List<UserTypePages> findByupid(Long type);
 
 }

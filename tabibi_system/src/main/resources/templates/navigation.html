@@ -74,7 +74,7 @@ li {
                 <span > <div class="header--items">
                     <div class="dark--theme--btn">
                         <i class="ri-notification-2-line"></i>
-                       <!-- <span th:text="${session.email}"></span> -->
+                       <span th:text="${email}"></span>
                     </div>
                 </div> </span> 
                 
@@ -99,7 +99,7 @@ li {
                 </a>
                 
             </li> -->
-            <span th:value="${usertypeID}"></span>
+            <span th:text="${usertype}"></span>
             <a class="active" href="" ></a>
             <input type="text" th:value="${usertypeID}">
             <th:block th:each="page : ${navtype}">

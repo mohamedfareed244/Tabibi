@@ -174,7 +174,7 @@ utp.setUsertype(type);
        ModelAndView mav = new ModelAndView("navigation.html");
    
    
-       int type=(Integer) session.getAttribute("usertypeID");
+       Long type=(Long) session.getAttribute("usertypeID");
       
        List<UserTypePages> pagelist=this.page_type_repo.findByupid(type);
        mav.addObject("usertypeID",type);
