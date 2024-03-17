@@ -1,5 +1,7 @@
 package com.tabibi.tabibi_system.Controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -96,6 +98,36 @@ public class PatientController {
              }
          }
          return new RedirectView("/patient/Profile"); 
+     }
+
+     @GetMapping("/getdata")
+     public String getData(@RequestParam  String name) {
+        List<Patient> mylist=this.patientRepository.findByfirstname(name);
+        System.out.println(mylist+name);
+        if(mylist.size()==0){
+           return "no patients fonded ";
+        }else{
+           String data="";
+           for(int i=0;i<mylist.size();i++){
+              Patient patient=mylist.get(i);
+         data+="<tr>";
+         data+="<td>";
+  data+=(patient.getPid());
+  data+="</td>";
+  data+="<td>";
+  data+=(patient.getFirstname());
+  data+="</td>";
+  data+="<td>";
+  data+=(patient.getLastname());
+  data+="</td>";
+  data+="<td>";
+  data+=(patient.getNumber());
+  data+="</td> </tr>";
+  
+           }
+           return data;
+        }
+      
      }
      
 

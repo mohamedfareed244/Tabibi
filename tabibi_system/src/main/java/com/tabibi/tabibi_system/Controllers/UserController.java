@@ -243,11 +243,11 @@ else
          return mav;
      }
 
-@PostMapping("/Login")
-public String loginprocess(@RequestParam("pass") String pass) {
+// @PostMapping("/Login")
+// public String loginprocess(@RequestParam("pass") String pass) {
     
-    return pass;
-}
+//     return pass;
+// }
 
 
      @PostMapping("/Login")
@@ -335,4 +335,6 @@ public String loginprocess(@RequestParam("pass") String pass) {
     ModelAndView mav=new ModelAndView("footer.html");
        return mav;
    }
+
+   
 }
