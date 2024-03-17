@@ -303,6 +303,13 @@ public String passtest(@RequestParam("pass") String pass) {
                      session.setAttribute("number", clinic.getCnumber());
                      return new RedirectView("/User/clinicHomepage");
                  }
+                 else if (newUser.getUsertype().getUtid() == 3) {
+                    Doctor doctor = this.doctorRepository.findByUserAcc(newUser);
+                    session.setAttribute("firstname", doctor.getFirstname());
+                    session.setAttribute("Location", doctor.getLastname());
+                    session.setAttribute("number", doctor.getNumber());
+                    return new RedirectView("/User/DoctorHomePage");
+                }         
              } else {
                  return new RedirectView("/User/Login?error=incorrectPassword"+email);
              }
@@ -330,6 +337,14 @@ public String passtest(@RequestParam("pass") String pass) {
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;
      }
+     @GetMapping("DoctorHomePage")
+     public ModelAndView getDoctorPage(HttpSession session)
+     {
+        ModelAndView mav=new ModelAndView("DoctorHomePage.html");
+        mav.addObject("email",(String) session.getAttribute("email"));
+        mav.addObject("firstname",(String) session.getAttribute("firstname"));
+        return mav;
+     }
     
      @GetMapping("patients")
      public ModelAndView Getpatients()
@@ -338,7 +353,12 @@ public String passtest(@RequestParam("pass") String pass) {
         return mav;
      }
          
-     
+     @GetMapping("/logout")
+public RedirectView logout(HttpSession session) {
+    session.invalidate(); 
+    return new RedirectView("/User/Login");
+}
+
      
 
      

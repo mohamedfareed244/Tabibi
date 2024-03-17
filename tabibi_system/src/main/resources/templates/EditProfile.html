@@ -7,6 +7,8 @@
     <title>Edit Profile</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/Editprofile_Styling.css">
+    <link rel="stylesheet" href="../css/adminn.css">
+
 
     <script>
     function Validation() {
@@ -60,8 +62,46 @@
 </head>
 
 <body>
-    <div th:include="navigation.html">
+    <div class="navvv">
+        <div th:fragment="navigation">
+            <section class="header">
+                <div class="logo">
+                    <i class="ri-menu-line menu"></i>
+                    <h2><span>Ta</span>BeeBy</h2>
+                </div>
+                <div class="header--items">
+                    <div class="dark--theme--btn">
+                        <i class="ri-notification-2-line"></i>
+                        <span th:text="${#dates.format(#dates.createNow(), 'MMMM d, yyyy')}"></span>
+                    </div>
+                </div>
+            </section>
+            <section class="main">
+                <div class="sidebar">
+                    <ul class="sidebar--items">
+                        <div class="profile-box">
+                            <span>
+                                <div class="header--items">
+                                    <div class="dark--theme--btn">
+                                        <i class="ri-notification-2-line"></i>
+                                        <span th:text="${email}"></span> 
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <a class="active" href=""></a>
+                        <li>
+                            <a th:href="@{/User/patientHomepage}"> HOME </a>
+                            <a th:href="@{/patient/accountSettings}"> Account Settings </a>
+                            <a th:href="@{/patient/Profile}"> Profile </a>
+                            <a th:href="@{/User/logout}"> LOGOUT </a>
 
+
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
     </div>
     <div class="container ">
         <h1>Edit Profile</h1>
