@@ -316,23 +316,7 @@ else
     // }
   
    
-    @GetMapping("/navigation")
-   public ModelAndView getnavigation(HttpSession session) {
-       ModelAndView mav = new ModelAndView("navigation.html");
-   
-   
-       Long type=(Long) session.getAttribute("usertypeID");
-       
-        System.out.println(type);
-
-       List<UserTypePages> pagelist=this.page_type_repo.findByupid(type);
-       mav.addObject("usertypeID",session.getAttribute("usertypeID"));
-       mav.addObject("usertype",session.getAttribute("usertype"));
-       
-    //    mav.addObject("navtype", pagelist);
-   
-       return mav;
-   }
+    
 
      
 

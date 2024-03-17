@@ -1,4 +1,4 @@
-
+<nav>
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -17,39 +17,7 @@
 
 
 </head>
-<style>
-.profile-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-}
 
-.profile-box img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-}
-
-.profile-box span {
-    font-weight: 600;
-}
-
-.sidebar--items {
-    margin-top: 22px;
-}
-
-li {
-    padding-top: 10px;
-}
-.uppercase-text {
-        text-transform: uppercase;
-    }
-
-</style>
 <body>
     
     <div  th:fragment="navigation">
@@ -99,14 +67,14 @@ li {
                 </a>
                 
             </li> -->
+            <a href=""></a>
             <span th:text="${usertype}"></span>
-            <a class="active" href="" ></a>
-            <input type="text" th:value="${usertypeID}">
             <th:block th:each="page : ${navtype}">
+                
                 <li>
                     <a th:href="@{${page.linkaddress}}" th:class="${page.classX}">
                         <span class="icon" th:text="${page.icons}"></span>
-                        <div class="sidebar--item" th:text="${page.name}"></div>
+                        <span class="sidebar--item" th:text="${page.name}"></span>
                     </a>
                 </li>
             </th:block>
@@ -114,7 +82,7 @@ li {
         
         
         
-    <!-- } -->
+    <!-- } -->  
     
     
     </div>
@@ -127,3 +95,4 @@ li {
 <!-- <script id="messenger-widget-b" src="https://cdn.botpenguin.com/website-bot.js" defer>65343c473a66a377bb977904,652ed8af9f61ca3c0661b0df</script> -->
 
 </html> 
+</nav>
