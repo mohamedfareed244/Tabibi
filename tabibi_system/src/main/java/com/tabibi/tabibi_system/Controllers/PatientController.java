@@ -2,6 +2,7 @@ package com.tabibi.tabibi_system.Controllers;
 
 import java.util.List;
 
+import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -103,14 +105,14 @@ public class PatientController {
      @GetMapping("/getdata")
      public String getData(@RequestParam  String name) {
         List<Patient> mylist=this.patientRepository.findByfirstname(name);
-        System.out.println(mylist+name);
         if(mylist.size()==0){
            return "no patients fonded ";
         }else{
            String data="";
            for(int i=0;i<mylist.size();i++){
               Patient patient=mylist.get(i);
-         data+="<tr>";
+         data+="<tr onclick='edit(";
+         data+=(patient.getPid()+")'>");
          data+="<td>";
   data+=(patient.getPid());
   data+="</td>";
@@ -128,6 +130,26 @@ public class PatientController {
            return data;
         }
       
+     }
+     @GetMapping("/info")
+     public ModelAndView getinfopage(@RequestParam Long id ,HttpSession session){
+        
+        Patient patient=this.patientRepository.findBypid(id);
+        session.setAttribute("editPid", id);
+        session.setAttribute("editAge", patient.getAge());
+        session.setAttribute("editAddress",patient.getAddress());
+ModelAndView mav=new ModelAndView("patientinfo.html");
+mav.addObject("patient", patient);
+return mav;
+     }
+     @PostMapping("/edit")
+     public RedirectView editpatient(@ModelAttribute Patient patient,HttpSession session){
+        patient.setAge( (String)session.getAttribute("editAge"));
+        patient.setAddress( (String)session.getAttribute("editAddress"));
+        patient.setPid((Long) session.getAttribute("editPid"));
+this.patientRepository.save(patient);
+return new RedirectView("/patient/info?id="+(Long) session.getAttribute("editPid"));
+
      }
      
 
