@@ -4,14 +4,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Pages;
 import com.tabibi.tabibi_system.Models.Patient;
+import com.tabibi.tabibi_system.Models.SignupWrapper;
 import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserTypePages;
 // import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
+import com.tabibi.tabibi_system.Repositories.ClinicRepository;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
@@ -23,6 +26,7 @@ import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -35,6 +39,8 @@ import com.tabibi.tabibi_system.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +49,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/Admin")
-public class admincontroller {
+public class admincontroller extends UserController{
 
   
 
@@ -55,6 +61,8 @@ public class admincontroller {
    @Autowired
    UserTypeRepository user_type_repo;
 
+   @Autowired
+   ClinicRepository clinicRepository;
    @Autowired
    PagesRepository pages_repo;
    @Autowired
@@ -209,10 +217,6 @@ utp.setUsertype(type);
 
       //     Pages page=this.pages_repo.FindBypgid(list.getPage());
         }
-       
-
-
-
 
        mav.addObject("usertypeID",session.getAttribute("usertypeID"));
        mav.addObject("usertype",session.getAttribute("usertype"));
@@ -223,4 +227,113 @@ utp.setUsertype(type);
    
        return mav;
    }
+
+
+   //Admin Clinic and Doctor Signup 
+public String hashpassword(String password)
+{
+    String encoddedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+    return encoddedPassword;
+}
+
+@GetMapping("/signup")
+public ModelAndView showSignupForm() {
+    ModelAndView mav = new ModelAndView("SignupInAdmin.html");
+    SignupWrapper signupForm = new SignupWrapper();
+    signupForm.setUser(new UserAcc());
+    signupForm.setDoctor(new Doctor());
+    signupForm.setClinic(new Clinic());
+    mav.addObject("signupForm", signupForm);
+    return mav;
+}
+
+@PostMapping("/signup")
+public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  SignupWrapper signupForm, BindingResult result, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
+    UserAcc userAcc = signupForm.getUser(); 
+     ModelAndView SignupModel=new ModelAndView("signup.html");
+    String encoddedPassword =hashpassword(userAcc.getPass());
+    userAcc.setPass(encoddedPassword); 
+    ModelAndView LoginModel=new ModelAndView("login.html");
+
+
+ List<String> errorMessages = new ArrayList<>();
+
+
+ UserAcc existingUser = UserAccRepository.findByEmail(userAcc.getEmail());
+ if (existingUser != null) 
+ {
+errorMessages.add("Email already exists. Please choose a different email.");
+ }
+
+if (userAcc.getPass().length() < 8) 
+{
+    errorMessages.add("Password must be at least 8 characters long.");
+}
+
+
+if(!BCrypt.checkpw(Confirm_pass, userAcc.getPass()))
+{
+errorMessages.add("Password and confirm password doesn't match");
+}
+else
+System.err.println("password match");
+
+if (userAcc.getPass().isEmpty())
+ {
+    errorMessages.add("Password is required");
+}
+
+
+    switch (userType)
+    {
+
+        case "doctor":
+        if (result.hasErrors()) 
+{
+    for (ObjectError error : result.getAllErrors()) 
+    {
+    errorMessages.add(error.getDefaultMessage());
+    }
+     SignupModel.addObject("errors", errorMessages);
+     return SignupModel;
+}
+else
+{
+          userAcc.setUsertype(new UserTypes(3L));
+          Doctor doctor = signupForm.getDoctor();
+          doctor.setUserAcc(userAcc);
+           this.UserAccRepository.save(userAcc);
+          this.doctorrepo.save(doctor);
+          break;
+}
+        case "clinic":
+        if (result.hasErrors()) 
+{
+    for (ObjectError error : result.getAllErrors()) 
+    {
+    errorMessages.add(error.getDefaultMessage());
+    }
+     SignupModel.addObject("errors", errorMessages);
+     return SignupModel;
+}
+else
+{
+
+        userAcc.setUsertype(new UserTypes(2L));
+        Clinic clinic=signupForm.getClinic();
+        clinic.setUserAcc(userAcc);
+        this.UserAccRepository.save(userAcc);
+        this.clinicRepository.save(clinic);
+            break;
+}
+        default:
+            // Default case
+            break;
+    }
+
+    return LoginModel;
+}
+
+
+
 }

@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 
 @Table(name = "dr")
-public class Doctor implements Serializable {
+public class Doctor extends UserAcc implements Serializable  {
     
 
     @Id
@@ -44,6 +44,7 @@ public class Doctor implements Serializable {
     @ManyToOne
     @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
     private UserAcc userAcc;
+
 
     @ManyToOne
     @JoinColumn(name = "Cid", referencedColumnName = "Cid", insertable = true, updatable = true)

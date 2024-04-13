@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 
 @Table(name = "clinic")
-public class Clinic implements Serializable
+public class Clinic extends UserAcc implements Serializable
 {
 
     @Id
