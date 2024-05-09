@@ -16,6 +16,7 @@ public class UserLog {
     private int Id;
     
     private int UserId;
+    
     private Date Date;
 
     
