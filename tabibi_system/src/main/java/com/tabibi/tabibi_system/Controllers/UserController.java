@@ -99,8 +99,12 @@ public ModelAndView getlanding() {
 @GetMapping("/signup")
 public ModelAndView showSignupForm() {
     ModelAndView mav = new ModelAndView("signup.html");
-   Patient patient=new Patient();
-    mav.addObject("signupForm", patient);
+    SignupWrapper signupForm = new SignupWrapper();
+    signupForm.setUser(new UserAcc());
+    signupForm.setPatient(new Patient());
+    signupForm.setDoctor(new Doctor());
+    signupForm.setClinic(new Clinic());
+    mav.addObject("signupForm", signupForm);
     return mav;
 }
 
@@ -109,7 +113,6 @@ public String hashpassword(String password)
     String encoddedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
     return encoddedPassword;
 }
-
 @PostMapping("/signup")
 public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  SignupWrapper signupForm, BindingResult result, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
     UserAcc userAcc = signupForm.getUser(); 

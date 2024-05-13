@@ -120,8 +120,55 @@ function validateForm()
                         <label for="userType">User Type:</label>
                         <select class="form-control" id="userType" name="userType" onchange="toggleFields();">
                             <option value="patient">Patient</option>
+                            <option value="doctor">Doctor</option>
+                            <option value="clinic">Clinic</option>
                         </select>
                     </div>
+
+                    <div class="form-group" id="Clinc-fields" style="display: none;">   
+                         <label for="cname">Clinic Name:</label>
+                        <input type="text" class="form-control"id="cname" th:field="*{clinic.cname}" name="cname">
+                        <span th:if="${#fields.hasErrors('clinic.cname')}" th:errors="*{clinic.cname}" class="error-message"></span>
+
+                        <label for="cloc">Clinic Address:</label>
+                        <input type="text"  class="form-control" id="cloc" name="cloc" th:field="*{clinic.cloc}">
+                        <span th:if="${#fields.hasErrors('clinic.cloc')}" th:errors="*{clinic.cloc}" class="error-message"></span>
+
+    
+                        <br>
+                        <label for="cnumber">Clinic Number:</label>
+                        <input type="text" class="form-control"  th:field="*{clinic.cnumber}"  id="cnumber" name="cnumber">
+                        <span th:if="${#fields.hasErrors('clinic.cnumber')}" th:errors="*{clinic.cnumber}" class="error-message"></span>
+                    </div>
+
+
+
+
+               <!-- DOCTOR FIELDS -->
+                    <div class="form-group" id="doctor-fields" style="display: none;">
+                        <label for="doctorFirstname">Doctor First Name:</label>
+                        <input type="text" class="form-control" id="doctorFirstname" name="fname" th:field="*{doctor.firstname}" placeholder="First Name" >
+                        <span th:if="${#fields.hasErrors('doctor.firstname')}" th:errors="*{doctor.firstname}" class="error-message"></span>
+                    
+                        <label for="doctorLastname">Doctor Last Name:</label>
+                        <input type="text" class="form-control" id="doctorLastname" name="lname" th:field="*{doctor.lastname}" placeholder="Last Name" >
+                        <span th:if="${#fields.hasErrors('doctor.lastname')}" th:errors="*{doctor.lastname}" class="error-message"></span>
+                    
+                        <label for="doctorNumber">Doctor Phone Number:</label>
+                        <input type="text" class="form-control" id="doctorNumber" name="number" th:field="*{doctor.number}" placeholder="Phone Number" >
+                        <span th:if="${#fields.hasErrors('doctor.number')}" th:errors="*{doctor.number}" class="error-message"></span>
+                      
+                    
+                        <label for="doctorSpecialization">Doctor Specialization:</label>
+                        <input type="text" class="form-control" id="doctorSpecialization" th:field="*{doctor.specialization}" name="specialization" placeholder="Specialization">
+                        <span th:if="${#fields.hasErrors('doctor.specialization')}" th:errors="*{doctor.specialization}" class="error-message"></span>
+                    
+                        <label for="doctorEducation">Doctor Education:</label>
+                        <input type="text" class="form-control" id="doctorEducation" th:field="*{doctor.educ}" name="education" placeholder="Education">
+                        <span th:if="${#fields.hasErrors('doctor.educ')}" th:errors="*{doctor.educ}" class="error-message"></span>
+                    
+                    </div>
+
 
 
                     <!-- PATIENT FIELDS -->
@@ -183,7 +230,7 @@ function validateForm()
                     </div>
 
                     <div class="form-group">
-                        <label for="cpassword">Confirm password:</label>    `
+                        <label for="cpassword">Confirm password:</label>
                         <input type="password" class="form-control" id="cpassword" placeholder="Confirm Password" name="cpassword" >
                        
                         

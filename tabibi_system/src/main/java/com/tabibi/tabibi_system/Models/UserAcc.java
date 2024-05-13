@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "user_acc")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+
 public class UserAcc {
  
     
