@@ -169,7 +169,7 @@ if (userAcc.getPass().isEmpty())
             {
             userAcc.setUsertype(new UserTypes(4L));
             Patient patient = signupForm.getPatient();
-            patient.setUserAcc(userAcc);
+            // patient.setUserAcc(userAcc);
             this.UserAccRepository.save(userAcc);
             this.patientRepository.save(patient);
             break;
@@ -188,7 +188,7 @@ else
 {
           userAcc.setUsertype(new UserTypes(3L));
           Doctor doctor = signupForm.getDoctor();
-          doctor.setUserAcc(userAcc);
+        //   doctor.setUserAcc(userAcc);
            this.UserAccRepository.save(userAcc);
           this.doctorRepository.save(doctor);
           break;
@@ -208,7 +208,7 @@ else
 
         userAcc.setUsertype(new UserTypes(2L));
         Clinic clinic=signupForm.getClinic();
-        clinic.setUserAcc(userAcc);
+        // clinic.setUserAcc(userAcc);
         this.UserAccRepository.save(userAcc);
         this.clinicRepository.save(clinic);
             break;

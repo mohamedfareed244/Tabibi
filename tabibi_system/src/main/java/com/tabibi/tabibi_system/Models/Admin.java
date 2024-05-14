@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "admin")
-public class Admin {
+public class Admin extends UserAcc {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,9 +15,9 @@ public class Admin {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
-    private UserAcc userAcc;
+    // @ManyToOne
+    // @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
+    // private UserAcc userAcc;
 
 
 
@@ -31,10 +31,10 @@ public class Admin {
     public Admin() {
     }
 
-    public Admin(Long aid, String name, UserAcc userAcc) {
+    public Admin(Long aid, String name ) {
         this.aid = aid;
         this.name = name;
-        this.userAcc = userAcc;
+        // this.userAcc = userAcc;
     }
 
     public Long getAid() {
@@ -53,13 +53,13 @@ public class Admin {
         this.name = name;
     }
 
-    public UserAcc getUserAcc() {
-        return this.userAcc;
-    }
+    // public UserAcc getUserAcc() {
+    //     return this.userAcc;
+    // }
 
-    public void setUserAcc(UserAcc userAcc) {
-        this.userAcc = userAcc;
-    }
+    // public void setUserAcc(UserAcc userAcc) {
+    //     this.userAcc = userAcc;
+    // }
 
     public Admin aid(Long aid) {
         setAid(aid);
@@ -71,35 +71,35 @@ public class Admin {
         return this;
     }
 
-    public Admin userAcc(UserAcc userAcc) {
-        setUserAcc(userAcc);
-        return this;
-    }
+    // public Admin userAcc(UserAcc userAcc) {
+    //     setUserAcc(userAcc);
+    //     return this;
+    // }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Admin)) {
-            return false;
-        }
-        Admin admin = (Admin) o;
-        return Objects.equals(aid, admin.aid) && Objects.equals(name, admin.name) && Objects.equals(userAcc, admin.userAcc);
-    }
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (o == this)
+    //         return true;
+    //     if (!(o instanceof Admin)) {
+    //         return false;
+    //     }
+    //     Admin admin = (Admin) o;
+    //     return Objects.equals(aid, admin.aid) && Objects.equals(name, admin.name) && Objects.equals(userAcc, admin.userAcc);
+    // }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(aid, name, userAcc);
-    }
+    // @Override
+    // public int hashCode() {
+    //     return Objects.hash(aid, name, userAcc);
+    // }
 
-    @Override
-    public String toString() {
-        return "{" +
-            " aid='" + getAid() + "'" +
-            ", name='" + getName() + "'" +
-            ", userAcc='" + getUserAcc() + "'" +
-            "}";
-    }
+    // @Override
+    // public String toString() {
+    //     return "{" +
+    //         " aid='" + getAid() + "'" +
+    //         ", name='" + getName() + "'" +
+    //         ", userAcc='" + getUserAcc() + "'" +
+    //         "}";
+    // }
   
 }
 

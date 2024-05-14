@@ -9,6 +9,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "user_acc")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "type")
 
 public class UserAcc {
  

@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 
 @Table(name = "clinic")
-public class Clinic implements Serializable
+public class Clinic extends UserAcc implements Serializable
 {
 
     @Id
@@ -39,9 +39,9 @@ public class Clinic implements Serializable
     @Column(name = "cnumber")
     private String cnumber;
 
-    @ManyToOne
-    @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
-    private UserAcc userAcc;
+    // @ManyToOne
+    // @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
+    // private UserAcc userAcc;
 
     @Transient
     private Appointment appointment;
@@ -49,14 +49,14 @@ public class Clinic implements Serializable
     public Clinic() {
     }
 
-    public Clinic(Long cid, String cname, String cloc, String workhrs, String reviews, String cnumber, UserAcc userAcc) {
+    public Clinic(Long cid, String cname, String cloc, String workhrs, String reviews, String cnumber) {
         this.cid = cid;
         this.cname = cname;
         this.cloc = cloc;
         this.workhrs = workhrs;
         this.reviews = reviews;
         this.cnumber = cnumber;
-        this.userAcc = userAcc;
+        // this.userAcc = userAcc;
     }
 
     public Long getCid() {
@@ -107,13 +107,7 @@ public class Clinic implements Serializable
         this.cnumber = cnumber;
     }
 
-    public UserAcc getUserAcc() {
-        return this.userAcc;
-    }
-
-    public void setUserAcc(UserAcc userAcc) {
-        this.userAcc = userAcc;
-    }
+ 
 
     public Clinic cid(Long cid) {
         setCid(cid);
@@ -145,39 +139,8 @@ public class Clinic implements Serializable
         return this;
     }
 
-    public Clinic userAcc(UserAcc userAcc) {
-        setUserAcc(userAcc);
-        return this;
-    }
+  
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Clinic)) {
-            return false;
-        }
-        Clinic clinic = (Clinic) o;
-        return Objects.equals(cid, clinic.cid) && Objects.equals(cname, clinic.cname) && Objects.equals(cloc, clinic.cloc) && Objects.equals(workhrs, clinic.workhrs) && Objects.equals(reviews, clinic.reviews) && Objects.equals(cnumber, clinic.cnumber) && Objects.equals(userAcc, clinic.userAcc);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cid, cname, cloc, workhrs, reviews, cnumber, userAcc);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " cid='" + getCid() + "'" +
-            ", cname='" + getCname() + "'" +
-            ", cloc='" + getCloc() + "'" +
-            ", workhrs='" + getWorkhrs() + "'" +
-            ", reviews='" + getReviews() + "'" +
-            ", cnumber='" + getCnumber() + "'" +
-            ", userAcc='" + getUserAcc() + "'" +
-            "}";
-    }
     
     
 }
