@@ -232,8 +232,6 @@ else
      public ModelAndView Login()
      {
          ModelAndView mav=new ModelAndView("login.html"); 
-         UserAcc user=new UserAcc();
-         mav.addObject("user", user);
          return mav;
      }
 
@@ -244,45 +242,44 @@ public String passtest(@RequestParam("pass") String pass) {
 }
 
 
-     @PostMapping("/Login")
-     public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
-        
-         UserAcc newUser = this.UserAccRepository.findByEmail(email);
+@PostMapping("/Login")
+public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
+    UserAcc newUser = this.UserAccRepository.findByEmail(email);
 
-         if (newUser != null) {
-             Boolean PasswordsMatch = BCrypt.checkpw(pass, newUser.getPass());
-             if (PasswordsMatch) {
-                 session.setAttribute("email", newUser.getEmail());
-                 session.setAttribute("uid", newUser.getUid());
-                 session.setAttribute("usertype", newUser.getUsertype().getName());
-                 session.setAttribute("usertypeID", newUser.getUsertype().getUtid());
-     
-                 if (newUser.getUsertype().getUtid() == 4) {
-                     Patient patient = new Patient();
-                     session.setAttribute("firstname", patient.getFirstname());
-                     session.setAttribute("number", patient.getNumber());
-                     session.setAttribute("lastname", patient.getLastname());
-                     return new RedirectView("/User/patientHomepage");
-                 } else if (newUser.getUsertype().getUtid() == 2) {
-                     Clinic clinic = new Clinic();
-                     session.setAttribute("firstname", clinic.getCname());
-                     session.setAttribute("Location", clinic.getCloc());
-                     session.setAttribute("number", clinic.getCnumber());
-                     return new RedirectView("/User/clinicHomepage");
-                 }
-                 else if (newUser.getUsertype().getUtid() == 3) {
-                    Doctor doctor = new Doctor();
-                    session.setAttribute("firstname", doctor.getFirstname());
-                    session.setAttribute("Location", doctor.getLastname());
-                    session.setAttribute("number", doctor.getNumber());
-                    return new RedirectView("/User/DoctorHomePage");
-                }         
-             } else {
-                 return new RedirectView("/User/Login?error=incorrectPassword"+email);
-             }
-         }
-         return new RedirectView("/User/Login?error=userNotFound"+email);
-     }
+    if (newUser != null) {
+        Boolean PasswordsMatch = BCrypt.checkpw(pass, newUser.getPass());
+        if (PasswordsMatch) {
+            session.setAttribute("email", newUser.getEmail());
+            session.setAttribute("uid", newUser.getUid());
+            session.setAttribute("usertype", newUser.getUsertype().getName());
+            session.setAttribute("usertypeID", newUser.getUsertype().getUtid());
+
+            if (newUser instanceof Patient) {
+                Patient patient = (Patient) newUser;
+                session.setAttribute("firstname", patient.getFirstname());
+                session.setAttribute("number", patient.getNumber());
+                session.setAttribute("lastname", patient.getLastname());
+                return new RedirectView("/User/patientHomepage");
+            } else if (newUser instanceof Clinic) {
+                Clinic clinic = (Clinic) newUser;
+                session.setAttribute("firstname", clinic.getCname());
+                session.setAttribute("Location", clinic.getCloc());
+                session.setAttribute("number", clinic.getCnumber());
+                return new RedirectView("/User/clinicHomepage");
+            } else if (newUser instanceof Doctor) {
+                Doctor doctor = (Doctor) newUser;
+                session.setAttribute("firstname", doctor.getFirstname());
+                session.setAttribute("Location", doctor.getLastname());
+                session.setAttribute("number", doctor.getNumber());
+                return new RedirectView("/User/DoctorHomePage");
+            }
+        } else {
+            return new RedirectView("/User/Login?error=incorrectPassword"+email);
+        }
+    }
+    return new RedirectView("/User/Login?error=userNotFound"+email);
+}
+
      
      
      
