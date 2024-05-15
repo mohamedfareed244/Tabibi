@@ -11,5 +11,7 @@ public interface UserTypeRepository extends JpaRepository<UserTypes,Long>
 {
 
 UserTypes findByname(String name);
+UserTypes findByutid(Long id);
+
     
 }

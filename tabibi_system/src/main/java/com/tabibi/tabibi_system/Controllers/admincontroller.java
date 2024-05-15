@@ -254,16 +254,24 @@ utp.setUsertype(type);
        // Process the request with the "name" parameter
        return "Received parameter: " + name;
    }
+   @GetMapping("/admin_navigation")
+   public ModelAndView getstaticnavigation(HttpSession session) {
+
+      ModelAndView mav = new ModelAndView("admin_navigation.html");
+      return mav;
+   }  
    @GetMapping("/navigation")
    public ModelAndView getnavigation(HttpSession session) {
-       ModelAndView mav = new ModelAndView("admin_navigation.html");
+       ModelAndView mav = new ModelAndView("navigation.html");
    
    
        Long type=(Long) session.getAttribute("usertypeID");
-       
+       UserTypes userType = this.user_type_repo.findByutid(type);
        System.out.println(type);
 
-       List<UserTypePages> pagelist=this.page_type_repo.findByupid(type);
+       List<UserTypePages> pagelist=this.page_type_repo.findByUsertype(userType);
+      System.out.println(pagelist);
+
        List<String> pageNames = new ArrayList<>();
        List<String> pageLinks = new ArrayList<>();
        List<String> pageClasses = new ArrayList<>();
@@ -287,13 +295,12 @@ utp.setUsertype(type);
 
 
 
-
        mav.addObject("usertypeID",session.getAttribute("usertypeID"));
        mav.addObject("usertype",session.getAttribute("usertype"));
-       mav.addObject("pageNames", pageNames); // Add page names to the model
-    mav.addObject("pageLinks", pageLinks); // Add page links to the model
-    mav.addObject("pageClasses", pageClasses); // Add page classes to the model
-    mav.addObject("pageIcons", pageIcons); // Add page icon
+       mav.addObject("pageNames", pageNames); 
+       mav.addObject("pageLinks", pageLinks); 
+    mav.addObject("pageClasses", pageClasses); 
+    mav.addObject("pageIcons", pageIcons); 
    
        return mav;
    }
