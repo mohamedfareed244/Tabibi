@@ -50,7 +50,7 @@ public class ClinicController {
     @Autowired
     private DoctorRepository doctorRepository;
     @GetMapping("DoctorRegistration")
-public ModelAndView DoctorRegistration() 
+public ModelAndView DoctorRegistration(HttpSession session) 
 {
    ModelAndView mav = new ModelAndView("DoctorRegistration.html");
    Doctor doctor=new Doctor();
@@ -68,7 +68,7 @@ public String hashpassword(String password)
 @PostMapping("DoctorRegistration")
 public ModelAndView processSignupForm(@ModelAttribute ("doctor")  Doctor doctor, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
      ModelAndView SignupModel=new ModelAndView("DoctorRegistration.html");
-     ModelAndView LoginModel=new ModelAndView("login.html");
+     ModelAndView refresh=new ModelAndView("ClinicHomePage.html");
 
 
  List<String> errorMessages = new ArrayList<>();
@@ -116,7 +116,7 @@ else
     this.doctorRepository.save(doctorr);
 }
 
-    return LoginModel;
+    return refresh;
 }
 }
 

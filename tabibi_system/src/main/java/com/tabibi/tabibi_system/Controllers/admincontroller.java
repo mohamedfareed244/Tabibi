@@ -108,7 +108,7 @@ public String hashpassword(String password)
 @PostMapping("ClinicRegistration")
 public ModelAndView processSignupForm(@ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
      ModelAndView SignupModel=new ModelAndView("ClinicRegistration.html");
-     ModelAndView LoginModel=new ModelAndView("login.html");
+     ModelAndView refresh=new ModelAndView("DoctorHomePage.html");
 
 
  List<String> errorMessages = new ArrayList<>();
@@ -156,7 +156,7 @@ else
     this.clinicRepository.save(clinicc);
 }
 
-    return LoginModel;
+    return refresh;
 }
 
    @GetMapping("/addpermission")
