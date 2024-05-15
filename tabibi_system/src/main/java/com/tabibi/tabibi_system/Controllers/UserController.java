@@ -100,7 +100,6 @@ public ModelAndView getlanding() {
 public ModelAndView showSignupForm() {
     ModelAndView mav = new ModelAndView("signup.html");
     SignupWrapper signupForm = new SignupWrapper();
-    // signupForm.setUser(new UserAcc());
     signupForm.setPatient(new Patient());
     signupForm.setDoctor(new Doctor());
     signupForm.setClinic(new Clinic());
@@ -115,11 +114,8 @@ public String hashpassword(String password)
 }
 @PostMapping("/signup")
 public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  SignupWrapper signupForm, BindingResult result, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
-    // UserAcc userAcc = signupForm.getUser(); 
      ModelAndView SignupModel=new ModelAndView("signup.html");
-    // String encoddedPassword =hashpassword(userAcc.getPass());
-    // userAcc.setPass(encoddedPassword); 
-    ModelAndView LoginModel=new ModelAndView("login.html");
+     ModelAndView LoginModel=new ModelAndView("login.html");
 
 
  List<String> errorMessages = new ArrayList<>();

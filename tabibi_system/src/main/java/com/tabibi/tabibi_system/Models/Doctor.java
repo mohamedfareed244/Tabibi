@@ -44,7 +44,7 @@ public class Doctor extends UserAcc implements Serializable {
     // private UserAcc userAcc;
 
     // @ManyToOne
-    // @JoinColumn(name = "Cid", referencedColumnName = "Cid", insertable = true, updatable = true)
+    // @JoinColumn(name = "Cid", referencedColumnName = "uid", insertable = true, updatable = true)
     // private Clinic clinic;
 
 
@@ -161,6 +161,9 @@ public class Doctor extends UserAcc implements Serializable {
 
     public Doctor reviews(String reviews) {
         setReviews(reviews);
+        return this;
+    }
+    public Doctor getDoctor() {
         return this;
     }
 
