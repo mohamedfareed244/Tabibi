@@ -4,6 +4,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Pages;
 import com.tabibi.tabibi_system.Models.Patient;
@@ -12,6 +13,7 @@ import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserTypePages;
 // import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
+import com.tabibi.tabibi_system.Repositories.ClinicRepository;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
@@ -35,6 +37,8 @@ import com.tabibi.tabibi_system.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,8 +48,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/Admin")
 public class admincontroller {
-
-  
 
    @Autowired
    DoctorRepository doctorrepo;
@@ -59,6 +61,8 @@ public class admincontroller {
    PagesRepository pages_repo;
    @Autowired
    UserTypePagesRepository page_type_repo;
+   @Autowired
+   ClinicRepository clinicRepository;
 
    // @Autowired
    // UserTypePagesRepository page_type_repo;
@@ -84,6 +88,76 @@ public class admincontroller {
 
       return new RedirectView("/Admin/admin-dashboard");
    }
+
+  
+   @GetMapping("ClinicRegistration")
+public ModelAndView ClinicRegistration() 
+{
+  ModelAndView mav = new ModelAndView("ClinicRegistration.html");
+  Clinic clinic=new Clinic();
+  mav.addObject("clinic", clinic);
+  return mav;
+}
+
+public String hashpassword(String password)
+{
+   String encoddedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+   return encoddedPassword;
+}
+
+@PostMapping("ClinicRegistration")
+public ModelAndView processSignupForm(@ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
+     ModelAndView SignupModel=new ModelAndView("ClinicRegistration.html");
+     ModelAndView LoginModel=new ModelAndView("login.html");
+
+
+ List<String> errorMessages = new ArrayList<>();
+
+
+ Clinic existingUser = clinicRepository.findByEmail(clinic.getEmail());
+ if (existingUser != null) 
+ {
+errorMessages.add("Email already exists. Please choose a different email.");
+ }
+
+if (clinic.getPass().length() < 8) 
+{
+    errorMessages.add("Password must be at least 8 characters long.");
+}
+
+
+// if(!BCrypt.checkpw(Confirm_pass, doctor.getPass()))
+// {
+// errorMessages.add("Password and confirm password doesn't match");
+// }
+else
+System.err.println("password match");
+
+if (clinic.getPass().isEmpty())
+ {
+    errorMessages.add("Password is required");
+}
+
+if (result.hasErrors()) 
+{
+    for (ObjectError error : result.getAllErrors()) 
+    {
+    errorMessages.add(error.getDefaultMessage());
+    }
+     SignupModel.addObject("errors", errorMessages);
+     return SignupModel;
+}
+else
+{
+    Clinic clinicc = clinic.getClinic();
+    String encoddedPassword =hashpassword(clinic.getPass());
+    clinicc.setPass(encoddedPassword);  
+    clinicc.setUsertype(new UserTypes(2L));
+    this.clinicRepository.save(clinicc);
+}
+
+    return LoginModel;
+}
 
    @GetMapping("/addpermission")
    public ModelAndView addpermission(HttpSession session) {

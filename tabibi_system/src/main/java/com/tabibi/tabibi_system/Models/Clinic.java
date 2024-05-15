@@ -132,7 +132,9 @@ public class Clinic extends UserAcc implements Serializable
         return this;
     }
 
-  
+    public Clinic getClinic() {
+        return this;
+    }
 
     
     
