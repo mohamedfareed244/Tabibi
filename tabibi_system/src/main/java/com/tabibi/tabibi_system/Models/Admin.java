@@ -7,9 +7,8 @@ import java.util.Objects;
 @Table(name = "admin")
 public class Admin extends UserAcc {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "aid")
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long aid;
 
     @Column(name = "name")
@@ -20,6 +19,7 @@ public class Admin extends UserAcc {
     // private UserAcc userAcc;
 
 
+    private long test;
 
 
 
@@ -31,18 +31,18 @@ public class Admin extends UserAcc {
     public Admin() {
     }
 
-    public Admin(Long aid, String name ) {
-        this.aid = aid;
+    public Admin( String name ) {
+        // this.aid = aid;
         this.name = name;
         // this.userAcc = userAcc;
     }
 
     public Long getAid() {
-        return this.aid;
+        return this.test;
     }
 
     public void setAid(Long aid) {
-        this.aid = aid;
+        // this.aid = aid;
     }
 
     public String getName() {

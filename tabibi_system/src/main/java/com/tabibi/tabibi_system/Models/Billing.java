@@ -18,7 +18,7 @@ public class Billing {
     private Appointment appointment;
 
     @ManyToOne
-    @JoinColumn(name = "Pid", referencedColumnName = "Pid", insertable = true, updatable = true)
+    @JoinColumn(name = "Pid", referencedColumnName = "uid", insertable = true, updatable = true)
     private Patient patient;
 
     @Column(name="amount")

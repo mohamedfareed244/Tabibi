@@ -218,14 +218,14 @@ function validateForm()
 
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="text" class="form-control" id="email" th:field="*{user.email}" placeholder="Email Address" >
-                        <span th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}" class="error-message"></span>
+                        <input type="text" class="form-control" id="email" th:field="*{doctor.email}" placeholder="Email Address" >
+                        <span th:if="${#fields.hasErrors('doctor.email')}" th:errors="*{doctor.email}" class="error-message"></span>
                         <span id="error-email" class="error-message"> </span>
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
-                        <input type="password" class="form-control" id="password" th:field="*{user.pass}" placeholder="Password" >
-                        <span th:if="${#fields.hasErrors('user.pass')}" th:errors="*{user.pass}" class="error-message"></span>
+                        <input type="password" class="form-control" id="password" th:field="*{doctor.pass}" placeholder="Password" >
+                        <span th:if="${#fields.hasErrors('doctor.pass')}" th:errors="*{doctor.pass}" class="error-message"></span>
                          <span id="error-pass" class="error-message"> </span>
                     </div>
 

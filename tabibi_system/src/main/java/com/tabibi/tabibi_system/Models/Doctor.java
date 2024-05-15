@@ -12,8 +12,8 @@ import java.util.Objects;
 public class Doctor extends UserAcc implements Serializable {
     
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Did")
     private Long did;
 
@@ -38,6 +38,9 @@ public class Doctor extends UserAcc implements Serializable {
     @Column(name = "educ")
     private String educ;
 
+    private long test;
+
+
     @Column(name = "reviews")
     private String reviews;
 
@@ -45,16 +48,16 @@ public class Doctor extends UserAcc implements Serializable {
     // @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
     // private UserAcc userAcc;
 
-    @ManyToOne
-    @JoinColumn(name = "Cid", referencedColumnName = "Cid", insertable = true, updatable = true)
-    private Clinic clinic;
+    // @ManyToOne
+    // @JoinColumn(name = "Cid", referencedColumnName = "Cid", insertable = true, updatable = true)
+    // private Clinic clinic;
 
 
     public Doctor() {
     }
 
-    public Doctor(Long did, String firstname, String lastname, String specialization, String number, String educ, String reviews, Clinic clinic) {
-        this.did = did;
+    public Doctor( String firstname, String lastname, String specialization, String number, String educ, String reviews) {
+        // this.did = did;
         this.firstname = firstname;
         this.lastname = lastname;
         this.specialization = specialization;
@@ -62,15 +65,15 @@ public class Doctor extends UserAcc implements Serializable {
         this.educ = educ;
         this.reviews = reviews;
         // this.userAcc = userAcc;
-        this.clinic = clinic;
+        // this.clinic = clinic;
     }
 
     public Long getDid() {
-        return this.did;
+        return this.test;
     }
 
     public void setDid(Long did) {
-        this.did = did;
+        // this.did = did;
     }
 
     public String getFirstname() {
@@ -129,13 +132,13 @@ public class Doctor extends UserAcc implements Serializable {
     //     this.userAcc = userAcc;
     // }
 
-    public Clinic getClinic() {
-        return this.clinic;
-    }
+    // public Clinic getClinic() {
+    //     return this.clinic;
+    // }
 
-    public void setClinic(Clinic clinic) {
-        this.clinic = clinic;
-    }
+    // public void setClinic(Clinic clinic) {
+    //     this.clinic = clinic;
+    // }
 
     public Doctor did(Long did) {
         setDid(did);
@@ -177,10 +180,10 @@ public class Doctor extends UserAcc implements Serializable {
     //     return this;
     // }
 
-    public Doctor clinic(Clinic clinic) {
-        setClinic(clinic);
-        return this;
-    }
+    // public Doctor clinic(Clinic clinic) {
+    //     setClinic(clinic);
+    //     return this;
+    // }
 
     // @Override
     // public boolean equals(Object o) {

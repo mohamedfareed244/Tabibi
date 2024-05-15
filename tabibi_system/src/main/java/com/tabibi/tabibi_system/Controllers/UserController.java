@@ -100,7 +100,7 @@ public ModelAndView getlanding() {
 public ModelAndView showSignupForm() {
     ModelAndView mav = new ModelAndView("signup.html");
     SignupWrapper signupForm = new SignupWrapper();
-    signupForm.setUser(new UserAcc());
+    // signupForm.setUser(new UserAcc());
     signupForm.setPatient(new Patient());
     signupForm.setDoctor(new Doctor());
     signupForm.setClinic(new Clinic());
@@ -115,39 +115,39 @@ public String hashpassword(String password)
 }
 @PostMapping("/signup")
 public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  SignupWrapper signupForm, BindingResult result, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
-    UserAcc userAcc = signupForm.getUser(); 
+    // UserAcc userAcc = signupForm.getUser(); 
      ModelAndView SignupModel=new ModelAndView("signup.html");
-    String encoddedPassword =hashpassword(userAcc.getPass());
-    userAcc.setPass(encoddedPassword); 
+    // String encoddedPassword =hashpassword(userAcc.getPass());
+    // userAcc.setPass(encoddedPassword); 
     ModelAndView LoginModel=new ModelAndView("login.html");
 
 
  List<String> errorMessages = new ArrayList<>();
 
 
- UserAcc existingUser = UserAccRepository.findByEmail(userAcc.getEmail());
- if (existingUser != null) 
- {
-errorMessages.add("Email already exists. Please choose a different email.");
- }
+//  UserAcc existingUser = UserAccRepository.findByEmail(userAcc.getEmail());
+//  if (existingUser != null) 
+//  {
+// errorMessages.add("Email already exists. Please choose a different email.");
+//  }
 
-if (userAcc.getPass().length() < 8) 
-{
-    errorMessages.add("Password must be at least 8 characters long.");
-}
+// if (userAcc.getPass().length() < 8) 
+// {
+//     errorMessages.add("Password must be at least 8 characters long.");
+// }
 
 
-if(!BCrypt.checkpw(Confirm_pass, userAcc.getPass()))
-{
-errorMessages.add("Password and confirm password doesn't match");
-}
-else
-System.err.println("password match");
+// if(!BCrypt.checkpw(Confirm_pass, userAcc.getPass()))
+// {
+// errorMessages.add("Password and confirm password doesn't match");
+// }
+// else
+// System.err.println("password match");
 
-if (userAcc.getPass().isEmpty())
- {
-    errorMessages.add("Password is required");
-}
+// if (userAcc.getPass().isEmpty())
+//  {
+//     errorMessages.add("Password is required");
+// }
 
 
     switch (userType)
@@ -167,10 +167,10 @@ if (userAcc.getPass().isEmpty())
         }
             else
             {
-            userAcc.setUsertype(new UserTypes(4L));
+            // userAcc.setUsertype(new UserTypes(4L));
             Patient patient = signupForm.getPatient();
             // patient.setUserAcc(userAcc);
-            this.UserAccRepository.save(userAcc);
+            // this.UserAccRepository.save(userAcc);
             this.patientRepository.save(patient);
             break;
             }
@@ -186,12 +186,12 @@ if (userAcc.getPass().isEmpty())
 }
 else
 {
-          userAcc.setUsertype(new UserTypes(3L));
-          Doctor doctor = signupForm.getDoctor();
-        //   doctor.setUserAcc(userAcc);
-           this.UserAccRepository.save(userAcc);
-          this.doctorRepository.save(doctor);
-          break;
+    Doctor doctor = signupForm.getDoctor();
+    String encoddedPassword =hashpassword(doctor.getPass());
+    doctor.setPass(encoddedPassword);  
+    doctor.setUsertype(new UserTypes(3L));
+    this.doctorRepository.save(doctor);
+    break;
 }
         case "clinic":
         if (result.hasErrors()) 
@@ -206,10 +206,10 @@ else
 else
 {
 
-        userAcc.setUsertype(new UserTypes(2L));
+        // userAcc.setUsertype(new UserTypes(2L));
         Clinic clinic=signupForm.getClinic();
         // clinic.setUserAcc(userAcc);
-        this.UserAccRepository.save(userAcc);
+        // this.UserAccRepository.save(userAcc);
         this.clinicRepository.save(clinic);
             break;
 }
@@ -262,20 +262,20 @@ public String passtest(@RequestParam("pass") String pass) {
                  session.setAttribute("usertypeID", newUser.getUsertype().getUtid());
      
                  if (newUser.getUsertype().getUtid() == 4) {
-                     Patient patient = this.patientRepository.findByUserAcc(newUser);
+                     Patient patient = new Patient();
                      session.setAttribute("firstname", patient.getFirstname());
                      session.setAttribute("number", patient.getNumber());
                      session.setAttribute("lastname", patient.getLastname());
                      return new RedirectView("/User/patientHomepage");
                  } else if (newUser.getUsertype().getUtid() == 2) {
-                     Clinic clinic = this.clinicRepository.findByUserAcc(newUser);
+                     Clinic clinic = new Clinic();
                      session.setAttribute("firstname", clinic.getCname());
                      session.setAttribute("Location", clinic.getCloc());
                      session.setAttribute("number", clinic.getCnumber());
                      return new RedirectView("/User/clinicHomepage");
                  }
                  else if (newUser.getUsertype().getUtid() == 3) {
-                    Doctor doctor = this.doctorRepository.findByUserAcc(newUser);
+                    Doctor doctor = new Doctor();
                     session.setAttribute("firstname", doctor.getFirstname());
                     session.setAttribute("Location", doctor.getLastname());
                     session.setAttribute("number", doctor.getNumber());

@@ -40,15 +40,15 @@ public class Appointment implements Serializable {
     private String price;
 
     @ManyToOne
-    @JoinColumn(name = "Did", referencedColumnName = "Did", insertable = true, updatable = true)
+    @JoinColumn(name = "Did", referencedColumnName = "uid", insertable = true, updatable = true)
     private Doctor doctor;
 
     @ManyToOne
-    @JoinColumn(name = "Pid", referencedColumnName = "Pid", insertable = true, updatable = true)
+    @JoinColumn(name = "Pid", referencedColumnName = "uid", insertable = true, updatable = true)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "Cid", referencedColumnName = "Cid", insertable = true, updatable = true)
+    @JoinColumn(name = "Cid", referencedColumnName = "uid", insertable = true, updatable = true)
     private Clinic clinic;
 
     public Appointment() {

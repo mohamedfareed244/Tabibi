@@ -72,13 +72,13 @@ public class PatientController {
              session.setAttribute("firstname", firstname);
              session.setAttribute("lastname", lastname);
              session.setAttribute("number", number);
-             Patient patient = this.patientRepository.findByUserAcc(newUser);
-             patient.setFirstname(firstname);
-             patient.setLastname(lastname);
-             patient.setNumber(number);
-             newUser.setEmail(email);
-             this.UserAccRepository.save(newUser);
-             this.patientRepository.save(patient);
+            //  Patient patient = this.patientRepository.findByUserAcc(newUser);
+            //  patient.setFirstname(firstname);
+            //  patient.setLastname(lastname);
+            //  patient.setNumber(number);
+            //  newUser.setEmail(email);
+            //  this.UserAccRepository.save(newUser);
+            //  this.patientRepository.save(patient);
              
              return new RedirectView("/User/patientHomepage");
          }
@@ -91,13 +91,13 @@ public class PatientController {
          Integer uid = (Integer) session.getAttribute("uid");
          UserAcc userAcc = this.UserAccRepository.findByUid(uid);
          if (userAcc != null) {
-             Patient patient = this.patientRepository.findByUserAcc(userAcc);
-             if (patient != null) {
-                 this.patientRepository.delete(patient);
-                this.UserAccRepository.delete(userAcc);
-                 session.invalidate(); 
-                 return new RedirectView("/User/login"); 
-             }
+            //  Patient patient = this.patientRepository.findByUserAcc(userAcc);
+            //  if (patient != null) {
+            //      this.patientRepository.delete(patient);
+            //     this.UserAccRepository.delete(userAcc);
+            //      session.invalidate(); 
+            //      return new RedirectView("/User/login"); 
+            //  }
          }
          return new RedirectView("/patient/Profile"); 
      }

@@ -7,8 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 @Table(name = "patient")
 public class Patient extends UserAcc {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pid")
     private Long pid;
 
@@ -27,6 +27,8 @@ public class Patient extends UserAcc {
     @Column(name = "gender")
     private String gender;
 
+    private long test;
+
     @NotBlank(message = "Address is required")
     @Column(name = "address")
     private String address;
@@ -39,8 +41,8 @@ public class Patient extends UserAcc {
     public Patient() {
     }
 
-    public Patient(Long pid, String firstname, String lastname, String age, String gender, String address, String number) {
-        this.pid = pid;
+    public Patient( String firstname, String lastname, String age, String gender, String address, String number) {
+        // this.pid = pid;
         this.firstname = firstname;
         this.lastname = lastname;
         this.age = age;
@@ -51,11 +53,11 @@ public class Patient extends UserAcc {
 
     // Getters and Setters
     public Long getPid() {
-        return pid;
+        return test;
     }
 
     public void setPid(Long pid) {
-        this.pid = pid;
+        // this.pid = pid;
     }
 
     public String getFirstname() {
@@ -108,17 +110,17 @@ public class Patient extends UserAcc {
 
   
 
-    // To String
-    @Override
-    public String toString() {
-        return "Patient{" +
-                "pid=" + pid +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", age='" + age + '\'' +
-                ", gender='" + gender + '\'' +
-                ", address='" + address + '\'' +
-                ", number='" + number + '\'' +
-                '}';
-    }
+    // // To String
+    // @Override
+    // public String toString() {
+    //     return "Patient{" +
+    //             "pid=" + pid +
+    //             ", firstname='" + firstname + '\'' +
+    //             ", lastname='" + lastname + '\'' +
+    //             ", age='" + age + '\'' +
+    //             ", gender='" + gender + '\'' +
+    //             ", address='" + address + '\'' +
+    //             ", number='" + number + '\'' +
+    //             '}';
+    // }
 }

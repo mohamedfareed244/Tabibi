@@ -12,7 +12,7 @@ public class Schedule {
     private Long sid;
 
     @ManyToOne
-    @JoinColumn(name = "Did", referencedColumnName = "Did", insertable = true, updatable = true)
+    @JoinColumn(name = "Did", referencedColumnName = "uid", insertable = true, updatable = true)
     private Doctor doctor;
 
     @Column(name = "day")

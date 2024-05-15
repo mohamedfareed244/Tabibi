@@ -18,7 +18,7 @@ public class Treatment {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "Did", referencedColumnName = "Did", insertable = true, updatable = true)
+    @JoinColumn(name = "Did", referencedColumnName = "uid", insertable = true, updatable = true)
     private Doctor doctor;
 
 
