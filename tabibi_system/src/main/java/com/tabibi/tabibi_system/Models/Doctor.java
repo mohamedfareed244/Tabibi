@@ -12,11 +12,6 @@ import java.util.Objects;
 public class Doctor extends UserAcc implements Serializable {
     
 
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Did")
-    private Long did;
-
     @NotEmpty(message = "Doctor first name is Required")
 
     @Column(name = "firstname")
@@ -72,9 +67,6 @@ public class Doctor extends UserAcc implements Serializable {
         return this.test;
     }
 
-    public void setDid(Long did) {
-        // this.did = did;
-    }
 
     public String getFirstname() {
         return this.firstname;
@@ -140,10 +132,7 @@ public class Doctor extends UserAcc implements Serializable {
     //     this.clinic = clinic;
     // }
 
-    public Doctor did(Long did) {
-        setDid(did);
-        return this;
-    }
+  
 
     public Doctor firstname(String firstname) {
         setFirstname(firstname);

@@ -9,8 +9,7 @@ public class Patient extends UserAcc {
     
     // @Id
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pid")
-    private Long pid;
+
 
     @NotBlank(message = "First Name is required")
     @Column(name = "firstname")

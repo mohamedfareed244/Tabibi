@@ -16,8 +16,7 @@ public class Clinic extends UserAcc implements Serializable
 
     // @Id
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Cid")
-    private Long cid;
+    
 
     @NotEmpty(message = "Clinic name is Required")
     @Column(name = "cname")
@@ -44,9 +43,7 @@ public class Clinic extends UserAcc implements Serializable
     private String cnumber;
 
 
-    // @ManyToOne
-    // @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
-    // private UserAcc userAcc;
+
 
     @Transient
     private Appointment appointment;
@@ -55,22 +52,18 @@ public class Clinic extends UserAcc implements Serializable
     }
 
     public Clinic( String cname, String cloc, String workhrs, String reviews, String cnumber) {
-        // this.cid = cid;
         this.cname = cname;
         this.cloc = cloc;
         this.workhrs = workhrs;
         this.reviews = reviews;
         this.cnumber = cnumber;
-        // this.userAcc = userAcc;
     }
 
     public Long getCid() {
         return this.test;
     }
 
-    // public void setCid(Long cid) {
-    //     this.cid = cid;
-    // }
+ 
 
     public String getCname() {
         return this.cname;
@@ -113,11 +106,6 @@ public class Clinic extends UserAcc implements Serializable
     }
 
  
-
-    // public Clinic cid(Long cid) {
-    //     setCid(cid);
-    //     return this;
-    // }
 
     public Clinic cname(String cname) {
         setCname(cname);
