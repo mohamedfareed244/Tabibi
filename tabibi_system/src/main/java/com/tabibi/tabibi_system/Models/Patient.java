@@ -107,7 +107,10 @@ public class Patient extends UserAcc {
     public void setNumber(String number) {
         this.number = number;
     }
-
+   
+    public Patient getPatient() {
+        return this;
+    }
   
 
     // // To String

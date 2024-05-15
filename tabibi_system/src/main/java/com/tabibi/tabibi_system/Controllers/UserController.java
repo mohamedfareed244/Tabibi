@@ -99,11 +99,8 @@ public ModelAndView getlanding() {
 @GetMapping("/signup")
 public ModelAndView showSignupForm() {
     ModelAndView mav = new ModelAndView("signup.html");
-    SignupWrapper signupForm = new SignupWrapper();
-    signupForm.setPatient(new Patient());
-    signupForm.setDoctor(new Doctor());
-    signupForm.setClinic(new Clinic());
-    mav.addObject("signupForm", signupForm);
+    Patient patient=new Patient();
+    mav.addObject("patient", patient);
     return mav;
 }
 
@@ -112,8 +109,9 @@ public String hashpassword(String password)
     String encoddedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
     return encoddedPassword;
 }
-@PostMapping("/signup")
-public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  SignupWrapper signupForm, BindingResult result, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
+
+@PostMapping("signup")
+public ModelAndView processSignupForm(@ModelAttribute ("patient")  Patient patient, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
      ModelAndView SignupModel=new ModelAndView("signup.html");
      ModelAndView LoginModel=new ModelAndView("login.html");
 
@@ -121,57 +119,31 @@ public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  Sig
  List<String> errorMessages = new ArrayList<>();
 
 
-//  UserAcc existingUser = UserAccRepository.findByEmail(userAcc.getEmail());
-//  if (existingUser != null) 
-//  {
-// errorMessages.add("Email already exists. Please choose a different email.");
-//  }
+ Patient existingUser = patientRepository.findByEmail(patient.getEmail());
+ if (existingUser != null) 
+ {
+errorMessages.add("Email already exists. Please choose a different email.");
+ }
 
-// if (userAcc.getPass().length() < 8) 
-// {
-//     errorMessages.add("Password must be at least 8 characters long.");
-// }
+if (patient.getPass().length() < 8) 
+{
+    errorMessages.add("Password must be at least 8 characters long.");
+}
 
 
-// if(!BCrypt.checkpw(Confirm_pass, userAcc.getPass()))
+// if(!BCrypt.checkpw(Confirm_pass, doctor.getPass()))
 // {
 // errorMessages.add("Password and confirm password doesn't match");
 // }
-// else
-// System.err.println("password match");
+else
+System.err.println("password match");
 
-// if (userAcc.getPass().isEmpty())
-//  {
-//     errorMessages.add("Password is required");
-// }
+if (patient.getPass().isEmpty())
+ {
+    errorMessages.add("Password is required");
+}
 
-
-    switch (userType)
-    {
-        
-        case "patient":
-
-        if (result.hasErrors()) 
-        {
-            System.err.println("fe error fe validations");
-                for (ObjectError error : result.getAllErrors()) 
-                {
-                errorMessages.add(error.getDefaultMessage());
-                }
-                 SignupModel.addObject("errors", errorMessages);
-                 return SignupModel;
-        }
-            else
-            {
-            // userAcc.setUsertype(new UserTypes(4L));
-            Patient patient = signupForm.getPatient();
-            // patient.setUserAcc(userAcc);
-            // this.UserAccRepository.save(userAcc);
-            this.patientRepository.save(patient);
-            break;
-            }
-        case "doctor":
-        if (result.hasErrors()) 
+if (result.hasErrors()) 
 {
     for (ObjectError error : result.getAllErrors()) 
     {
@@ -182,37 +154,12 @@ public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  Sig
 }
 else
 {
-    Doctor doctor = signupForm.getDoctor();
-    String encoddedPassword =hashpassword(doctor.getPass());
-    doctor.setPass(encoddedPassword);  
-    doctor.setUsertype(new UserTypes(3L));
-    this.doctorRepository.save(doctor);
-    break;
+    Patient patientt = patient.getPatient();
+    String encoddedPassword =hashpassword(patient.getPass());
+    patientt.setPass(encoddedPassword);  
+    patientt.setUsertype(new UserTypes(4L));
+    this.patientRepository.save(patientt);
 }
-        case "clinic":
-        if (result.hasErrors()) 
-{
-    for (ObjectError error : result.getAllErrors()) 
-    {
-    errorMessages.add(error.getDefaultMessage());
-    }
-     SignupModel.addObject("errors", errorMessages);
-     return SignupModel;
-}
-else
-{
-
-        // userAcc.setUsertype(new UserTypes(2L));
-        Clinic clinic=signupForm.getClinic();
-        // clinic.setUserAcc(userAcc);
-        // this.UserAccRepository.save(userAcc);
-        this.clinicRepository.save(clinic);
-            break;
-}
-        default:
-            // Default case
-            break;
-    }
 
     return LoginModel;
 }
