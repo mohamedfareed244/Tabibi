@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tabibi.tabibi_system.Repositories.*;
+import com.tabibi.tabibi_system.Models.Admin;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
@@ -219,6 +220,12 @@ public RedirectView loginprocess(@RequestParam("email") String email, @RequestPa
                 session.setAttribute("Location", doctor.getLastname());
                 session.setAttribute("number", doctor.getNumber());
                 return new RedirectView("/User/DoctorHomePage");
+            }
+            else if (newUser instanceof Admin) {
+                Admin admin = (Admin) newUser;
+                session.setAttribute("name", admin.getName());
+               
+                return new RedirectView("/Admin/admin-dashboard");
             }
         } else {
             return new RedirectView("/User/Login?error=incorrectPassword"+email);
