@@ -119,6 +119,9 @@
 
             specify the price <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}">price Error</span>
             <input type="text" th:field="*{price}" placeholder="enter appointment's price" required>
+
+            select the capacity <span th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}">capacity Error</span>
+            <input type="text" th:field="*{capacity}" placeholder="enter the amount of patients who can book" required>
          
             select status <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}">status Error</span>
             <select th:field="*{status}" required>
@@ -126,12 +129,12 @@
                 <option value="reserved">reserved</option>
             </select>
             select clinic 
-            <select th:field="*{clinic.cid}" required>
-                <option th:each="x : ${clinics}" th:value="${x.cid}" th:text="${x.cname}"></option>
+            <select th:field="*{clinic.uid}" required>
+                <option th:each="x : ${clinics}" th:value="${x.uid}" th:text="${x.cname}"></option>
             </select>
             select doctor
-            <select th:field="*{doctor.did}" required>
-                <option th:each="y : ${doctors}" th:value="${y.did}" th:text="${y.firstname + ' ' + y.lastname}"></option>
+            <select th:field="*{doctor.uid}" required>
+                <option th:each="y : ${doctors}" th:value="${y.uid}" th:text="${y.firstname + ' ' + y.lastname}"></option>
             </select>
             <button type="submit">Submit</button>
         </form>

@@ -72,6 +72,7 @@ List<String> errorMessages = new ArrayList<>();
           for (ObjectError error : result.getAllErrors()) 
           {
           errorMessages.add(error.getDefaultMessage());
+          System.out.println(errorMessages);
           }
            addAppointment.addObject("errors", errorMessages);
        
