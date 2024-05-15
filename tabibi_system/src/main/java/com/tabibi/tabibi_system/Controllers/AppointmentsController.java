@@ -133,8 +133,9 @@ return mav;
 public RedirectView deleteAppointment(@PathVariable long appId){
     this.appointmentRepository.deleteByappId(appId);
     return new RedirectView("/appointments/view");
-}
 
+
+}
 }
 
 

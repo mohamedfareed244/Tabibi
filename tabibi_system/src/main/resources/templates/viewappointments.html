@@ -81,7 +81,9 @@
         <th >TIME</th>
         <th >STATUS</th>
         <th >CLINIC</th>
+        <th>PLACES LEFT</th>
         <th >ACTIONS</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -92,6 +94,7 @@
         <td th:text="${app.time}"></td>
         <td th:text="${app.status}"></td>
         <td th:text="${app.clinic.cname}"></td>
+        <td th:text="${app.getPlacesLeft}"></td>
 <td>
     <a id="edit"    th:href="@{'edit/' + ${app.appId}}">EDIT</a>
     ||
@@ -119,9 +122,9 @@
        /* Styling for the view div */
 .view {
  position: relative;
-width:1400px;
+width:1170px;
 margin: 20px;
-left:240px; 
+left:310px; 
 margin-left: 40px;
 border: 2px solid black;
 top: 50px;
@@ -148,7 +151,7 @@ table.table thead th {
 
 /* Styling for the table body */
 table.table tbody td {
-  padding: 10px;
+  padding: 5px;
 }
 
 /* Styling for the actions column */
@@ -173,6 +176,19 @@ table.table tbody td a#edit {
 table.table tbody td a#delete {
   background-color: #cc0000;
   padding: 5px 10px;
+}
+/* Styling for the table header */
+table.table thead th {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;  /* Center-align header text */
+}
+
+/* Styling for the table body cells */
+table.table tbody td {
+    padding: 5px;
+    text-align: center;  /* Center-align data cell text */
 }
 </style>
 

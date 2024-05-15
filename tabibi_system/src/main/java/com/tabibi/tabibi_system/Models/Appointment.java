@@ -212,37 +212,11 @@ public class Appointment implements Serializable {
         return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Appointment)) {
-            return false;
-        }
-        Appointment appointment = (Appointment) o;
-        return Objects.equals(appId, appointment.appId) && Objects.equals(date, appointment.date) && Objects.equals(status, appointment.status) && Objects.equals(time, appointment.time) && Objects.equals(price, appointment.price) && Objects.equals(doctor, appointment.doctor) && Objects.equals(patient, appointment.patient) && Objects.equals(clinic, appointment.clinic) && capacity == appointment.capacity && booked == appointment.booked;
+    public int getPlacesLeft() {
+        return capacity - booked;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(appId, date, status, time, price, doctor, patient, clinic, capacity, booked);
-    }
 
-    @Override
-    public String toString() {
-        return "{" +
-            " appId='" + getAppId() + "'" +
-            ", date='" + getDate() + "'" +
-            ", status='" + getStatus() + "'" +
-            ", time='" + getTime() + "'" +
-            ", price='" + getPrice() + "'" +
-            ", doctor='" + getDoctor() + "'" +
-            ", patient='" + getPatient() + "'" +
-            ", clinic='" + getClinic() + "'" +
-            ", capacity='" + getCapacity() + "'" +
-            ", booked='" + getBooked() + "'" +
-            "}";
-    }
    
 
   
