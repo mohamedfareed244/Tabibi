@@ -30,12 +30,14 @@ public class userlogging {
     // Check if redirection is to DoctorHomePage
     if (redirectView != null && ( "/User/DoctorHomePage".equals(redirectView.getUrl()) || "/User/clinicHomepage".equals(redirectView.getUrl()) || "/User/patientHomepage".equals(redirectView.getUrl()) ) ) {
        
-    //     String userId = (String) session.getAttribute("uid");
+        // String userId = (String) session.getAttribute("uid");
      
     //    UserLogRepository userlog;
     //    Date currentDate = new Date(System.currentTimeMillis());
     //    UserLog NewLog=new UserLog();
-    System.out.println("login catched ");
+    Object[] args = joinPoint.getArgs();
+    String email = (String) args[0];
+    System.out.println("login catched "+email);
     }
  
 }
