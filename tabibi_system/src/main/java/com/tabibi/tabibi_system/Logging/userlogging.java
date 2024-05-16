@@ -28,14 +28,15 @@ public class userlogging {
         returning = "redirectView")
         public void logSuccessfulLogin(JoinPoint joinPoint, RedirectView redirectView) {
     // Check if redirection is to DoctorHomePage
-    // if (redirectView != null && ( "/User/DoctorHomePage".equals(redirectView.getUrl()) || "/User/clinicHomepage".equals(redirectView.getUrl()) || "/User/patientHomepage".equals(redirectView.getUrl()) ) ) {
-    //     // Extract user ID
+    if (redirectView != null && ( "/User/DoctorHomePage".equals(redirectView.getUrl()) || "/User/clinicHomepage".equals(redirectView.getUrl()) || "/User/patientHomepage".equals(redirectView.getUrl()) ) ) {
+       
     //     String userId = (String) session.getAttribute("uid");
-    //     // Log the successful login event with user ID
+     
     //    UserLogRepository userlog;
     //    Date currentDate = new Date(System.currentTimeMillis());
     //    UserLog NewLog=new UserLog();
-    // }
     System.out.println("login catched ");
+    }
+ 
 }
 }
