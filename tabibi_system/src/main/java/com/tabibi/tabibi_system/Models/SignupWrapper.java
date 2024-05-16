@@ -4,9 +4,7 @@ import jakarta.validation.constraints.*;
 
 public class SignupWrapper {
 
-@Valid
-@NotNull
-    private UserAcc user;
+
 
     @Valid
     private Patient patient;
@@ -24,17 +22,15 @@ public class SignupWrapper {
 
     public void setClinic(Clinic clinic) {
         this.clinic = clinic;
-        this.patient=null;
-        this.doctor=null;
     }
 
 
-    public UserAcc getUser() {
-        return user;
-    }
+    // public UserAcc getUser() {
+    //     // return user;
+    // }
 
     public void setUser(UserAcc user) {
-        this.user = user;
+        // this.user = user;
     }
     public Doctor getDoctor() {
         return doctor;
@@ -42,8 +38,6 @@ public class SignupWrapper {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
-        this.clinic=null;
-        this.patient=null;
     }
 
     public Patient getPatient() {
@@ -52,7 +46,5 @@ public class SignupWrapper {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
-        this.doctor = null;
-        this.clinic = null;
     }
 }

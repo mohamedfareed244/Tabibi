@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tabibi.tabibi_system.Repositories.*;
+import com.tabibi.tabibi_system.Models.Admin;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
@@ -99,12 +100,8 @@ public ModelAndView getlanding() {
 @GetMapping("/signup")
 public ModelAndView showSignupForm() {
     ModelAndView mav = new ModelAndView("signup.html");
-    SignupWrapper signupForm = new SignupWrapper();
-    signupForm.setUser(new UserAcc());
-    signupForm.setPatient(new Patient());
-    signupForm.setDoctor(new Doctor());
-    signupForm.setClinic(new Clinic());
-    mav.addObject("signupForm", signupForm);
+    Patient patient=new Patient();
+    mav.addObject("patient", patient);
     return mav;
 }
 
@@ -113,69 +110,41 @@ public String hashpassword(String password)
     String encoddedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
     return encoddedPassword;
 }
-@PostMapping("/signup")
-public ModelAndView processSignupForm(@Valid @ModelAttribute ("signupForm")  SignupWrapper signupForm, BindingResult result, @RequestParam("userType") String userType , @RequestParam("cpassword") String Confirm_pass) {
-    UserAcc userAcc = signupForm.getUser(); 
+
+@PostMapping("signup")
+public ModelAndView processSignupForm(@ModelAttribute ("patient")  Patient patient, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
      ModelAndView SignupModel=new ModelAndView("signup.html");
-    String encoddedPassword =hashpassword(userAcc.getPass());
-    userAcc.setPass(encoddedPassword); 
-    ModelAndView LoginModel=new ModelAndView("login.html");
+     ModelAndView LoginModel=new ModelAndView("login.html");
 
 
  List<String> errorMessages = new ArrayList<>();
 
 
- UserAcc existingUser = UserAccRepository.findByEmail(userAcc.getEmail());
+ Patient existingUser = patientRepository.findByEmail(patient.getEmail());
  if (existingUser != null) 
  {
 errorMessages.add("Email already exists. Please choose a different email.");
  }
 
-if (userAcc.getPass().length() < 8) 
+if (patient.getPass().length() < 8) 
 {
     errorMessages.add("Password must be at least 8 characters long.");
 }
 
 
-if(!BCrypt.checkpw(Confirm_pass, userAcc.getPass()))
-{
-errorMessages.add("Password and confirm password doesn't match");
-}
+// if(!BCrypt.checkpw(Confirm_pass, doctor.getPass()))
+// {
+// errorMessages.add("Password and confirm password doesn't match");
+// }
 else
 System.err.println("password match");
 
-if (userAcc.getPass().isEmpty())
+if (patient.getPass().isEmpty())
  {
     errorMessages.add("Password is required");
 }
 
-
-    switch (userType)
-    {
-        
-        case "patient":
-
-        if (result.hasErrors()) 
-        {
-            System.err.println("fe error fe validations");
-                for (ObjectError error : result.getAllErrors()) 
-                {
-                errorMessages.add(error.getDefaultMessage());
-                }
-                 SignupModel.addObject("errors", errorMessages);
-                 return SignupModel;
-        }
-            else
-            {
-            userAcc.setUsertype(new UserTypes(4L));
-            Patient patient = signupForm.getPatient();
-            patient.setUserAcc(userAcc);
-            this.UserAccRepository.save(userAcc);
-            this.patientRepository.save(patient);
-            break;
-            }
-        case "doctor":
-        if (result.hasErrors()) 
+if (result.hasErrors()) 
 {
     for (ObjectError error : result.getAllErrors()) 
     {
@@ -186,37 +155,12 @@ if (userAcc.getPass().isEmpty())
 }
 else
 {
-          userAcc.setUsertype(new UserTypes(3L));
-          Doctor doctor = signupForm.getDoctor();
-          doctor.setUserAcc(userAcc);
-           this.UserAccRepository.save(userAcc);
-          this.doctorRepository.save(doctor);
-          break;
+    Patient patientt = patient.getPatient();
+    String encoddedPassword =hashpassword(patient.getPass());
+    patientt.setPass(encoddedPassword);  
+    patientt.setUsertype(new UserTypes(4L));
+    this.patientRepository.save(patientt);
 }
-        case "clinic":
-        if (result.hasErrors()) 
-{
-    for (ObjectError error : result.getAllErrors()) 
-    {
-    errorMessages.add(error.getDefaultMessage());
-    }
-     SignupModel.addObject("errors", errorMessages);
-     return SignupModel;
-}
-else
-{
-
-        userAcc.setUsertype(new UserTypes(2L));
-        Clinic clinic=signupForm.getClinic();
-        clinic.setUserAcc(userAcc);
-        this.UserAccRepository.save(userAcc);
-        this.clinicRepository.save(clinic);
-            break;
-}
-        default:
-            // Default case
-            break;
-    }
 
     return LoginModel;
 }
@@ -236,8 +180,6 @@ else
      public ModelAndView Login()
      {
          ModelAndView mav=new ModelAndView("login.html"); 
-         UserAcc user=new UserAcc();
-         mav.addObject("user", user);
          return mav;
      }
 
@@ -248,45 +190,50 @@ public String passtest(@RequestParam("pass") String pass) {
 }
 
 
-     @PostMapping("/Login")
-     public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
-        
-         UserAcc newUser = this.UserAccRepository.findByEmail(email);
+@PostMapping("/Login")
+public RedirectView loginprocess(@RequestParam("email") String email, @RequestParam("pass") String pass, HttpSession session) {
+    UserAcc newUser = this.UserAccRepository.findByEmail(email);
 
-         if (newUser != null) {
-             Boolean PasswordsMatch = BCrypt.checkpw(pass, newUser.getPass());
-             if (PasswordsMatch) {
-                 session.setAttribute("email", newUser.getEmail());
-                 session.setAttribute("uid", newUser.getUid());
-                 session.setAttribute("usertype", newUser.getUsertype().getName());
-                 session.setAttribute("usertypeID", newUser.getUsertype().getUtid());
-     
-                 if (newUser.getUsertype().getUtid() == 4) {
-                     Patient patient = this.patientRepository.findByUserAcc(newUser);
-                     session.setAttribute("firstname", patient.getFirstname());
-                     session.setAttribute("number", patient.getNumber());
-                     session.setAttribute("lastname", patient.getLastname());
-                     return new RedirectView("/User/patientHomepage");
-                 } else if (newUser.getUsertype().getUtid() == 2) {
-                     Clinic clinic = this.clinicRepository.findByUserAcc(newUser);
-                     session.setAttribute("firstname", clinic.getCname());
-                     session.setAttribute("Location", clinic.getCloc());
-                     session.setAttribute("number", clinic.getCnumber());
-                     return new RedirectView("/User/clinicHomepage");
-                 }
-                 else if (newUser.getUsertype().getUtid() == 3) {
-                    Doctor doctor = this.doctorRepository.findByUserAcc(newUser);
-                    session.setAttribute("firstname", doctor.getFirstname());
-                    session.setAttribute("Location", doctor.getLastname());
-                    session.setAttribute("number", doctor.getNumber());
-                    return new RedirectView("/User/DoctorHomePage");
-                }         
-             } else {
-                 return new RedirectView("/User/Login?error=incorrectPassword"+email);
-             }
-         }
-         return new RedirectView("/User/Login?error=userNotFound"+email);
-     }
+    if (newUser != null) {
+        Boolean PasswordsMatch = BCrypt.checkpw(pass, newUser.getPass());
+        if (PasswordsMatch) {
+            session.setAttribute("email", newUser.getEmail());
+            session.setAttribute("uid", newUser.getUid());
+            session.setAttribute("usertype", newUser.getUsertype().getName());
+            session.setAttribute("usertypeID", newUser.getUsertype().getUtid());
+
+            if (newUser instanceof Patient) {
+                Patient patient = (Patient) newUser;
+                session.setAttribute("firstname", patient.getFirstname());
+                session.setAttribute("number", patient.getNumber());
+                session.setAttribute("lastname", patient.getLastname());
+                return new RedirectView("/User/patientHomepage");
+            } else if (newUser instanceof Clinic) {
+                Clinic clinic = (Clinic) newUser;
+                session.setAttribute("firstname", clinic.getCname());
+                session.setAttribute("Location", clinic.getCloc());
+                session.setAttribute("number", clinic.getCnumber());
+                return new RedirectView("/User/clinicHomepage");
+            } else if (newUser instanceof Doctor) {
+                Doctor doctor = (Doctor) newUser;
+                session.setAttribute("firstname", doctor.getFirstname());
+                session.setAttribute("Location", doctor.getLastname());
+                session.setAttribute("number", doctor.getNumber());
+                return new RedirectView("/User/DoctorHomePage");
+            }
+            else if (newUser instanceof Admin) {
+                Admin admin = (Admin) newUser;
+                session.setAttribute("name", admin.getName());
+               
+                return new RedirectView("/Admin/admin-dashboard");
+            }
+        } else {
+            return new RedirectView("/User/Login?error=incorrectPassword"+email);
+        }
+    }
+    return new RedirectView("/User/Login?error=userNotFound"+email);
+}
+
      
      
      

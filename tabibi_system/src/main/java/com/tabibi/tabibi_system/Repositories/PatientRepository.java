@@ -10,11 +10,13 @@ import com.tabibi.tabibi_system.Models.UserAcc;
 
 
 
-public interface PatientRepository extends JpaRepository<Patient,Long> 
+public interface PatientRepository extends JpaRepository<Patient,Integer> 
 {
-    Patient  findByUserAcc(UserAcc userAcc);
+    // Patient  findByUserAcc(UserAcc userAcc);
 
     Patient findBypid(Long pid);
     List<Patient> findByfirstname (String firstname);
+    Patient findByEmail(String email);
+
 }
 

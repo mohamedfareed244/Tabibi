@@ -11,13 +11,12 @@ import java.util.Set;
 @Entity
 
 @Table(name = "clinic")
-public class Clinic implements Serializable
+public class Clinic extends UserAcc implements Serializable
 {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Cid")
-    private Long cid;
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
 
     @NotEmpty(message = "Clinic name is Required")
     @Column(name = "cname")
@@ -32,6 +31,10 @@ public class Clinic implements Serializable
     @Column(name = "workhrs")
     private String workhrs;
 
+    private long test;
+
+
+
     @Column(name = "reviews")
     private String reviews;
 
@@ -39,9 +42,8 @@ public class Clinic implements Serializable
     @Column(name = "cnumber")
     private String cnumber;
 
-    @ManyToOne
-    @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
-    private UserAcc userAcc;
+
+
 
     @Transient
     private Appointment appointment;
@@ -49,23 +51,19 @@ public class Clinic implements Serializable
     public Clinic() {
     }
 
-    public Clinic(Long cid, String cname, String cloc, String workhrs, String reviews, String cnumber, UserAcc userAcc) {
-        this.cid = cid;
+    public Clinic( String cname, String cloc, String workhrs, String reviews, String cnumber) {
         this.cname = cname;
         this.cloc = cloc;
         this.workhrs = workhrs;
         this.reviews = reviews;
         this.cnumber = cnumber;
-        this.userAcc = userAcc;
     }
 
     public Long getCid() {
-        return this.cid;
+        return this.test;
     }
 
-    public void setCid(Long cid) {
-        this.cid = cid;
-    }
+ 
 
     public String getCname() {
         return this.cname;
@@ -107,18 +105,7 @@ public class Clinic implements Serializable
         this.cnumber = cnumber;
     }
 
-    public UserAcc getUserAcc() {
-        return this.userAcc;
-    }
-
-    public void setUserAcc(UserAcc userAcc) {
-        this.userAcc = userAcc;
-    }
-
-    public Clinic cid(Long cid) {
-        setCid(cid);
-        return this;
-    }
+ 
 
     public Clinic cname(String cname) {
         setCname(cname);
@@ -145,39 +132,10 @@ public class Clinic implements Serializable
         return this;
     }
 
-    public Clinic userAcc(UserAcc userAcc) {
-        setUserAcc(userAcc);
+    public Clinic getClinic() {
         return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Clinic)) {
-            return false;
-        }
-        Clinic clinic = (Clinic) o;
-        return Objects.equals(cid, clinic.cid) && Objects.equals(cname, clinic.cname) && Objects.equals(cloc, clinic.cloc) && Objects.equals(workhrs, clinic.workhrs) && Objects.equals(reviews, clinic.reviews) && Objects.equals(cnumber, clinic.cnumber) && Objects.equals(userAcc, clinic.userAcc);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cid, cname, cloc, workhrs, reviews, cnumber, userAcc);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " cid='" + getCid() + "'" +
-            ", cname='" + getCname() + "'" +
-            ", cloc='" + getCloc() + "'" +
-            ", workhrs='" + getWorkhrs() + "'" +
-            ", reviews='" + getReviews() + "'" +
-            ", cnumber='" + getCnumber() + "'" +
-            ", userAcc='" + getUserAcc() + "'" +
-            "}";
-    }
     
     
 }

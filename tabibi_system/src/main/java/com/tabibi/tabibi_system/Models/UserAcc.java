@@ -9,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "user_acc")
+@Inheritance(strategy = InheritanceType.JOINED)
 
 public class UserAcc {
  
