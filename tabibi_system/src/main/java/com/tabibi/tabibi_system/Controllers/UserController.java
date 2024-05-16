@@ -19,6 +19,8 @@ import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Models.SignupWrapper;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -33,6 +35,8 @@ import java.util.regex.Pattern;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties.Http;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -43,6 +47,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Objects;
+import java.util.Properties;
+import java.util.Random;
+
 
 
 
@@ -62,6 +69,7 @@ public class UserController {
     @Autowired
     UserTypePagesRepository page_type_repo;
  
+    
 
     public UserController() {
     }
@@ -159,6 +167,7 @@ else
     String encoddedPassword =hashpassword(patient.getPass());
     patientt.setPass(encoddedPassword);  
     patientt.setUsertype(new UserTypes(4L));
+    patientt.setToken("0");
     this.patientRepository.save(patientt);
 }
 
@@ -183,6 +192,115 @@ else
          return mav;
      }
 
+     @GetMapping("/forgetpassword")
+     public ModelAndView forgetpass()
+     {
+         ModelAndView mav=new ModelAndView("forgetpassword.html"); 
+         return mav;
+     }
+
+    public static String generateRandom4DigitNumber() {
+        Random random = new Random();
+        int number = 1000 + random.nextInt(9000); // Generate a random number between 1000 and 9999
+        return String.valueOf(number);
+    }
+
+public void send_token(String mail)
+{
+    String Token=generateRandom4DigitNumber();
+    // Save the token to database
+    UserAcc forgetUser=this.UserAccRepository.findByEmail(mail);
+    forgetUser.setToken(Token);
+    this.UserAccRepository.save(forgetUser);
+
+            // Set up the mail sender
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("tabibii.application@gmail.com");
+        mailSender.setPassword("maga ltqn qnoi azhz");
+
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        // Create a mime message
+        MimeMessage message = mailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("tabibii.application@gmail.com");
+            helper.setTo(mail);
+            helper.setSubject("Here is your reset Token :");
+            helper.setText(Token);
+            // Send the mail
+            mailSender.send(message);
+            System.out.println("Mail sent successfully.");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            System.out.println("Error while sending mail.");
+        }
+
+}
+int Userid;
+    @PostMapping("/forgetpassword")
+    public RedirectView Sendmail(@RequestParam("email")String email)
+     {
+     if (UserAccRepository.existsByEmail(email))
+      {
+        UserAcc forgetUser=this.UserAccRepository.findByEmail(email);
+      Userid =forgetUser.getUid();
+      send_token(email);
+        
+        return new RedirectView("/User/ChangePassword");
+     }
+     else
+     {
+         System.out.println("User mesh mawgood");
+        return new RedirectView("/User/forgetpassword?error=UserNotFound with This Email:"+email);
+
+     }
+
+     }
+@GetMapping("/ChangePassword")
+public ModelAndView ChangePass()
+ {
+    return new ModelAndView("ChangePassword.html");
+}
+
+@PostMapping("/ChangePassword")
+public RedirectView ChangePassword(@RequestParam("NewPass") String newpass,@RequestParam("Confirmpass") String confirmpass,@RequestParam("Token") String Token) {
+ UserAcc checkuser=this.UserAccRepository.findByUid(Userid);
+System.out.println(checkuser.getEmail());
+System.out.println(Token);
+System.out.println(checkuser.getToken());
+    if(!newpass.equals(confirmpass))
+{
+    return new RedirectView("/User/ChangePassword?error=Passwords do not match ");
+}
+else if (Token.equals(checkuser.getToken())) 
+{
+checkuser.setPass(newpass);
+this.UserAccRepository.save(checkuser);
+return new RedirectView("/User/Savednewpass");
+}
+else
+{
+    return new RedirectView("/User/ChangePassword?error=Token is incorrect ");
+}
+
+}
+
+@GetMapping("/Savednewpass")
+public ModelAndView Redirectsaved() {
+    return new ModelAndView("Savedpassword.html");
+}
+
+    
+  
 @PostMapping("/test")
 public String passtest(@RequestParam("pass") String pass) {
     

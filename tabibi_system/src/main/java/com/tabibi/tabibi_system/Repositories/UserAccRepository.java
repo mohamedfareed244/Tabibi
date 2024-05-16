@@ -11,6 +11,7 @@ public interface UserAccRepository extends JpaRepository<UserAcc,Integer> {
    // List<UserAcc> findByName(String name);
    UserAcc findByEmail(String email);
    UserAcc findByUid(int uid);
+   boolean existsByEmail(String email);
 
 
 

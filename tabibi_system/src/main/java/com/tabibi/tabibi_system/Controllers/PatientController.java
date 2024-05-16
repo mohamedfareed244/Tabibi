@@ -64,7 +64,8 @@ public class PatientController {
      public RedirectView editprocess(HttpSession session,@RequestParam("email") String email,
      @RequestParam("firstname") String firstname,
      @RequestParam("lastname") String lastname,
-     @RequestParam("number") String number) {
+     @RequestParam("number") String number) 
+     {
          Integer uid = (Integer)session.getAttribute("uid");
          UserAcc newUser = this.UserAccRepository.findByUid(uid);
          if (newUser != null) {

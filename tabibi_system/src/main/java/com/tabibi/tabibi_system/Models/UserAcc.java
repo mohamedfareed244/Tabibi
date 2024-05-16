@@ -30,8 +30,11 @@ public class UserAcc {
     @ManyToOne
     @JoinColumn(name = "usertype_id", nullable = true)
     private UserTypes usertype;
+
+    @Column(name = "Token")
+    private String Token;
     
-    @Column(name = "image", nullable = true)
+    @Column(name = "image")
     private String image;
     
     public UserAcc() {
@@ -108,6 +111,16 @@ public class UserAcc {
         this.usertype = usertype;
     }
 
+    public String getToken() {
+        return Token;
+    }
+
+    public void setToken(String Token) {
+        this.Token = Token;
+    }
+    
+
+ 
     public String getImage() {
         return image;
     }
