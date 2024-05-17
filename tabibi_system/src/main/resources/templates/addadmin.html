@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../css/addusers.css">
+    <link rel="stylesheet" href="../css/addadmin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
 </head>
@@ -30,15 +30,15 @@
              </div>
               
               </div>
-              <h2 class="text-uppercase text-center mb-5">Add User</h2>
+              <h2 class="text-uppercase text-center mb-5">Add Admin</h2>
             <br><br><br>
-              <form  class="mar" name="f1" th:action="@{/Admin/addusers}" th:object="${user}" method="POST">
+              <form  class="mar" name="f1" th:action="@{/Admin/addadmin}" th:object="${user}" method="POST">
             
 
-                <!-- <div class="form-outline mb-4" style=" margin-top: -100px;">
+                <div class="form-outline mb-4" style=" margin-top: -100px;">
                   <input type="text" id="fname"   name="username" class="form-control form-control-lg" />  
-                  <label class="form-label" for="fname">username</label>  
-                </div> -->
+                  <label class="form-label" for="fname">Name</label>  
+                </div>
                 <div class="form-outline mb-4">
                     <input type="text" id="email" th:field="*{email}"  name="email" class="form-control form-control-lg" />
                     <label class="form-label" for="email">Email</label>
@@ -61,13 +61,13 @@
                 </div>
                <!-- Other form elements -->
 
-               <div class="form-outline mb-4">
+               <!-- <div class="form-outline mb-4">
                 <label class="form-label" for="userType">Select User Type:</label>
                 <select th:field="*{usertype}" id="userType" class="form-select">
                     <option th:each="type : ${types}" th:value="${type.utid}" th:text="${type.name}"></option>
                 </select>
               </div>
-              
+               -->
               <!-- Other form elements -->
               
               
@@ -80,7 +80,7 @@
                   <label class="form-label" for="userType">Patient</label>
                 </div>
                 -->
-                <input type="submit" class="btn btn-success btn-block btn-lg">
+                <input type="submit" style="color: black;" class="btn btn-success btn-block btn-lg">
                 </div>
             
 

@@ -4,6 +4,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tabibi.tabibi_system.Models.Admin;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Pages;
@@ -13,6 +14,7 @@ import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserTypePages;
 // import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
+import com.tabibi.tabibi_system.Repositories.AdminRepository;
 import com.tabibi.tabibi_system.Repositories.ClinicRepository;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PagesRepository;
@@ -63,6 +65,9 @@ public class admincontroller {
    UserTypePagesRepository page_type_repo;
    @Autowired
    ClinicRepository clinicRepository;
+
+   @Autowired
+   AdminRepository adminRepository;
 
    // @Autowired
    // UserTypePagesRepository page_type_repo;
@@ -175,30 +180,36 @@ else
       mav.addObject("usertypeID",session.getAttribute("usertypeID"));
       mav.addObject("usertype",session.getAttribute("usertype"));
       
-      System.out.println("============================================ in get ");
-      System.out.println(user);
-      System.out.println(typelist);
-      System.out.println(pagelist);
+      // System.out.println("============================================ in get ");
+      // System.out.println(user);
+      // System.out.println(typelist);
+      // System.out.println(pagelist);
       
       return mav;
    }
 
    @PostMapping("/addpermission")
-   public RedirectView savePermissions(@RequestParam("usertype")String usertype,@RequestParam("chosenpage")List<String> chosenpages ) {
-      UserTypes type=this.user_type_repo.findByname(usertype);
-      for (String pagename : chosenpages) {
-      Pages p=this.pages_repo.findByname(pagename);
+   public RedirectView savePermissions(@RequestParam("usertype")Long usertype,@RequestParam("chosenpage")List<Long> chosenpages ) {
+      UserTypes type=this.user_type_repo.findByutid(usertype);
 
-      UserTypePages utp = new UserTypePages();
-utp.setPage(p);
-utp.setUsertype(type);
-      System.out.println("00000000000000000000000000000000e88392010============================");
-      System.out.println(utp);
-      System.out.println(usertype);
+      
+      this.page_type_repo.deleteByUsertype(type);
+      //this.page_type_repo.deleteByupid(usertype);
+      System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
+      System.out.println(type);
+      for (Long pagename : chosenpages) {
+         Pages p=this.pages_repo.findBypgid(pagename);
+         
+         UserTypePages utp = new UserTypePages();
+
+
+         utp.setPage(p);
+         utp.setUsertype(type);
+         
 
       this.page_type_repo.save(utp);
    }
-   return new RedirectView("/Admin/admin-dashboard");
+   return new RedirectView("/Admin/navigation");
 }
 
    @GetMapping("/settings")
@@ -207,9 +218,9 @@ utp.setUsertype(type);
       return mav;
    }
 
-   @GetMapping("/addusers")
+   @GetMapping("/addadmin")
    public ModelAndView addusers() {
-      ModelAndView mav = new ModelAndView("addusers.html");
+      ModelAndView mav = new ModelAndView("addadmin.html");
       UserAcc user = new UserAcc();
       List<UserTypes> typeList = this.user_type_repo.findAll();
       System.out.println("--------------------------- the type list =  --------------------------------------");
@@ -222,12 +233,11 @@ utp.setUsertype(type);
       return mav;
    }
 
-   @PostMapping("addusers")
-   public RedirectView saveuser(@ModelAttribute UserAcc user) {
-      String hash_password = BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
-      user.setPass(hash_password);
-      this.userrepo.save(user);
-
+   @PostMapping("addadmin")
+   public RedirectView saveuser(@ModelAttribute Admin admin) {
+      String hash_password = BCrypt.hashpw(admin.getPass(), BCrypt.gensalt(12));
+      admin.setPass(hash_password);
+      this.adminRepository.save(admin);
       return new RedirectView("/Admin/admin-dashboard");
 
    }

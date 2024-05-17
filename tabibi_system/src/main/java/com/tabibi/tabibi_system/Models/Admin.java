@@ -7,8 +7,8 @@ import java.util.Objects;
 @Table(name = "admin")
 public class Admin extends UserAcc {
 
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long aid;
 
     @Column(name = "name")

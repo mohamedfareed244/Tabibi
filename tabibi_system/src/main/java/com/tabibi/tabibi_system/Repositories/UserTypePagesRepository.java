@@ -12,6 +12,9 @@ public interface UserTypePagesRepository extends JpaRepository<UserTypePages,Lon
 {
         List<UserTypePages> findByupid(Long type);
         List<UserTypePages> findByUsertype(UserTypes usertype);
+        void deleteByUsertype(UserTypes type);
+        void deleteByupid(UserTypes id);
+
         
 
 }

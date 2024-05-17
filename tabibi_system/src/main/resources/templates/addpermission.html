@@ -48,7 +48,7 @@ if(isset($_POST['submit'])){
 		
 	<form th:action="@{/Admin/addpermission}" method="POST" th:object="${user}">
         <table >
-			<tr>
+			<tr>	
 				<td>All Pages</td>
 				<td></td>
 				<td>Choosen Pages</td>
@@ -57,7 +57,7 @@ if(isset($_POST['submit'])){
 				<td>
 					<select id="leftValues" name="chosenpage[]"  STYLE="width: 160px;box-sizing: border-box;" size="5" multiple>
 						
-                        <option th:each="type : ${page}"  th:value="${type.name}" th:text="${type.name}"></option>
+                        <option th:each="type : ${page}"  th:value="${type.pgid}" th:text="${type.name}"></option>
 
 					</select>
 				</td>
@@ -77,7 +77,7 @@ if(isset($_POST['submit'])){
 				</td>
 				<td>
 					<select  name="usertype" th:field="*{usertype}">
-                        <option th:each="type : ${type}" th:value="${type.name}" th:text="${type.name}"></option>
+                        <option th:each="type : ${type}" th:value="${type.utid}" th:text="${type.name}"></option>
 
 
 
