@@ -31,15 +31,15 @@ public class doctorcontroller {
     public String getData(@RequestParam  String name) {
        List<Patient> mylist=this.patient_repo.findByfirstname(name);
        if(mylist.size()==0){
-          return "no patients fonded ";
+          return "no patients found ";
        }else{
           String data="";
           for(int i=0;i<mylist.size();i++){
              Patient patient=mylist.get(i);
         data+="<tr onclick='edit(";
-        data+=(patient.getPid()+")'>");
+        data+=(patient.getUid()+")'>");
         data+="<td>";
- data+=(patient.getPid());
+ data+=(patient.getUid());
  data+="</td>";
  data+="<td>";
  data+=(patient.getFirstname());
@@ -57,15 +57,15 @@ public class doctorcontroller {
      
     }
     @GetMapping("/info")
-    public ModelAndView getinfopage(@RequestParam Long id ,HttpSession session){
+    public ModelAndView getinfopage(@RequestParam Integer id ,HttpSession session){
        
-       Patient patient=this.patient_repo.findBypid(id);
+       Patient patient=this.patient_repo.findByUid(id);
        session.setAttribute("editPid", id);
        session.setAttribute("editAge", patient.getAge());
        session.setAttribute("editAddress",patient.getAddress());
-ModelAndView mav=new ModelAndView("patientinfo.html");
-mav.addObject("patient", patient);
-return mav;
+      ModelAndView mav=new ModelAndView("patientinfo.html");
+      mav.addObject("patient", patient);
+      return mav;
     }
 
     @GetMapping("/patients")

@@ -85,6 +85,29 @@ public class PatientController {
          return new RedirectView("/patient/EditProfile?error=incorrectPassword");
      
      }
+     @PostMapping("/edit")
+     public RedirectView editpatient(
+     @RequestParam("firstname") String firstname,
+     @RequestParam("lastname") String lastname,
+     @RequestParam("number") String number,
+     @RequestParam("address") String address,
+     @RequestParam("gender") String gender,
+     HttpSession session){
+
+        Patient PatientEdit = this.patientRepository.findByUid((Integer)session.getAttribute("editPid"));
+        if (PatientEdit == null) {
+            return new RedirectView("/User/Login");
+        }
+        
+        PatientEdit.setFirstname(firstname);
+        PatientEdit.setLastname(lastname);
+        PatientEdit.setNumber(number);
+        PatientEdit.setAddress(address);
+        PatientEdit.setGender(gender);
+        this.patientRepository.save(PatientEdit);
+        return new RedirectView("/User/DoctorHomePage");
+
+     }
      
      @GetMapping("/deleteAccount")
      public RedirectView deleteAccount(HttpSession session) {
@@ -99,15 +122,7 @@ public class PatientController {
      }
 
     
-     @PostMapping("/edit")
-     public RedirectView editpatient(@ModelAttribute Patient patient,HttpSession session){
-        patient.setAge( (String)session.getAttribute("editAge"));
-        patient.setAddress( (String)session.getAttribute("editAddress"));
-        patient.setPid((Long) session.getAttribute("editPid"));
-this.patientRepository.save(patient);
-return new RedirectView("/patient/info?id="+(Long) session.getAttribute("editPid"));
-
-     }
+    
      
 
 //      @PostMapping("/deletePatient")
