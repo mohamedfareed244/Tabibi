@@ -7,4 +7,5 @@ import com.tabibi.tabibi_system.Models.Diagnosis;
 
 public interface DiagnosisRepository extends JpaRepository<Diagnosis,Long> {
     
+    
 }

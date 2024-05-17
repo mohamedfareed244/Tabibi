@@ -1,10 +1,14 @@
 package com.tabibi.tabibi_system.Controllers;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,10 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.tabibi.tabibi_system.Models.Diagnosis;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
+import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
+import com.tabibi.tabibi_system.Repositories.UserAccRepository;
+import com.tabibi.tabibi_system.Repositories.DiagnosisRepository;
+
 
 import jakarta.servlet.http.HttpSession;
 
@@ -26,6 +35,11 @@ public class doctorcontroller {
     PatientRepository patient_repo;
      @Autowired 
     private DoctorRepository doctorRepository;
+    @Autowired 
+    private DiagnosisRepository diagnosisRepository;
+    @Autowired
+    private UserAccRepository userAccRepository;
+
 
     @GetMapping("/getdata")
     public String getData(@RequestParam  String name) {
@@ -152,4 +166,22 @@ public class doctorcontroller {
          }
          return new RedirectView("/Doctor/Profile"); 
      }
+
+     @PostMapping("/addDiagnose")
+     public RedirectView DiagnosePatient(
+     @RequestParam("diagnosename") String diagnosename,
+     @RequestParam("treatment") String treatment,
+     HttpSession session){
+
+      Diagnosis diagnosis=new Diagnosis();
+      diagnosis.setDiagnosisName(diagnosename);
+      diagnosis.setTreatment(treatment);
+      diagnosis.setUserAcc(this.userAccRepository.findByUid((Integer)session.getAttribute("editPid")));
+      this.diagnosisRepository.save(diagnosis);
+      
+        return new RedirectView("/User/DoctorHomePage");
+
+     }
+     
+ 
 }

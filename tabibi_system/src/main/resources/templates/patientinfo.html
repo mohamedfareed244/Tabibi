@@ -75,7 +75,7 @@
                     <label class="labels" style="font-size: larger;">Patient Diagnosis</label>
                     <br>
                     <br>
-                    <form action="" method="post">
+                    <form th:action="@{/Doctor/addDiagnose}" method="post">
                         <label for="diagnosename">Diagnose name</label>
                         <input type="text" placeholder="Enter diagnose name" id="diagnosename" name="diagnosename" required>
                         <br>
