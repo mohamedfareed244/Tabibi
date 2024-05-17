@@ -67,19 +67,18 @@ public class PatientController {
      @RequestParam("number") String number) 
      {
          Integer uid = (Integer)session.getAttribute("uid");
-         UserAcc newUser = this.UserAccRepository.findByUid(uid);
-         if (newUser != null) {
+         Patient PatientEdit = this.patientRepository.findByUid(uid);
+         if (PatientEdit != null) {
              session.setAttribute("email", email);
              session.setAttribute("firstname", firstname);
              session.setAttribute("lastname", lastname);
              session.setAttribute("number", number);
-            //  Patient patient = this.patientRepository.findByUserAcc(newUser);
-            //  patient.setFirstname(firstname);
-            //  patient.setLastname(lastname);
-            //  patient.setNumber(number);
-            //  newUser.setEmail(email);
-            //  this.UserAccRepository.save(newUser);
-            //  this.patientRepository.save(patient);
+             
+             PatientEdit.setFirstname(firstname);
+             PatientEdit.setLastname(lastname);
+             PatientEdit.setNumber(number);
+             PatientEdit.setEmail(email);
+             this.patientRepository.save(PatientEdit);
              
              return new RedirectView("/User/patientHomepage");
          }
@@ -90,15 +89,11 @@ public class PatientController {
      @GetMapping("/deleteAccount")
      public RedirectView deleteAccount(HttpSession session) {
          Integer uid = (Integer) session.getAttribute("uid");
-         UserAcc userAcc = this.UserAccRepository.findByUid(uid);
-         if (userAcc != null) {
-            //  Patient patient = this.patientRepository.findByUserAcc(userAcc);
-            //  if (patient != null) {
-            //      this.patientRepository.delete(patient);
-            //     this.UserAccRepository.delete(userAcc);
-            //      session.invalidate(); 
-            //      return new RedirectView("/User/login"); 
-            //  }
+         Patient PatientDelete = this.patientRepository.findByUid(uid);
+         if (PatientDelete != null) {
+                 this.patientRepository.delete(PatientDelete);
+                 session.invalidate(); 
+                 return new RedirectView("/User/login"); 
          }
          return new RedirectView("/patient/Profile"); 
      }

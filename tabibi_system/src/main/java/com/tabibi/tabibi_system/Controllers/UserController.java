@@ -335,8 +335,10 @@ public RedirectView loginprocess(@RequestParam("email") String email, @RequestPa
             } else if (newUser instanceof Doctor) {
                 Doctor doctor = (Doctor) newUser;
                 session.setAttribute("firstname", doctor.getFirstname());
-                session.setAttribute("Location", doctor.getLastname());
+                session.setAttribute("lastname", doctor.getLastname());
                 session.setAttribute("number", doctor.getNumber());
+                session.setAttribute("specialization", doctor.getSpecialization());
+                session.setAttribute("education", doctor.getEduc());
                 return new RedirectView("/User/DoctorHomePage");
             }
             else if (newUser instanceof Admin) {
