@@ -7,149 +7,120 @@
     <title>Document</title>
     <link rel="stylesheet" href="../css/addadmin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
 </head>
+
 <body>
-  <div th:include="navigation.html">
+    <div th:include="navigation.html"></div>
 
+    <section class="vh-100 bg-image">
+        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body p-5" style="height: 19cm;">
+                                <div class="choose">
+                                    <div class="nav"></div>
+                                </div>
+                                <h2 class="text-uppercase text-center mb-5">Add Admin</h2>
+                                <br><br><br>
+                                <form class="mar" name="f1" th:action="@{/Admin/addadmin}" th:object="${user}" method="POST" onsubmit="return validateForm()">
 
-    </div>
+                                    <div class="form-outline mb-4" style="margin-top: -100px;">
+                                        <input type="text" id="fname"th:field="*{name}" name="name" class="form-control form-control-lg" />
+                                        <label class="form-label" for="fname">Name</label>
+                                        <span id="fname-error" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="email" th:field="*{email}" name="email" class="form-control form-control-lg" />
+                                        <label class="form-label" for="email">Email</label>
+                                        <span id="email-error" class="text-danger"></span>
+                                    </div>
 
+                                    <div class="form-outline mb-4">
+                                        <input type="password" id="pass" th:field="*{pass}" name="pass" class="form-control form-control-lg" />
+                                        <label class="form-label" for="pass">Password</label>
+                                        <span id="pass-error" class="text-danger"></span>
+                                    </div>
 
-<section class="vh-100 bg-image">
-  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-    <div class="container h-100" >
-      <div class="row d-flex justify-content-center align-items-center h-100" >
-        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-          <div class="card" style="border-radius: 15px;">
-          <div class="card-body p-5" style="height: 19cm;">
+                                    <div class="form-outline mb-4">
+                                        <input type="password" id="confpass" class="form-control form-control-lg" />
+                                        <label class="form-label" for="confpass">Confirm password</label>
+                                        <span id="confpass-error" class="text-danger"></span>
+                                    </div>
 
-              <div class="choose">
-             <div class="nav"> 
-            
-             </div>
-              
-              </div>
-              <h2 class="text-uppercase text-center mb-5">Add Admin</h2>
-            <br><br><br>
-              <form  class="mar" name="f1" th:action="@{/Admin/addadmin}" th:object="${user}" method="POST">
-            
+                                    <input type="submit" style="color: black;" class="btn btn-success btn-block btn-lg">
+                                </form>
 
-                <div class="form-outline mb-4" style=" margin-top: -100px;">
-                  <input type="text" id="fname"   name="username" class="form-control form-control-lg" />  
-                  <label class="form-label" for="fname">Name</label>  
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-outline mb-4">
-                    <input type="text" id="email" th:field="*{email}"  name="email" class="form-control form-control-lg" />
-                    <label class="form-label" for="email">Email</label>
-                  </div>
-                <!-- <div class="form-outline mb-4">
-                  <input type="text" id="lname"  th:field="*{dob}" name="lastname" class="form-control form-control-lg" /> 
-                  <label class="form-label" for="lname">Date of birth</label>  
-                </div> -->
-
-                
-
-                <div class="form-outline mb-4">
-                  <input type="password"   id="pass" th:field="*{pass}" name="pass" class="form-control form-control-lg" />
-                  <label class="form-label" for="pass">Password</label>
-                </div>
-
-                <div class="form-outline mb-4">
-                  <input type="password" id="confpass" class="form-control form-control-lg" />
-                  <label class="form-label" for="confpass">Confirm password</label>
-                </div>
-               <!-- Other form elements -->
-
-               <!-- <div class="form-outline mb-4">
-                <label class="form-label" for="userType">Select User Type:</label>
-                <select th:field="*{usertype}" id="userType" class="form-select">
-                    <option th:each="type : ${types}" th:value="${type.utid}" th:text="${type.name}"></option>
-                </select>
-              </div>
-               -->
-              <!-- Other form elements -->
-              
-              
-<!-- Other form elements -->
-
-                <!-- <div class="form-outline mb-4">
-                  <input type="radio"  th:field="*{usertype}"  id="type" value="doctor"/>
-                  <class="form-label" for="userType">Doctor</label><br>
-                  <input type="radio"  th:field="*{usertype}" id="type" value="patient" />
-                  <label class="form-label" for="userType">Patient</label>
-                </div>
-                -->
-                <input type="submit" style="color: black;" class="btn btn-success btn-block btn-lg">
-                </div>
-            
-
-               
-              </form>
-
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- <script>
-      function validateForm() {
-  var firstName = document.forms["f1"]["fname"].value;
-  var lastName = document.forms["f1"]["lname"].value;
-  var email = document.forms["f1"]["email"].value;
-  var password = document.forms["f1"]["pass"].value;
-  var confirmPassword = document.forms["f1"]["confpass"].value;
-  var radioButtons = document.forms["f1"]["userType"];
+    </section>
 
-  if (firstName == "") {
-    alert("First name must be filled out");
-    return false;
-  }
+    <script>
+        function validateForm() {
+            var isValid = true;
 
-  if (lastName == "") {
-    alert("Last name must be filled out");
-    return false;
-  }
+            // Get form elements
+            var firstName = document.forms["f1"]["username"].value;
+            var email = document.forms["f1"]["email"].value;
+            var password = document.forms["f1"]["pass"].value;
+            var confirmPassword = document.forms["f1"]["confpass"].value;
 
-  if (email == "") {
-    alert("Email must be filled out");
-    return false;
-  }
+            // Get error message elements
+            var firstNameError = document.getElementById("fname-error");
+            var emailError = document.getElementById("email-error");
+            var passwordError = document.getElementById("pass-error");
+            var confirmPasswordError = document.getElementById("confpass-error");
 
-  if (password == "") {
-    alert("Password must be filled out");
-    return false;
-  }
+            // Clear previous error messages
+            firstNameError.innerHTML = "";
+            emailError.innerHTML = "";
+            passwordError.innerHTML = "";
+            confirmPasswordError.innerHTML = "";
 
-  if (confirmPassword == "") {
-    alert("Confirm password must be filled out");
-    return false;
-  }
+            // Validate first name
+            if (firstName == "") {
+                firstNameError.innerHTML = "Name must be filled out";
+                isValid = false;
+            }
 
-  if (password !== confirmPassword) {
-    alert("Passwords do not match");
-    return false;
-  }
+            // Validate email
+            if (email == "") {
+                emailError.innerHTML = "Email must be filled out";
+                isValid = false;
+            } else {
+                var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                if (!emailPattern.test(email)) {
+                    emailError.innerHTML = "Invalid email format";
+                    isValid = false;
+                }
+            }
 
-  var isChecked = false;
-  for (var i = 0; i < radioButtons.length; i++) {
-    if (radioButtons[i].checked) {
-      isChecked = true;
-      break;
-    }
-  }
+            // Validate password
+            if (password == "") {
+                passwordError.innerHTML = "Password must be filled out";
+                isValid = false;
+            } else if (password.length < 8) {
+                passwordError.innerHTML = "Password must be at least 8 characters long";
+                isValid = false;
+            }
 
-  if (!isChecked) {
-    alert("Please select a User Type");
-    return false;
-  }
+            // Validate confirm password
+            if (confirmPassword == "") {
+                confirmPasswordError.innerHTML = "Confirm password must be filled out";
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                confirmPasswordError.innerHTML = "Passwords do not match";
+                isValid = false;
+            }
 
-
-}
-    </script> -->
- 
-
+            return isValid;
+        }
+    </script>
 </body>
+
 </html>
