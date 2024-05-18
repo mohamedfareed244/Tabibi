@@ -27,6 +27,7 @@ import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -189,26 +190,38 @@ else
    }
 
    @PostMapping("/addpermission")
+   @Transactional
    public RedirectView savePermissions(@RequestParam("usertype")Long usertype,@RequestParam("chosenpage")List<Long> chosenpages ) {
-      UserTypes type=this.user_type_repo.findByutid(usertype);
+      System.out.println(usertype);
+       UserTypes type=this.user_type_repo.findByutid(usertype);
+       System.out.println(type.getName());
+       List<UserTypePages> alltypes=this.page_type_repo.findByUsertype(type);
+       System.out.println(alltypes.get(0).getUsertype().getName());
+for (int i=0;i<alltypes.size();i++){
+   this.page_type_repo.deleteByUsertype((alltypes.get(i).getUsertype()));
+}
+// System.out.println(this.page_type_repo.findByUsertypeutid(usertype));
 
+
+// List<UserTypePages>all=this.page_type_repo.findByUsertype(type);
+// System.out.println(all);
       
-      this.page_type_repo.deleteByUsertype(type);
-      //this.page_type_repo.deleteByupid(usertype);
-      System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
-      System.out.println(type);
-      for (Long pagename : chosenpages) {
-         Pages p=this.pages_repo.findBypgid(pagename);
+      // this.page_type_repo.deleteByUsertype(type);
+      // //this.page_type_repo.deleteByupid(usertype);
+      // System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
+      // System.out.println(type);
+      // for (Long pagename : chosenpages) {
+      //    Pages p=this.pages_repo.findBypgid(pagename);
          
-         UserTypePages utp = new UserTypePages();
+      //    UserTypePages utp = new UserTypePages();
 
 
-         utp.setPage(p);
-         utp.setUsertype(type);
+      //    utp.setPage(p);
+      //    utp.setUsertype(type);
          
 
-      this.page_type_repo.save(utp);
-   }
+      // this.page_type_repo.save(utp);
+   //}
    return new RedirectView("/Admin/navigation");
 }
 
@@ -277,10 +290,8 @@ else
    
        Long type=(Long) session.getAttribute("usertypeID");
        UserTypes userType = this.user_type_repo.findByutid(type);
-       System.out.println(type);
 
        List<UserTypePages> pagelist=this.page_type_repo.findByUsertype(userType);
-      System.out.println(pagelist);
 
        List<String> pageNames = new ArrayList<>();
        List<String> pageLinks = new ArrayList<>();
