@@ -73,15 +73,15 @@ public class admincontroller {
    // @Autowired
    // UserTypePagesRepository page_type_repo;
    @GetMapping("/admin-dashboard")
-   public ModelAndView getadmin_dashboard() {
-      ModelAndView mav = new ModelAndView("admindashboard.html");
+   public ModelAndView getadmin_dashboard(HttpSession session) {
+      ModelAndView mav = preparenavigation(session,"admindashboard.html");
       return mav;
    }
 
    @GetMapping("/addpage")
-   public ModelAndView getpage() {
+   public ModelAndView getpage(HttpSession session) {
 
-      ModelAndView mav = new ModelAndView("addpage.html");
+      ModelAndView mav = preparenavigation(session,"addpage.html");
       Pages page = new Pages();
       mav.addObject("page", page);
 
@@ -89,6 +89,7 @@ public class admincontroller {
    }
 
    @PostMapping("/addpage")
+   
    public RedirectView savepage(@ModelAttribute Pages page) {
       this.pages_repo.save(page);
 
@@ -167,9 +168,8 @@ else
 
    @GetMapping("/addpermission")
    public ModelAndView addpermission(HttpSession session) {
-      ModelAndView mav = new ModelAndView("addpermission.html");
-      // UserTypes type=new UserTypes();
-      // Pages page=new Pages();
+      ModelAndView mav = preparenavigation(session,"addpermission.html");
+   
       UserAcc user = new UserAcc();
       List<UserTypes> typelist = this.user_type_repo.findAll();
 
@@ -181,10 +181,6 @@ else
       mav.addObject("usertypeID",session.getAttribute("usertypeID"));
       mav.addObject("usertype",session.getAttribute("usertype"));
       
-      // System.out.println("============================================ in get ");
-      // System.out.println(user);
-      // System.out.println(typelist);
-      // System.out.println(pagelist);
       
       return mav;
    }
@@ -200,28 +196,19 @@ else
 for (int i=0;i<alltypes.size();i++){
    this.page_type_repo.deleteByUsertype((alltypes.get(i).getUsertype()));
 }
-// System.out.println(this.page_type_repo.findByUsertypeutid(usertype));
 
-
-// List<UserTypePages>all=this.page_type_repo.findByUsertype(type);
-// System.out.println(all);
-      
-      // this.page_type_repo.deleteByUsertype(type);
-      // //this.page_type_repo.deleteByupid(usertype);
-      // System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
-      // System.out.println(type);
-      // for (Long pagename : chosenpages) {
-      //    Pages p=this.pages_repo.findBypgid(pagename);
+      for (Long pagename : chosenpages) {
+         Pages p=this.pages_repo.findBypgid(pagename);
          
-      //    UserTypePages utp = new UserTypePages();
+         UserTypePages utp = new UserTypePages();
 
 
-      //    utp.setPage(p);
-      //    utp.setUsertype(type);
+         utp.setPage(p);
+         utp.setUsertype(type);
          
 
-      // this.page_type_repo.save(utp);
-   //}
+      this.page_type_repo.save(utp);
+      }
    return new RedirectView("/Admin/navigation");
 }
 
@@ -250,6 +237,7 @@ for (int i=0;i<alltypes.size();i++){
    public RedirectView saveuser(@ModelAttribute Admin admin) {
       String hash_password = BCrypt.hashpw(admin.getPass(), BCrypt.gensalt(12));
       admin.setPass(hash_password);
+      
       this.adminRepository.save(admin);
       return new RedirectView("/Admin/admin-dashboard");
 
@@ -268,13 +256,23 @@ for (int i=0;i<alltypes.size();i++){
   
    @GetMapping("/search")
    public ModelAndView getsearch() {
+
       ModelAndView mav = new ModelAndView("search_and_delete.html");
+      
+
       return mav;
    }
-   
+   @PostMapping("/search")
+   public ModelAndView searchresult(@RequestParam("name") String name, Model model) {
+   List<Doctor> Doctors=doctorrepo.findByspecialization(name); 
+      ModelAndView mag=new ModelAndView("searchResult.html");
+       model.addAttribute("doctors", Doctors);
+     return mag;
+   }
+
    @GetMapping("/getdata")
    public String getData(@RequestParam  String name) {
-       // Process the request with the "name" parameter
+       
        return "Received parameter: " + name;
    }
    @GetMapping("/admin_navigation")
@@ -283,9 +281,8 @@ for (int i=0;i<alltypes.size();i++){
       ModelAndView mav = new ModelAndView("admin_navigation.html");
       return mav;
    }  
-   @GetMapping("/navigation")
-   public ModelAndView getnavigation(HttpSession session) {
-       ModelAndView mav = new ModelAndView("navigation.html");
+   public ModelAndView preparenavigation(HttpSession session, String viewName) {
+      ModelAndView mav = new ModelAndView(viewName);
    
    
        Long type=(Long) session.getAttribute("usertypeID");
@@ -325,4 +322,11 @@ for (int i=0;i<alltypes.size();i++){
    
        return mav;
    }
+
+   @GetMapping("/admin/navigation")
+   public ModelAndView getNavigation(HttpSession session) {
+       return preparenavigation(session, "navigation.html");
+   }
+
+
 }

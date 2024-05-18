@@ -8,7 +8,7 @@
 
 </head>
 <body >
-  <div th:include="admin_navigation.html">
+  <div th:include="navigation">
       
     </div>
 
@@ -46,7 +46,7 @@
               </div>
               <div class="col-md-9 pe-5">
 
-                <input type="text" name="address"  th:field="*{page.linkaddress}" class="form-control form-control-lg" placeholder="example.php" />
+                <input type="text" name="address"  th:field="*{page.linkaddress}" class="form-control form-control-lg" placeholder="/usertype/example" />
 
               </div>
             </div>
@@ -83,7 +83,7 @@
             <hr class="mx-n3">
 
             <div class="px-5 py-4">
-              <button type="submit" class="btn btn-primary btn-lg">Save</button>
+              <button type="submit" style="color: black;" class="btn btn-primary btn-lg">Save</button>
             </div>
         </div>
     </div>
