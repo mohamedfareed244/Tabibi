@@ -98,12 +98,19 @@
             <tr>
                 <th>Diagnosis</th>
                 <th>Treatment</th>
-                <th>date</th>
+                <th>Actions</th>
 
             </tr>
         </thead>
         <tbody>
-            {% comment %} empty  {% endcomment %}
+            <tr th:each="diagnosis : ${diagnoses}">
+                <td th:text="${diagnosis.diagnosisName}"></td>
+                <td th:text="${diagnosis.treatment}"></td>
+                <td>
+                    <a th:href="@{/Doctor/editDiagnose/{id}(id=${diagnosis.diagnosisId})}" class="btn btn-primary">Edit</a>
+                    <a th:href="@{/Doctor/deleteDiagnose/{id}(id=${diagnosis.diagnosisId})}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

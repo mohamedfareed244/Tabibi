@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.tabibi.tabibi_system.Models.Diagnosis;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
+import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
@@ -78,6 +80,9 @@ public class doctorcontroller {
        session.setAttribute("editAge", patient.getAge());
        session.setAttribute("editAddress",patient.getAddress());
       ModelAndView mav=new ModelAndView("patientinfo.html");
+    UserAcc userAcc = userAccRepository.findByUid(id);
+    List<Diagnosis> diagnoses = diagnosisRepository.findByUserAcc(userAcc);
+      mav.addObject("diagnoses", diagnoses);
       mav.addObject("patient", patient);
       return mav;
     }
@@ -182,6 +187,16 @@ public class doctorcontroller {
         return new RedirectView("/User/DoctorHomePage");
 
      }
-     
+
+
+         @GetMapping("/deleteDiagnose/{id}")
+    public RedirectView deleteDiagnose(@PathVariable("id") Long id,HttpSession session) {
+        Diagnosis diagnosis = this.diagnosisRepository.findByDiagnosisId(id);
+        if(diagnosis!= null)
+        {
+        this.diagnosisRepository.delete(diagnosis);
+        }
+        return new RedirectView("/User/DoctorHomePage");
+    }
  
 }
