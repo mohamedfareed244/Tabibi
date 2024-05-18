@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.tabibi.tabibi_system.Models.Diagnosis;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.UserAcc;
+import com.tabibi.tabibi_system.Repositories.DiagnosisRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 
@@ -29,6 +31,8 @@ public class PatientController {
     private UserAccRepository UserAccRepository;
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private DiagnosisRepository diagnosisRepository;
 
  @GetMapping("accountSettings")
      public ModelAndView getSettings(HttpSession session)
@@ -121,7 +125,19 @@ public class PatientController {
          return new RedirectView("/patient/Profile"); 
      }
 
-    
+    @GetMapping("/diagnoses")
+public ModelAndView viewDiagnoses(HttpSession session) {
+    ModelAndView mav=new ModelAndView("ViewDiagnosis.html");
+    Integer patientId = (Integer)session.getAttribute("uid");
+    UserAcc userAcc = this.UserAccRepository.findByUid(patientId);
+    List<Diagnosis> diagnoses = this.diagnosisRepository.findByUserAcc(userAcc);
+    mav.addObject("diagnoses", diagnoses);
+    Patient patient=this.patientRepository.findByUid((Integer)session.getAttribute("uid"));
+    mav.addObject("patient", patient);
+    return mav;
+
+}
+
     
      
 
