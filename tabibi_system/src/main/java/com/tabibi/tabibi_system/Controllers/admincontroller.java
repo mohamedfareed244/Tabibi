@@ -63,7 +63,7 @@ public class admincontroller {
    @Autowired
    PagesRepository pages_repo;
    @Autowired
-   UserTypePagesRepository page_type_repo;
+   public UserTypePagesRepository page_type_repo;
    @Autowired
    ClinicRepository clinicRepository;
 
@@ -74,14 +74,14 @@ public class admincontroller {
    // UserTypePagesRepository page_type_repo;
    @GetMapping("/admin-dashboard")
    public ModelAndView getadmin_dashboard(HttpSession session) {
-      ModelAndView mav = preparenavigation(session,"admindashboard.html");
+      ModelAndView mav = preparenavigation(session,"admindashboard.html",this.user_type_repo,this.page_type_repo);
       return mav;
    }
 
    @GetMapping("/addpage")
    public ModelAndView getpage(HttpSession session) {
 
-      ModelAndView mav = preparenavigation(session,"addpage.html");
+      ModelAndView mav = preparenavigation(session,"addpage.html",this.user_type_repo,this.page_type_repo);
       Pages page = new Pages();
       mav.addObject("page", page);
 
@@ -168,7 +168,7 @@ else
 
    @GetMapping("/addpermission")
    public ModelAndView addpermission(HttpSession session) {
-      ModelAndView mav = preparenavigation(session,"addpermission.html");
+      ModelAndView mav = preparenavigation(session,"addpermission.html",this.user_type_repo,this.page_type_repo);
    
       UserAcc user = new UserAcc();
       List<UserTypes> typelist = this.user_type_repo.findAll();
@@ -192,7 +192,7 @@ else
        UserTypes type=this.user_type_repo.findByutid(usertype);
        System.out.println(type.getName());
        List<UserTypePages> alltypes=this.page_type_repo.findByUsertype(type);
-       System.out.println(alltypes.get(0).getUsertype().getName());
+       System.out.println(usertype);
 for (int i=0;i<alltypes.size();i++){
    this.page_type_repo.deleteByUsertype((alltypes.get(i).getUsertype()));
 }
@@ -281,14 +281,14 @@ for (int i=0;i<alltypes.size();i++){
       ModelAndView mav = new ModelAndView("admin_navigation.html");
       return mav;
    }  
-   public ModelAndView preparenavigation(HttpSession session, String viewName) {
+   public static ModelAndView preparenavigation(HttpSession session, String viewName,UserTypeRepository userTypeRepo, UserTypePagesRepository pageTypeRepo) {
       ModelAndView mav = new ModelAndView(viewName);
    
    
        Long type=(Long) session.getAttribute("usertypeID");
-       UserTypes userType = this.user_type_repo.findByutid(type);
+       UserTypes userType = userTypeRepo.findByutid(type);
 
-       List<UserTypePages> pagelist=this.page_type_repo.findByUsertype(userType);
+       List<UserTypePages> pagelist=pageTypeRepo.findByUsertype(userType);
 
        List<String> pageNames = new ArrayList<>();
        List<String> pageLinks = new ArrayList<>();
@@ -323,9 +323,9 @@ for (int i=0;i<alltypes.size();i++){
        return mav;
    }
 
-   @GetMapping("/admin/navigation")
+   @GetMapping("/navigation")
    public ModelAndView getNavigation(HttpSession session) {
-       return preparenavigation(session, "navigation.html");
+       return preparenavigation(session, "navigation.html",this.user_type_repo, this.page_type_repo);
    }
 
 
