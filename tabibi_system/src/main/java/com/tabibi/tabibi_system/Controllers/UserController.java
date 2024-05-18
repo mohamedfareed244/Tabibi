@@ -68,9 +68,10 @@ public class UserController {
     private DoctorRepository doctorRepository;
     @Autowired
     UserTypePagesRepository page_type_repo;
+    @Autowired
+    UserTypeRepository user_type_repo;
+  
  
-    
-
     public UserController() {
     }
 
@@ -370,7 +371,8 @@ public RedirectView loginprocess(@RequestParam("email") String email, @RequestPa
      @GetMapping("clinicHomepage")
      public ModelAndView getClinicPage(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("ClinicHomePage.html");
+    ModelAndView mav= admincontroller.preparenavigation(session, "ClinicHomePage.html", user_type_repo, page_type_repo);
+
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;
