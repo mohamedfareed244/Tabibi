@@ -44,7 +44,7 @@
                 <td th:text="${appointment.price}"></td>
                 <td th:text="${appointment.clinic.cname}"></td>
                 <td>
-                    <form th:action="@{/bookAppointment}" method="post" style="display:inline;">
+                    <form th:action="@{/booking/bookAppointment}" method="post" style="display:inline;">
                         <input type="hidden" name="appointmentId" th:value="${appointment.appId}"/>
                         <button type="submit" class="book-button">Book</button>
                     </form>

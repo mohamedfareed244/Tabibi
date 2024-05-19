@@ -219,6 +219,22 @@ public class Appointment implements Serializable {
 
    
 
+    @Override
+    public String toString() {
+        return "{" +
+            " appId='" + getAppId() + "'" +
+            ", date='" + getDate() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", time='" + getTime() + "'" +
+            ", price='" + getPrice() + "'" +
+            ", doctor='" + getDoctor() + "'" +
+            ", patient='" + getPatient() + "'" +
+            ", clinic='" + getClinic() + "'" +
+            ", capacity='" + getCapacity() + "'" +
+            ", booked='" + getBooked() + "'" +
+            "}";
+    }
+
   
 
    
