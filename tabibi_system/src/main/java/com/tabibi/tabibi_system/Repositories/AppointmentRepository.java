@@ -16,6 +16,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
    
    @Query("SELECT a FROM Appointment a WHERE a.doctor.specialization = :specialization")
     List<Appointment> findByDoctorSpecialization(@Param("specialization") String specialization);
+
+  
+        List<Appointment> findByStatus(String status);
+        List<Appointment> findByDoctorSpecializationAndStatus(String specialization, String status);
+    
     
     
 }

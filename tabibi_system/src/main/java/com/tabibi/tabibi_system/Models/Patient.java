@@ -111,6 +111,8 @@ public class Patient extends UserAcc {
     public Patient getPatient() {
         return this;
     }
+
+    
   
 
     @Override
@@ -124,7 +126,10 @@ public class Patient extends UserAcc {
             ",  + "+
             ", address='" + getAddress() + "'" +
             ", number='" + getNumber() + "'" +
-            "}";
+            ", uid ='" + getUid() + "'" +   
+            "}"
+            
+            ;
     }
 
     // // To String

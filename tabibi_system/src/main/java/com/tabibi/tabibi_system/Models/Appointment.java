@@ -22,8 +22,8 @@ public class Appointment implements Serializable {
     @Column(name = "Appid")
     private Long appId;
 
-    @NotNull (message = "please enter a value")
-    @FutureOrPresent (message = "please enter a valid date (future or present)")
+    // @NotNull (message = "please enter a value")
+    // @FutureOrPresent (message = "please enter a valid date (future or present)")
     @Column(name="date")
     private Date date;
 
@@ -56,7 +56,7 @@ public class Appointment implements Serializable {
     private Clinic clinic;
 
 @NotNull(message = "please enter a value ")
-@Min(value = 1 , message = "please enter a value between 1 and 20") 
+@Min(value = 0 , message = "please enter a value between 1 and 20") 
 @Max(value = 25 , message = "please enter a value between 1 and 20") 
     @Column(name="capacity")
     private int capacity ;
