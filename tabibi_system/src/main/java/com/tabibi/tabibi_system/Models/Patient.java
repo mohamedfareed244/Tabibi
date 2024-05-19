@@ -113,6 +113,20 @@ public class Patient extends UserAcc {
     }
   
 
+    @Override
+    public String toString() {
+        return "{" +
+            " pid='" + getPid() + "'" +
+            ", firstname='" + getFirstname() + "'" +
+            ", lastname='" + getLastname() + "'" +
+            ", age='" + getAge() + "'" +
+            ", gender='" + getGender() + "'" +
+            ",  + "+
+            ", address='" + getAddress() + "'" +
+            ", number='" + getNumber() + "'" +
+            "}";
+    }
+
     // // To String
     // @Override
     // public String toString() {
