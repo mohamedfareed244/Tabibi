@@ -98,9 +98,10 @@ public class admincontroller {
 
   
    @GetMapping("ClinicRegistration")
-public ModelAndView ClinicRegistration() 
+public ModelAndView ClinicRegistration(HttpSession session) 
 {
-  ModelAndView mav = new ModelAndView("ClinicRegistration.html");
+  ModelAndView mav = preparenavigation(session,"ClinicRegistration.html",this.user_type_repo,this.page_type_repo);
+
   Clinic clinic=new Clinic();
   mav.addObject("clinic", clinic);
   return mav;
@@ -113,9 +114,10 @@ public String hashpassword(String password)
 }
 
 @PostMapping("ClinicRegistration")
-public ModelAndView processSignupForm(@ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
-     ModelAndView SignupModel=new ModelAndView("ClinicRegistration.html");
-     ModelAndView refresh=new ModelAndView("DoctorHomePage.html");
+public ModelAndView processSignupForm(@ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass,HttpSession session) {
+     ModelAndView SignupModel = preparenavigation(session,"ClinicRegistration.html",this.user_type_repo,this.page_type_repo);
+
+     ModelAndView refresh = preparenavigation(session,"DoctorHomePage.html",this.user_type_repo,this.page_type_repo);
 
 
  List<String> errorMessages = new ArrayList<>();
@@ -219,17 +221,14 @@ for (int i=0;i<alltypes.size();i++){
    }
 
    @GetMapping("/addadmin")
-   public ModelAndView addusers() {
-      ModelAndView mav = new ModelAndView("addadmin.html");
-      UserAcc user = new UserAcc();
-      List<UserTypes> typeList = this.user_type_repo.findAll();
-      System.out.println("--------------------------- the type list =  --------------------------------------");
-      for (UserTypes x : typeList) {
-         System.out.println(x.getName());
-         System.out.println(x.getUtid());
-      }
+   public ModelAndView addusers(HttpSession session) {
+      ModelAndView mav = preparenavigation(session,"addadmin.html",this.user_type_repo,this.page_type_repo);
+
+      Admin user = new Admin();
+     // List<UserTypes> typeList = this.user_type_repo.findAll();
+     
       mav.addObject("user", user);
-      mav.addObject("types", typeList);
+      //mav.addObject("types", typeList);
       return mav;
    }
 
@@ -237,7 +236,7 @@ for (int i=0;i<alltypes.size();i++){
    public RedirectView saveuser(@ModelAttribute Admin admin) {
       String hash_password = BCrypt.hashpw(admin.getPass(), BCrypt.gensalt(12));
       admin.setPass(hash_password);
-      
+      admin.setUsertype(new UserTypes(1));
       this.adminRepository.save(admin);
       return new RedirectView("/Admin/admin-dashboard");
 
