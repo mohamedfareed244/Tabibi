@@ -23,8 +23,11 @@ import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
+import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 import com.tabibi.tabibi_system.Repositories.DiagnosisRepository;
 
 
@@ -41,6 +44,14 @@ public class doctorcontroller {
     private DiagnosisRepository diagnosisRepository;
     @Autowired
     private UserAccRepository userAccRepository;
+    @Autowired
+    UserTypeRepository user_type_repo;
+ 
+    @Autowired
+    PagesRepository pages_repo;
+    @Autowired
+    public UserTypePagesRepository page_type_repo;
+admincontroller admincontroller=new admincontroller();
 
 
     @GetMapping("/getdata")
@@ -95,7 +106,9 @@ public class doctorcontroller {
      @GetMapping("accountSettings")
      public ModelAndView getSettings(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("accountSettings.html");
+      
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "AccountSettings.html", user_type_repo, page_type_repo);
+
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;
@@ -182,6 +195,7 @@ public class doctorcontroller {
       diagnosis.setDiagnosisName(diagnosename);
       diagnosis.setTreatment(treatment);
       diagnosis.setUserAcc(this.userAccRepository.findByUid((Integer)session.getAttribute("editPid")));
+      diagnosis.setUser(this.userAccRepository.findByUid((Integer)session.getAttribute("uid")));
       this.diagnosisRepository.save(diagnosis);
       
         return new RedirectView("/User/DoctorHomePage");
@@ -198,5 +212,34 @@ public class doctorcontroller {
         }
         return new RedirectView("/User/DoctorHomePage");
     }
- 
+
+    @GetMapping("/editDiagnose/{id}")
+    public ModelAndView editDiagnose(@PathVariable("id") Long id) {
+        Diagnosis diagnosis = this.diagnosisRepository.findByDiagnosisId(id);
+        ModelAndView mav = new ModelAndView("editDiagnoses.html");
+        mav.addObject("diagnosis", diagnosis);
+        return mav;
+    }
+    @PostMapping("/editDiagnose")
+    public RedirectView editDiagnossisprocess(HttpSession session,@RequestParam("diagnosisName") String diagnosisName,
+    @RequestParam("diagnosisTreatment") String diagnosisTreatment,
+    @RequestParam("diagnosisId") Long diagnosisId
+  ) 
+    {
+      //   Integer uid = (Integer)session.getAttribute("uid");
+      //   Doctor DoctorEdit = this.doctorRepository.findByUid(uid);
+
+      Diagnosis diagnosis=this.diagnosisRepository.findByDiagnosisId(diagnosisId);
+        if (diagnosis != null) {
+
+            diagnosis.setDiagnosisName(diagnosisName);
+            diagnosis.setTreatment(diagnosisTreatment);
+            this.diagnosisRepository.save(diagnosis);
+
+            
+            return new RedirectView("/User/DoctorHomePage");
+        }
+        return new RedirectView("/Doctor/editDiagnose?error=error");
+    
+    }
 }

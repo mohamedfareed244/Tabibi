@@ -111,7 +111,26 @@ public class Patient extends UserAcc {
     public Patient getPatient() {
         return this;
     }
+
+    
   
+
+    @Override
+    public String toString() {
+        return "{" +
+            " pid='" + getPid() + "'" +
+            ", firstname='" + getFirstname() + "'" +
+            ", lastname='" + getLastname() + "'" +
+            ", age='" + getAge() + "'" +
+            ", gender='" + getGender() + "'" +
+            ",  + "+
+            ", address='" + getAddress() + "'" +
+            ", number='" + getNumber() + "'" +
+            ", uid ='" + getUid() + "'" +   
+            "}"
+            
+            ;
+    }
 
     // // To String
     // @Override

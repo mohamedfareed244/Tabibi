@@ -46,13 +46,19 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/Clinic")
 public class ClinicController {
-
+    @Autowired
+    UserTypeRepository user_type_repo;
+    @Autowired
+    public UserTypePagesRepository page_type_repo;
+    @Autowired
+    PagesRepository pages_repo;
     @Autowired
     private DoctorRepository doctorRepository;
     @GetMapping("DoctorRegistration")
 public ModelAndView DoctorRegistration(HttpSession session) 
 {
-   ModelAndView mav = new ModelAndView("DoctorRegistration.html");
+    ModelAndView mav= admincontroller.preparenavigation(session, "DoctorRegistration", user_type_repo, page_type_repo);
+  // ModelAndView mav = new ModelAndView("DoctorRegistration.html");
    Doctor doctor=new Doctor();
    mav.addObject("doctor", doctor);
    return mav;
@@ -68,7 +74,6 @@ public String hashpassword(String password)
 @PostMapping("DoctorRegistration")
 public ModelAndView processSignupForm(@Valid @ModelAttribute ("doctor")  Doctor doctor, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
      ModelAndView SignupModel=new ModelAndView("DoctorRegistration.html");
-     ModelAndView refresh=new ModelAndView("ClinicHomePage.html");
 
 
  List<String> errorMessages = new ArrayList<>();
@@ -116,7 +121,7 @@ else
     this.doctorRepository.save(doctorr);
 }
 
-    return refresh;
+return new ModelAndView("redirect:/User/clinicHomepage");
 }
 }
 

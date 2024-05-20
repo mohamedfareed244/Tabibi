@@ -2,7 +2,7 @@ package com.tabibi.tabibi_system.Models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Objects;
 

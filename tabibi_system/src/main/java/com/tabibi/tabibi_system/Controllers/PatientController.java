@@ -10,9 +10,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.tabibi.tabibi_system.Models.Diagnosis;
+import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Repositories.DiagnosisRepository;
+import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 
@@ -33,6 +35,8 @@ public class PatientController {
     private PatientRepository patientRepository;
     @Autowired
     private DiagnosisRepository diagnosisRepository;
+    @Autowired
+    private DoctorRepository doctorRepository;
 
  @GetMapping("accountSettings")
      public ModelAndView getSettings(HttpSession session)
@@ -131,6 +135,12 @@ public ModelAndView viewDiagnoses(HttpSession session) {
     Integer patientId = (Integer)session.getAttribute("uid");
     UserAcc userAcc = this.UserAccRepository.findByUid(patientId);
     List<Diagnosis> diagnoses = this.diagnosisRepository.findByUserAcc(userAcc);
+    for (Diagnosis diagnosis : diagnoses) {
+        if (diagnosis.getUser() != null) {
+            Doctor doctor = this.doctorRepository.findByUid(diagnosis.getUser().getUid());
+            diagnosis.setDoctorName(doctor.getFirstname());
+        }
+    }
     mav.addObject("diagnoses", diagnoses);
     Patient patient=this.patientRepository.findByUid((Integer)session.getAttribute("uid"));
     mav.addObject("patient", patient);

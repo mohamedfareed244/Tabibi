@@ -13,51 +13,17 @@
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"  rel="stylesheet" />
+<link rel="stylesheet" href="../css/navigation.css">
     </head>
 
-<style>
-    .header-links li span {
-      position: relative;
-      z-index: 0;
-    }   
-  
-    .header-links li span::before {
-      content: '';
-      position: absolute;
-      z-index: -1;
-      bottom: 2px;
-      left: -4px;
-      right: -4px;
-      display: block;
-      height: 6px;
-    }
-  
-    .header-links li.active span::before {
-      background-color: #fcae04;
-    }
-  .active{
-    background-color: #fcae04;
 
-  }
-    .header-links li:not(.active):hover span::before {
-      background-color: #ccc;
-    }
-    .logo {
-    /* Add your logo styles here */
-    font-size: 24px; /* Example font size */
-    font-weight: bold; /* Example font weight */
-    color: #333; /* Example color */
-    /* Add any other styling you want for your logo */
-}
-  </style>
-  
 <body>
     
 
  
       <header class="bg-white shadow-lg h-24 hidden md:flex">
         <a href="" class="border flex-shrink-0 flex items-center justify-center px-4 lg:px-6 xl:px-8">
-            <span class="logo">Manaseti</span>
+            <span class="logo">Vezeeta</span>
         </a>
         <nav class="contents font-semibold text-base lg:text-lg">
             <ul class="flex items-center ml-4 xl:ml-8 mr-auto">
@@ -87,11 +53,11 @@
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
             </li>
             <li>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Account settings</a>
             </li>
             
             <li>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log out</a>
+                <a th:href="@{/User/logout}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log out</a>
             </li>
         </ul>
     </div>

@@ -33,6 +33,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.usertype.UserType;
@@ -48,6 +49,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 @RequestMapping("/Admin")
@@ -64,25 +66,26 @@ public class admincontroller {
    @Autowired
    PagesRepository pages_repo;
    @Autowired
-   UserTypePagesRepository page_type_repo;
+   public UserTypePagesRepository page_type_repo;
    @Autowired
    ClinicRepository clinicRepository;
 
    @Autowired
    AdminRepository adminRepository;
-
+@Autowired 
+PatientRepository patientRepository;
    // @Autowired
    // UserTypePagesRepository page_type_repo;
    @GetMapping("/admin-dashboard")
-   public ModelAndView getadmin_dashboard() {
-      ModelAndView mav = new ModelAndView("admindashboard.html");
+   public ModelAndView getadmin_dashboard(HttpSession session) {
+      ModelAndView mav = preparenavigation(session,"admindashboard.html",this.user_type_repo,this.page_type_repo);
       return mav;
    }
 
    @GetMapping("/addpage")
-   public ModelAndView getpage() {
+   public ModelAndView getpage(HttpSession session) {
 
-      ModelAndView mav = new ModelAndView("addpage.html");
+      ModelAndView mav = preparenavigation(session,"addpage.html",this.user_type_repo,this.page_type_repo);
       Pages page = new Pages();
       mav.addObject("page", page);
 
@@ -90,6 +93,7 @@ public class admincontroller {
    }
 
    @PostMapping("/addpage")
+   
    public RedirectView savepage(@ModelAttribute Pages page) {
       this.pages_repo.save(page);
 
@@ -98,9 +102,10 @@ public class admincontroller {
 
   
    @GetMapping("ClinicRegistration")
-public ModelAndView ClinicRegistration() 
+public ModelAndView ClinicRegistration(HttpSession session) 
 {
-  ModelAndView mav = new ModelAndView("ClinicRegistration.html");
+  ModelAndView mav = preparenavigation(session,"ClinicRegistration.html",this.user_type_repo,this.page_type_repo);
+
   Clinic clinic=new Clinic();
   mav.addObject("clinic", clinic);
   return mav;
@@ -113,7 +118,7 @@ public String hashpassword(String password)
 }
 
 @PostMapping("ClinicRegistration")
-public ModelAndView processSignupForm(@Valid @ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
+public ModelAndView processSignupForm(@ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
      ModelAndView SignupModel=new ModelAndView("ClinicRegistration.html");
      ModelAndView refresh=new ModelAndView("DoctorHomePage.html");
 
@@ -161,16 +166,17 @@ else
     clinicc.setPass(encoddedPassword);  
     clinicc.setUsertype(new UserTypes(2L));
     this.clinicRepository.save(clinicc);
+return new ModelAndView("redirect:/Admin/admin-dashboard");
+
 }
 
-    return refresh;
+
 }
 
    @GetMapping("/addpermission")
    public ModelAndView addpermission(HttpSession session) {
-      ModelAndView mav = new ModelAndView("addpermission.html");
-      // UserTypes type=new UserTypes();
-      // Pages page=new Pages();
+      ModelAndView mav = preparenavigation(session,"addpermission.html",this.user_type_repo,this.page_type_repo);
+   
       UserAcc user = new UserAcc();
       List<UserTypes> typelist = this.user_type_repo.findAll();
 
@@ -182,10 +188,6 @@ else
       mav.addObject("usertypeID",session.getAttribute("usertypeID"));
       mav.addObject("usertype",session.getAttribute("usertype"));
       
-      // System.out.println("============================================ in get ");
-      // System.out.println(user);
-      // System.out.println(typelist);
-      // System.out.println(pagelist);
       
       return mav;
    }
@@ -197,32 +199,23 @@ else
        UserTypes type=this.user_type_repo.findByutid(usertype);
        System.out.println(type.getName());
        List<UserTypePages> alltypes=this.page_type_repo.findByUsertype(type);
-       System.out.println(alltypes.get(0).getUsertype().getName());
+       System.out.println(usertype);
 for (int i=0;i<alltypes.size();i++){
    this.page_type_repo.deleteByUsertype((alltypes.get(i).getUsertype()));
 }
-// System.out.println(this.page_type_repo.findByUsertypeutid(usertype));
 
-
-// List<UserTypePages>all=this.page_type_repo.findByUsertype(type);
-// System.out.println(all);
-      
-      // this.page_type_repo.deleteByUsertype(type);
-      // //this.page_type_repo.deleteByupid(usertype);
-      // System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
-      // System.out.println(type);
-      // for (Long pagename : chosenpages) {
-      //    Pages p=this.pages_repo.findBypgid(pagename);
+      for (Long pagename : chosenpages) {
+         Pages p=this.pages_repo.findBypgid(pagename);
          
-      //    UserTypePages utp = new UserTypePages();
+         UserTypePages utp = new UserTypePages();
 
 
-      //    utp.setPage(p);
-      //    utp.setUsertype(type);
+         utp.setPage(p);
+         utp.setUsertype(type);
          
 
-      // this.page_type_repo.save(utp);
-   //}
+      this.page_type_repo.save(utp);
+      }
    return new RedirectView("/Admin/navigation");
 }
 
@@ -233,17 +226,14 @@ for (int i=0;i<alltypes.size();i++){
    }
 
    @GetMapping("/addadmin")
-   public ModelAndView addusers() {
-      ModelAndView mav = new ModelAndView("addadmin.html");
-      UserAcc user = new UserAcc();
-      List<UserTypes> typeList = this.user_type_repo.findAll();
-      System.out.println("--------------------------- the type list =  --------------------------------------");
-      for (UserTypes x : typeList) {
-         System.out.println(x.getName());
-         System.out.println(x.getUtid());
-      }
+   public ModelAndView addusers(HttpSession session) {
+      ModelAndView mav = preparenavigation(session,"addadmin.html",this.user_type_repo,this.page_type_repo);
+
+      Admin user = new Admin();
+     // List<UserTypes> typeList = this.user_type_repo.findAll();
+     
       mav.addObject("user", user);
-      mav.addObject("types", typeList);
+      //mav.addObject("types", typeList);
       return mav;
    }
 
@@ -251,48 +241,99 @@ for (int i=0;i<alltypes.size();i++){
    public RedirectView saveuser(@ModelAttribute Admin admin) {
       String hash_password = BCrypt.hashpw(admin.getPass(), BCrypt.gensalt(12));
       admin.setPass(hash_password);
+      admin.setUsertype(new UserTypes(1));
       this.adminRepository.save(admin);
       return new RedirectView("/Admin/admin-dashboard");
 
    }
 
-   // @PostMapping("addusers")
-   // public String saveuser(@ModelAttribute UserAcc user) {
-   // String hash_password=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
-   // user.setPass(hash_password);
-
-   // this.userrepo.save(user);
-
-   // return "added";
-
-   // }
   
-   @GetMapping("/search")
-   public ModelAndView getsearch() {
-      ModelAndView mav = new ModelAndView("search_and_delete.html");
-      return mav;
+   @GetMapping("/getsearchdata")
+   public String getsearchData(@RequestParam String name, @RequestParam String type) {
+       String data = "";
+   
+       if (type.equals("patient")) {
+           List<Patient> mylist = this.patientRepository.findByemail(name);
+           data += "<tr><th>Id</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Number</th></tr>";
+           if (mylist.size() == 0) {
+               data += "<tr><td colspan='5'>No patients found</td></tr>";
+           } else {
+               for (Patient patient : mylist) {
+                   data += "<tr onclick='edit(" + patient.getUid() + ")'>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getUid() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getEmail() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getFirstname() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getLastname() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getNumber() + "</td>";
+                   data += "</tr>";
+               }
+           }
+       } else if (type.equals("clinic")) {
+           List<Clinic> mylist = this.clinicRepository.findByemail(name);
+           data += "<tr><th>Id</th><th>Name</th><th>Location</th><th>Contact</th></tr>";
+           if (mylist.size() == 0) {
+               data += "<tr><td colspan='4'>No clinics found</td></tr>";
+           } else {
+               for (Clinic clinic : mylist) {
+                   data += "<tr onclick='edit(" + clinic.getUid() + ")'>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getUid() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getCname() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getCloc() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getCnumber() + "</td>";
+                   data += "</tr>";
+               }
+           }
+       } else if (type.equals("doctor")) {
+           List<Doctor> mylist = this.doctorrepo.findByemail(name);
+           data += "<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>Specialization</th></tr>";
+           if (mylist.size() == 0) {
+               data += "<tr><td colspan='4'>No doctors found</td></tr>";
+           } else {
+               for (Doctor doctor : mylist) {
+                   data += "<tr onclick='edit(" + doctor.getUid() + ")'>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getUid() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getFirstname() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getLastname() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getSpecialization() + "</td>";
+                   data += "</tr>";
+               }
+           }
+       } else {
+           return "<tr><td colspan='5'>Invalid type</td></tr>";
+       }
+   
+       return data;
    }
    
+   
+   @GetMapping("/search")
+   public ModelAndView getSearchPage(HttpSession session) {
+      ModelAndView mav = preparenavigation(session,"search_and_delete",this.user_type_repo,this.page_type_repo);
+       
+       return mav;
+   }
+   
+
    @GetMapping("/getdata")
    public String getData(@RequestParam  String name) {
-       // Process the request with the "name" parameter
+       
        return "Received parameter: " + name;
    }
    @GetMapping("/admin_navigation")
    public ModelAndView getstaticnavigation(HttpSession session) {
 
-      ModelAndView mav = new ModelAndView("admin_navigation.html");
+      ModelAndView mav = preparenavigation(session,"admin_navigation.html",this.user_type_repo,this.page_type_repo);
+
       return mav;
    }  
-   @GetMapping("/navigation")
-   public ModelAndView getnavigation(HttpSession session) {
-       ModelAndView mav = new ModelAndView("navigation.html");
+   public static ModelAndView preparenavigation(HttpSession session, String viewName,UserTypeRepository userTypeRepo, UserTypePagesRepository pageTypeRepo) {
+      ModelAndView mav = new ModelAndView(viewName);
    
    
        Long type=(Long) session.getAttribute("usertypeID");
-       UserTypes userType = this.user_type_repo.findByutid(type);
+       UserTypes userType = userTypeRepo.findByutid(type);
 
-       List<UserTypePages> pagelist=this.page_type_repo.findByUsertype(userType);
+       List<UserTypePages> pagelist=pageTypeRepo.findByUsertype(userType);
 
        List<String> pageNames = new ArrayList<>();
        List<String> pageLinks = new ArrayList<>();
@@ -326,4 +367,11 @@ for (int i=0;i<alltypes.size();i++){
    
        return mav;
    }
+
+   @GetMapping("/navigation")
+   public ModelAndView getNavigation(HttpSession session) {
+       return preparenavigation(session, "navigation.html",this.user_type_repo, this.page_type_repo);
+   }
+
+
 }
