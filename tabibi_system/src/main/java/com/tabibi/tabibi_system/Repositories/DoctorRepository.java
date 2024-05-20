@@ -14,6 +14,8 @@ public interface DoctorRepository extends JpaRepository<Doctor,Integer>
      List<Doctor> findByspecialization(String firstname);
           //   Doctor  findByUserAcc(UserAcc userAcc);
    Doctor findByEmail(String email);
+   List<Doctor> findByemail(String email);
+
    Doctor findByUid(int uid);
     @Query("SELECT DISTINCT d.specialization FROM Appointment a JOIN a.doctor d")
     List<String> findDistinctSpecializationsByAppointments();

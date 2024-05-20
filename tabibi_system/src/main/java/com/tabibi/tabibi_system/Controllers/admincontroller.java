@@ -32,6 +32,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.usertype.UserType;
@@ -47,6 +48,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 @RequestMapping("/Admin")
@@ -69,7 +71,8 @@ public class admincontroller {
 
    @Autowired
    AdminRepository adminRepository;
-
+@Autowired 
+PatientRepository patientRepository;
    // @Autowired
    // UserTypePagesRepository page_type_repo;
    @GetMapping("/admin-dashboard")
@@ -242,32 +245,72 @@ for (int i=0;i<alltypes.size();i++){
 
    }
 
-   // @PostMapping("addusers")
-   // public String saveuser(@ModelAttribute UserAcc user) {
-   // String hash_password=BCrypt.hashpw(user.getPass(), BCrypt.gensalt(12));
-   // user.setPass(hash_password);
-
-   // this.userrepo.save(user);
-
-   // return "added";
-
-   // }
   
+   @GetMapping("/getsearchdata")
+   public String getsearchData(@RequestParam String name, @RequestParam String type) {
+       String data = "";
+   
+       if (type.equals("patient")) {
+           List<Patient> mylist = this.patientRepository.findByemail(name);
+           data += "<tr><th>Id</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Number</th></tr>";
+           if (mylist.size() == 0) {
+               data += "<tr><td colspan='5'>No patients found</td></tr>";
+           } else {
+               for (Patient patient : mylist) {
+                   data += "<tr onclick='edit(" + patient.getUid() + ")'>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getUid() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getEmail() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getFirstname() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getLastname() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getNumber() + "</td>";
+                   data += "</tr>";
+               }
+           }
+       } else if (type.equals("clinic")) {
+           List<Clinic> mylist = this.clinicRepository.findByemail(name);
+           data += "<tr><th>Id</th><th>Name</th><th>Location</th><th>Contact</th></tr>";
+           if (mylist.size() == 0) {
+               data += "<tr><td colspan='4'>No clinics found</td></tr>";
+           } else {
+               for (Clinic clinic : mylist) {
+                   data += "<tr onclick='edit(" + clinic.getUid() + ")'>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getUid() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getCname() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getCloc() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getCnumber() + "</td>";
+                   data += "</tr>";
+               }
+           }
+       } else if (type.equals("doctor")) {
+           List<Doctor> mylist = this.doctorrepo.findByemail(name);
+           data += "<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>Specialization</th></tr>";
+           if (mylist.size() == 0) {
+               data += "<tr><td colspan='4'>No doctors found</td></tr>";
+           } else {
+               for (Doctor doctor : mylist) {
+                   data += "<tr onclick='edit(" + doctor.getUid() + ")'>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getUid() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getFirstname() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getLastname() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getSpecialization() + "</td>";
+                   data += "</tr>";
+               }
+           }
+       } else {
+           return "<tr><td colspan='5'>Invalid type</td></tr>";
+       }
+   
+       return data;
+   }
+   
+   
    @GetMapping("/search")
-   public ModelAndView getsearch() {
-
-      ModelAndView mav = new ModelAndView("search_and_delete.html");
-      
-
-      return mav;
+   public ModelAndView getSearchPage(HttpSession session) {
+      ModelAndView mav = preparenavigation(session,"search_and_delete",this.user_type_repo,this.page_type_repo);
+       
+       return mav;
    }
-   @PostMapping("/search")
-   public ModelAndView searchresult(@RequestParam("name") String name, Model model) {
-   List<Doctor> Doctors=doctorrepo.findByspecialization(name); 
-      ModelAndView mag=new ModelAndView("searchResult.html");
-       model.addAttribute("doctors", Doctors);
-     return mag;
-   }
+   
 
    @GetMapping("/getdata")
    public String getData(@RequestParam  String name) {
@@ -277,7 +320,8 @@ for (int i=0;i<alltypes.size();i++){
    @GetMapping("/admin_navigation")
    public ModelAndView getstaticnavigation(HttpSession session) {
 
-      ModelAndView mav = new ModelAndView("admin_navigation.html");
+      ModelAndView mav = preparenavigation(session,"admin_navigation.html",this.user_type_repo,this.page_type_repo);
+
       return mav;
    }  
    public static ModelAndView preparenavigation(HttpSession session, String viewName,UserTypeRepository userTypeRepo, UserTypePagesRepository pageTypeRepo) {
