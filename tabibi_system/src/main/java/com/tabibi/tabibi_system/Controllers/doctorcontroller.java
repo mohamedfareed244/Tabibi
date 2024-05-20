@@ -195,6 +195,7 @@ admincontroller admincontroller=new admincontroller();
       diagnosis.setDiagnosisName(diagnosename);
       diagnosis.setTreatment(treatment);
       diagnosis.setUserAcc(this.userAccRepository.findByUid((Integer)session.getAttribute("editPid")));
+      diagnosis.setUser(this.userAccRepository.findByUid((Integer)session.getAttribute("uid")));
       this.diagnosisRepository.save(diagnosis);
       
         return new RedirectView("/User/DoctorHomePage");
