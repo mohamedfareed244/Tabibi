@@ -120,8 +120,6 @@ public String hashpassword(String password)
 public ModelAndView processSignupForm(@ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass,HttpSession session) {
      ModelAndView SignupModel = preparenavigation(session,"ClinicRegistration.html",this.user_type_repo,this.page_type_repo);
 
-     ModelAndView refresh = preparenavigation(session,"DoctorHomePage.html",this.user_type_repo,this.page_type_repo);
-
 
  List<String> errorMessages = new ArrayList<>();
 
@@ -166,9 +164,11 @@ else
     clinicc.setPass(encoddedPassword);  
     clinicc.setUsertype(new UserTypes(2L));
     this.clinicRepository.save(clinicc);
+return new ModelAndView("redirect:/Admin/admin-dashboard");
+
 }
 
-    return refresh;
+
 }
 
    @GetMapping("/addpermission")

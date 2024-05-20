@@ -195,6 +195,7 @@ admincontroller admincontroller=new admincontroller();
       diagnosis.setDiagnosisName(diagnosename);
       diagnosis.setTreatment(treatment);
       diagnosis.setUserAcc(this.userAccRepository.findByUid((Integer)session.getAttribute("editPid")));
+      diagnosis.setUser(this.userAccRepository.findByUid((Integer)session.getAttribute("uid")));
       this.diagnosisRepository.save(diagnosis);
       
         return new RedirectView("/User/DoctorHomePage");
@@ -211,5 +212,34 @@ admincontroller admincontroller=new admincontroller();
         }
         return new RedirectView("/User/DoctorHomePage");
     }
- 
+
+    @GetMapping("/editDiagnose/{id}")
+    public ModelAndView editDiagnose(@PathVariable("id") Long id) {
+        Diagnosis diagnosis = this.diagnosisRepository.findByDiagnosisId(id);
+        ModelAndView mav = new ModelAndView("editDiagnoses.html");
+        mav.addObject("diagnosis", diagnosis);
+        return mav;
+    }
+    @PostMapping("/editDiagnose")
+    public RedirectView editDiagnossisprocess(HttpSession session,@RequestParam("diagnosisName") String diagnosisName,
+    @RequestParam("diagnosisTreatment") String diagnosisTreatment,
+    @RequestParam("diagnosisId") Long diagnosisId
+  ) 
+    {
+      //   Integer uid = (Integer)session.getAttribute("uid");
+      //   Doctor DoctorEdit = this.doctorRepository.findByUid(uid);
+
+      Diagnosis diagnosis=this.diagnosisRepository.findByDiagnosisId(diagnosisId);
+        if (diagnosis != null) {
+
+            diagnosis.setDiagnosisName(diagnosisName);
+            diagnosis.setTreatment(diagnosisTreatment);
+            this.diagnosisRepository.save(diagnosis);
+
+            
+            return new RedirectView("/User/DoctorHomePage");
+        }
+        return new RedirectView("/Doctor/editDiagnose?error=error");
+    
+    }
 }

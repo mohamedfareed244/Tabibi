@@ -18,12 +18,17 @@
                 <tr>
                     <th>Diagnosis</th>
                     <th>Treatment</th>
+                    <th>By doctor</th>
+
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="diagnosis : ${diagnoses}">
                     <td th:text="${diagnosis.diagnosisName}"></td>
                     <td th:text="${diagnosis.treatment}"></td>
+                    <td th:text="${diagnosis.doctorName}"></td>
+
+                    
                 </tr>
             </tbody>
         </table>
