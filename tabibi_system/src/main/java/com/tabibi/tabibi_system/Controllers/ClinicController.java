@@ -74,7 +74,6 @@ public String hashpassword(String password)
 @PostMapping("DoctorRegistration")
 public ModelAndView processSignupForm(@ModelAttribute ("doctor")  Doctor doctor, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
      ModelAndView SignupModel=new ModelAndView("DoctorRegistration.html");
-     ModelAndView refresh=new ModelAndView("ClinicHomePage.html");
 
 
  List<String> errorMessages = new ArrayList<>();
@@ -122,7 +121,7 @@ else
     this.doctorRepository.save(doctorr);
 }
 
-    return refresh;
+return new ModelAndView("redirect:/User/clinicHomepage");
 }
 }
 
