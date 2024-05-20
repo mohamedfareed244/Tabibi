@@ -66,7 +66,7 @@ public String hashpassword(String password)
 
 
 @PostMapping("DoctorRegistration")
-public ModelAndView processSignupForm(@ModelAttribute ("doctor")  Doctor doctor, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
+public ModelAndView processSignupForm(@Valid @ModelAttribute ("doctor")  Doctor doctor, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
      ModelAndView SignupModel=new ModelAndView("DoctorRegistration.html");
      ModelAndView refresh=new ModelAndView("ClinicHomePage.html");
 

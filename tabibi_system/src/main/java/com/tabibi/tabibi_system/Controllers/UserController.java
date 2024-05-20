@@ -120,7 +120,7 @@ public String hashpassword(String password)
 }
 
 @PostMapping("signup")
-public ModelAndView processSignupForm(@ModelAttribute ("patient")  Patient patient, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
+public ModelAndView processSignupForm(@Valid @ModelAttribute ("patient")  Patient patient, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
      ModelAndView SignupModel=new ModelAndView("signup.html");
      ModelAndView LoginModel=new ModelAndView("login.html");
 
@@ -133,19 +133,17 @@ public ModelAndView processSignupForm(@ModelAttribute ("patient")  Patient patie
  {
 errorMessages.add("Email already exists. Please choose a different email.");
  }
-
+if(!patient.getPass().equals(Confirm_pass))
+{
+    errorMessages.add("Password and Confirm Password Must Match");
+}
 if (patient.getPass().length() < 8) 
 {
     errorMessages.add("Password must be at least 8 characters long.");
 }
-
-
-// if(!BCrypt.checkpw(Confirm_pass, doctor.getPass()))
-// {
-// errorMessages.add("Password and confirm password doesn't match");
-// }
 else
 System.err.println("password match");
+
 
 if (patient.getPass().isEmpty())
  {
