@@ -34,38 +34,25 @@ public class UserAcc {
     @Column(name = "Token")
     private String Token;
     
-    @Column(name = "image")
-    private String image;
+
     
     public UserAcc() {
     }
     
-    public UserAcc(int uid, String email, String pass, UserTypes usertype, String image) {
+    public UserAcc(int uid, String email, String pass, UserTypes usertype) {
         this.uid = uid;
         this.email = email;
         this.pass = pass;
         this.usertype = usertype;
-        this.image = image;
-    }
-    public UserAcc image(String image) {
-        setImage(image);
-        return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof UserAcc)) {
-            return false;
-        }
-        UserAcc userAcc = (UserAcc) o;
-        return Objects.equals(uid, userAcc.uid) && Objects.equals(email, userAcc.email) && Objects.equals(pass, userAcc.pass) && Objects.equals(usertype, userAcc.usertype) && Objects.equals(image, userAcc.image);
-    }
+
+
+   
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, email, pass, usertype, image);
+        return Objects.hash(uid, email, pass, usertype);
     }
 
     @Override
@@ -75,7 +62,6 @@ public class UserAcc {
             ", email='" + getEmail() + "'" +
             ", pass='" + getPass() + "'" +
             ", usertype='" + getUsertype() + "'" +
-            ", image='" + getImage() + "'" +
             "}";
     }
     // getters and setters
@@ -119,14 +105,5 @@ public class UserAcc {
         this.Token = Token;
     }
     
-
  
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-    
 }

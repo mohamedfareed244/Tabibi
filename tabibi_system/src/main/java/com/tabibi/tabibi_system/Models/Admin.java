@@ -19,7 +19,6 @@ public class Admin extends UserAcc {
     // private UserAcc userAcc;
 
 
-    private long test;
 
 
 
@@ -37,13 +36,9 @@ public class Admin extends UserAcc {
         // this.userAcc = userAcc;
     }
 
-    public Long getAid() {
-        return this.test;
-    }
+  
 
-    public void setAid(Long aid) {
-        // this.aid = aid;
-    }
+
 
     public String getName() {
         return this.name;
@@ -61,10 +56,7 @@ public class Admin extends UserAcc {
     //     this.userAcc = userAcc;
     // }
 
-    public Admin aid(Long aid) {
-        setAid(aid);
-        return this;
-    }
+  
 
     public Admin name(String name) {
         setName(name);

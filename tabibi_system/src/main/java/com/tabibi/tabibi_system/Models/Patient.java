@@ -27,7 +27,6 @@ public class Patient extends UserAcc {
     @Column(name = "gender")
     private String gender;
 
-    private long test;
 
     @NotBlank(message = "Address is required")
     @Column(name = "address")
@@ -51,10 +50,7 @@ public class Patient extends UserAcc {
         this.number = number;
     }
 
-    // Getters and Setters
-    public Long getPid() {
-        return test;
-    }
+
 
     public void setPid(Long pid) {
         // this.pid = pid;
@@ -118,7 +114,6 @@ public class Patient extends UserAcc {
     @Override
     public String toString() {
         return "{" +
-            " pid='" + getPid() + "'" +
             ", firstname='" + getFirstname() + "'" +
             ", lastname='" + getLastname() + "'" +
             ", age='" + getAge() + "'" +
