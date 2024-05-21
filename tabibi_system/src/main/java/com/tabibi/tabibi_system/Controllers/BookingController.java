@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/booking")
@@ -37,18 +38,53 @@ public class BookingController {
     @Autowired
     private BookingRepository bookingRepository;
 
-    @GetMapping("")
-    public ModelAndView viewAppointmentsForBooking(@RequestParam(required = false) String specialization) {
+ @GetMapping("")
+    public ModelAndView viewAppointmentsForBooking(@RequestParam(required = false) String specialization, HttpSession session) {
         ModelAndView mav = new ModelAndView("booking");
 
         List<String> uniqueSpecializations = doctorRepository.findDistinctSpecializationsByAppointments();
         List<Appointment> appointmentList;
 
-        if (specialization != null && !specialization.isEmpty()) {
-            appointmentList = appointmentRepository.findByDoctorSpecializationAndStatus(specialization, "available");
+        // Retrieve the user ID from the session
+        Object uidObject = session.getAttribute("uid");
+        long uid;
+        if (uidObject instanceof Integer) {
+            uid = ((Integer) uidObject).longValue();
+        } else if (uidObject instanceof Long) {
+            uid = (Long) uidObject;
         } else {
-            appointmentList = appointmentRepository.findByStatus("available");
+            throw new IllegalStateException("Invalid user ID type");
         }
+
+        // Fetch the patient's booked appointments
+        Patient patient = this.patientRepository.findByUid(uid);
+        List<Booking> userBookings = bookingRepository.findByPatient(patient);
+        
+        // Extract appointment IDs from the user's bookings
+        List<Long> bookedAppointmentIds = userBookings.stream()
+                .map(Booking::getAppointment)
+                .map(Appointment::getAppId)
+                .collect(Collectors.toList());
+
+        // Fetch and filter available appointments
+        if (specialization != null && !specialization.isEmpty()) {
+            appointmentList = appointmentRepository.findByDoctorSpecializationAndStatus(specialization, "available")
+                    .stream()
+                    .filter(appointment -> !bookedAppointmentIds.contains(appointment.getAppId()))
+                    .collect(Collectors.toList());
+        } else {                                                                                                  //
+            appointmentList = appointmentRepository.findByStatus("available")
+                    .stream()
+                    .filter(appointment -> !bookedAppointmentIds.contains(appointment.getAppId()))
+                    .collect(Collectors.toList());
+        }
+
+
+  // userBookings.stream() - Creates a stream from the list of bookings.
+        // .map(Booking::getAppointment) - Transforms each Booking to its associated Appointment.
+        // .map(Appointment::getAppId) - Transforms each Appointment to its ID (appId).
+        // .collect(Collectors.toList()) - Collects all the appointment IDs into a list (bookedAppointmentIds).
+
 
         // Update the status of appointments with no available places
         appointmentList.forEach(appointment -> {
@@ -58,11 +94,17 @@ public class BookingController {
             }
         });
 
-        // Fetch the updated list of appointments
+        // Fetch the updated list of appointments after status update
         if (specialization != null && !specialization.isEmpty()) {
-            appointmentList = appointmentRepository.findByDoctorSpecializationAndStatus(specialization, "available");
+            appointmentList = appointmentRepository.findByDoctorSpecializationAndStatus(specialization, "available")
+                    .stream()
+                    .filter(appointment -> !bookedAppointmentIds.contains(appointment.getAppId()))
+                    .collect(Collectors.toList());
         } else {
-            appointmentList = appointmentRepository.findByStatus("available");
+            appointmentList = appointmentRepository.findByStatus("available")
+                    .stream()
+                    .filter(appointment -> !bookedAppointmentIds.contains(appointment.getAppId()))
+                    .collect(Collectors.toList());
         }
 
         mav.addObject("appointmentList", appointmentList);
@@ -106,4 +148,31 @@ public class BookingController {
 
         return new RedirectView("/booking");
     }
+
+
+    
+
+//  public List<Appointment> filterAppointments (List<Appointment> applist , HttpSession session){
+// List <Appointment> newList ;
+// Long uid ;
+// Object uidObject = session.getAttribute("uid");
+// if (uidObject instanceof Integer) {
+//     uid = ((Integer) uidObject).longValue();
+// } else if (uidObject instanceof Long) {
+//     uid = (Long) uidObject;
+// } else {
+//     throw new IllegalStateException("Invalid user ID type");
+// }
+// Patient p =this.patientRepository.findByUid(uid);
+// List <Booking> bookedByPatient = this.bookingRepository.findByPatient(p);
+
+
+
+
+
+// applist.forEach();
+      
+//     }
+//     return newList;
+
 }

@@ -66,13 +66,14 @@
         <table>
             <tr>
                 <th>Appointment Date</th>
+                <th>Appointment time</th>
                 <th>Doctor's Name</th>
                 <th>Doctor's Specialization</th>
                 <th>Time</th>
                 <th>Price</th>
                 <th>Clinic</th>
                 <th>Actions</th>
-                <th>Places Left</th>
+               
             </tr>
             <tr th:each="appointment : ${appointmentList}">
                 <td th:text="${appointment.date}"></td>

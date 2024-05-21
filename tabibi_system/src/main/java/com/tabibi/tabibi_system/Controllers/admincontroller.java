@@ -9,7 +9,7 @@ import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Pages;
 import com.tabibi.tabibi_system.Models.Patient;
-import com.tabibi.tabibi_system.Models.User;
+// import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserTypePages;
 // import com.tabibi.tabibi_system.Models.UserTypePages;
@@ -20,7 +20,7 @@ import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
-import com.tabibi.tabibi_system.Repositories.UserRepository;
+import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 // import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
@@ -38,7 +38,7 @@ import java.util.List;
 
 import org.hibernate.usertype.UserType;
 import org.mindrot.jbcrypt.BCrypt;
-import com.tabibi.tabibi_system.Repositories.UserRepository;
+import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -253,7 +253,7 @@ for (int i=0;i<alltypes.size();i++){
        String data = "";
    
        if (type.equals("patient")) {
-           List<Patient> mylist = this.patientRepository.findByemail(name);
+           List<Patient> mylist = this.patientRepository.findAllByEmail(name);
            data += "<tr><th>Id</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Number</th></tr>";
            if (mylist.size() == 0) {
                data += "<tr><td colspan='5'>No patients found</td></tr>";
@@ -269,7 +269,7 @@ for (int i=0;i<alltypes.size();i++){
                }
            }
        } else if (type.equals("clinic")) {
-           List<Clinic> mylist = this.clinicRepository.findByemail(name);
+           List<Clinic> mylist = this.clinicRepository.findAllByEmail(name);
            data += "<tr><th>Id</th><th>Name</th><th>Location</th><th>Contact</th></tr>";
            if (mylist.size() == 0) {
                data += "<tr><td colspan='4'>No clinics found</td></tr>";
@@ -284,7 +284,7 @@ for (int i=0;i<alltypes.size();i++){
                }
            }
        } else if (type.equals("doctor")) {
-           List<Doctor> mylist = this.doctorrepo.findByemail(name);
+           List<Doctor> mylist = this.doctorrepo.findAllByEmail(name);
            data += "<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>Specialization</th></tr>";
            if (mylist.size() == 0) {
                data += "<tr><td colspan='4'>No doctors found</td></tr>";
@@ -368,9 +368,17 @@ for (int i=0;i<alltypes.size();i++){
        return mav;
    }
 
+
    @GetMapping("/navigation")
    public ModelAndView getNavigation(HttpSession session) {
        return preparenavigation(session, "navigation.html",this.user_type_repo, this.page_type_repo);
+   }
+
+   @GetMapping("/userlogs")
+   public ModelAndView GetUserLogPage() {
+ModelAndView mav =new ModelAndView("userlog.html");
+return mav;
+
    }
 
 

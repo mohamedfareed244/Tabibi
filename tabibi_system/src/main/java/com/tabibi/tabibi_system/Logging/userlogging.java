@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.tabibi.tabibi_system.Models.UserLog;
 import com.tabibi.tabibi_system.Repositories.UserLogRepository;
-import com.tabibi.tabibi_system.Repositories.UserRepository;
+import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 
 import jakarta.servlet.http.HttpSession;
 
