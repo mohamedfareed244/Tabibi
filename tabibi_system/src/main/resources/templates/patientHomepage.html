@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../css/patient.css">
+    <link rel="stylesheet" href="../css/tempNav.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <title>VeZeeTa</title>
@@ -28,36 +29,28 @@
                         <i class="ri-notification-2-line"></i>
                         <span th:text="${#dates.format(#dates.createNow(), 'MMMM d, yyyy')}"></span>
                     </div>
+                    <div class="dark--theme--btn">
+                        <i class="ri-notification-2-line"></i>
+                        <span th:text="${email}"></span>
+                    </div>
                 </div>
             </section>
-            <section class="main">
-                <div class="sidebar">
-                    <ul class="sidebar--items">
-                        <div class="profile-box">
-                            <span>
-                                <div class="header--items">
-                                    <div class="dark--theme--btn">
-                                        <i class="ri-notification-2-line"></i>
-                                        <span th:text="${email}"></span> 
-                                    </div>
-                                </div>
-                            </span>
-                        </div>
-                        <a class="active" href=""></a>
-                        <li>
-                            <a th:href="@{/User/patientHomepage}"> HOME </a>
-                            <a th:href="@{/patient/accountSettings}"> Account Settings </a>
-                            <a th:href="@{/patient/Profile}"> Profile </a>
-                            <a th:href="@{/booking}">Book an appointment</a>
-                            <a th:href="@{/User/logout}"> LOGOUT </a>
-
-
-                        </li>
-                    </ul>
-                </div>
-            </section>
+            <nav class="navbar">
+                <ul>
+                    <li><a class="active" th:href="@{/User/patientHomepage}">HOME</a></li>
+                    <li><a th:href="@{/patient/accountSettings}">Account Settings</a></li>
+                    <li><a th:href="@{/patient/Profile}">Profile</a></li>
+                    <li><a th:href="@{/booking}">Book an appointment</a></li>
+                    <li><a th:href="@{/User/logout}">LOGOUT</a></li>
+                </ul>
+            </nav>
         </div>
     </div>
+    <div class="container">
+        <!-- Content goes here -->
+    </div>
+</body>
+
 
     <div class="main--container">
         <div class="section--title">

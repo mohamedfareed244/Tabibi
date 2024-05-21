@@ -12,7 +12,7 @@ import com.tabibi.tabibi_system.Models.UserAcc;
 public interface ClinicRepository extends JpaRepository<Clinic,Integer>{
         // Clinic  findByUserAcc(UserAcc userAcc);
            Clinic findByEmail(String email);
-           List<Clinic> findByemail(String email);
+           List<Clinic> findAllByEmail(String email);
 
     
 }

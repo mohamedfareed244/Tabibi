@@ -13,7 +13,7 @@ import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.SignupWrapper;
-import com.tabibi.tabibi_system.Models.User;
+// import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
@@ -56,8 +56,8 @@ import java.util.Random;
 @RestController
 @RequestMapping("/User")
 public class UserController {
-    @Autowired
-    private UserRepository UserRepository;
+    // @Autowired
+    // private UserAccRepository UserAccRepository;
     @Autowired
      UserAccRepository UserAccRepository;
     @Autowired
@@ -180,7 +180,7 @@ else
      public ModelAndView getUsers()
      {
          ModelAndView mav=new ModelAndView("search.html"); 
-         List<User> users=this.UserRepository.findAll();
+         List<UserAcc> users=this.UserAccRepository.findAll();
          mav.addObject("users", users);
          return mav;
      }

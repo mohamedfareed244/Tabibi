@@ -4,9 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking</title>
-    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/tempNav.css">
 </head>
-<body>
+
+
+    <body class="body">
+        <div class="navvv">
+            <div th:fragment="navigation">
+                <section class="header">
+                    <div class="logo">
+                        <i class="ri-menu-line menu"></i>
+                        <h2><span>Ta</span>BeeBy</h2>
+                    </div>
+                    <div class="header--items">
+                        <div class="dark--theme--btn">
+                            <i class="ri-notification-2-line"></i>
+                            <span th:text="${#dates.format(#dates.createNow(), 'MMMM d, yyyy')}"></span>
+                        </div>
+                        <div class="dark--theme--btn">
+                            <i class="ri-notification-2-line"></i>
+                            <span th:text="${email}"></span>
+                        </div>
+                    </div>
+                </section>
+                <nav class="navbar">
+                    <ul>
+                        <li><a class="active" th:href="@{/User/patientHomepage}">HOME</a></li>
+                        <li><a th:href="@{/patient/accountSettings}">Account Settings</a></li>
+                        <li><a th:href="@{/patient/Profile}">Profile</a></li>
+                        <li><a th:href="@{/booking}">Book an appointment</a></li>
+                        <li><a th:href="@{/User/logout}">LOGOUT</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="container">
+            <!-- Content goes here -->
+        </div>
+  
+
+
+
     <form id="specializationForm" th:action="@{/booking}" method="get">
         <label for="sp">filter by specialization</label>
         <select id="sp" name="specialization" onchange="this.form.submit()">
@@ -24,7 +62,7 @@
     </div>
 
     <div class="appointments">
-        <h1>Appointments</h1>
+        <!-- <h1>Appointments</h1> -->
         <table>
             <tr>
                 <th>Appointment Date</th>
@@ -100,6 +138,9 @@
         }
         .book-button:hover {
             background-color: #45a049;
+        }
+        #searching{
+            margin-left: 630px;
         }
     </style>
 </body>
