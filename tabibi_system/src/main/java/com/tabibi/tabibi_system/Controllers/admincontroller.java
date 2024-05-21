@@ -366,9 +366,17 @@ for (int i=0;i<alltypes.size();i++){
        return mav;
    }
 
+
    @GetMapping("/navigation")
    public ModelAndView getNavigation(HttpSession session) {
        return preparenavigation(session, "navigation.html",this.user_type_repo, this.page_type_repo);
+   }
+
+   @GetMapping("/userlogs")
+   public ModelAndView GetUserLogPage() {
+ModelAndView mav =new ModelAndView("userlog.html");
+return mav;
+
    }
 
 
