@@ -33,11 +33,10 @@ public class Doctor extends UserAcc implements Serializable {
     @Column(name = "educ")
     private String educ;
 
-    private long test;
+   
 
 
-    @Column(name = "reviews")
-    private String reviews;
+    
 
     // @ManyToOne
     // @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
@@ -51,22 +50,13 @@ public class Doctor extends UserAcc implements Serializable {
     public Doctor() {
     }
 
-    public Doctor( String firstname, String lastname, String specialization, String number, String educ, String reviews) {
-        // this.did = did;
+    public Doctor(String firstname, String lastname, String specialization, String number, String educ) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.specialization = specialization;
         this.number = number;
         this.educ = educ;
-        this.reviews = reviews;
-        // this.userAcc = userAcc;
-        // this.clinic = clinic;
     }
-
-    public Long getDid() {
-        return this.test;
-    }
-
 
     public String getFirstname() {
         return this.firstname;
@@ -108,32 +98,6 @@ public class Doctor extends UserAcc implements Serializable {
         this.educ = educ;
     }
 
-    public String getReviews() {
-        return this.reviews;
-    }
-
-    public void setReviews(String reviews) {
-        this.reviews = reviews;
-    }
-
-    // public UserAcc getUserAcc() {
-    //     return this.userAcc;
-    // }
-
-    // public void setUserAcc(UserAcc userAcc) {
-    //     this.userAcc = userAcc;
-    // }
-
-    // public Clinic getClinic() {
-    //     return this.clinic;
-    // }
-
-    // public void setClinic(Clinic clinic) {
-    //     this.clinic = clinic;
-    // }
-
-  
-
     public Doctor firstname(String firstname) {
         setFirstname(firstname);
         return this;
@@ -159,54 +123,38 @@ public class Doctor extends UserAcc implements Serializable {
         return this;
     }
 
-    public Doctor reviews(String reviews) {
-        setReviews(reviews);
-        return this;
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Doctor)) {
+            return false;
+        }
+        Doctor doctor = (Doctor) o;
+        return Objects.equals(firstname, doctor.firstname) && Objects.equals(lastname, doctor.lastname) && Objects.equals(specialization, doctor.specialization) && Objects.equals(number, doctor.number) && Objects.equals(educ, doctor.educ);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstname, lastname, specialization, number, educ);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " firstname='" + getFirstname() + "'" +
+            ", lastname='" + getLastname() + "'" +
+            ", specialization='" + getSpecialization() + "'" +
+            ", number='" + getNumber() + "'" +
+            ", educ='" + getEduc() + "'" +
+            "}";
+    }
+
     public Doctor getDoctor() {
-        return this;
+        return this ;
     }
 
-    // public Doctor userAcc(UserAcc userAcc) {
-    //     setUserAcc(userAcc);
-    //     return this;
-    // }
-
-    // public Doctor clinic(Clinic clinic) {
-    //     setClinic(clinic);
-    //     return this;
-    // }
-
-    // @Override
-    // public boolean equals(Object o) {
-    //     if (o == this)
-    //         return true;
-    //     if (!(o instanceof Doctor)) {
-    //         return false;
-    //     }
-    //     Doctor doctor = (Doctor) o;
-    //     return Objects.equals(did, doctor.did) && Objects.equals(firstname, doctor.firstname) && Objects.equals(lastname, doctor.lastname) && Objects.equals(specialization, doctor.specialization) && Objects.equals(number, doctor.number) && Objects.equals(educ, doctor.educ) && Objects.equals(reviews, doctor.reviews) && Objects.equals(userAcc, doctor.userAcc) && Objects.equals(clinic, doctor.clinic);
-    // }
-
-    // @Override
-    // public int hashCode() {
-    //     return Objects.hash(did, firstname, lastname, specialization, number, educ, reviews, userAcc, clinic);
-    // }
-
-    // @Override
-    // public String toString() {
-    //     return "{" +
-    //         " did='" + getDid() + "'" +
-    //         ", firstname='" + getFirstname() + "'" +
-    //         ", lastname='" + getLastname() + "'" +
-    //         ", specialization='" + getSpecialization() + "'" +
-    //         ", number='" + getNumber() + "'" +
-    //         ", educ='" + getEduc() + "'" +
-    //         ", reviews='" + getReviews() + "'" +
-    //         ", userAcc='" + getUserAcc() + "'" +
-    //         ", clinic='" + getClinic() + "'" +
-    //         "}";
-    // }
+   
     
 }
 
