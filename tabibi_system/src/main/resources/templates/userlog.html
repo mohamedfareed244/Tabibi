@@ -70,10 +70,10 @@
             $("#search").on("click", function(event) {
                 event.preventDefault();
                
-                var id =  document.getElementById("search_content").value;
-                console.log(id);
-                if (id !== "") {
-                    fetch(`/Doctor/userLogs?id=${id}`, {
+                var email =  document.getElementById("search_content").value;
+               
+                if (email !== "") {
+                    fetch(`/Admin/userLogs?email=${email}`, {
                         method: 'GET'
                     })
                     .then(response => response.text())

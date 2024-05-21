@@ -11,6 +11,7 @@ import com.tabibi.tabibi_system.Models.Pages;
 import com.tabibi.tabibi_system.Models.Patient;
 // import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
+import com.tabibi.tabibi_system.Models.UserLog;
 import com.tabibi.tabibi_system.Models.UserTypePages;
 // import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
@@ -20,6 +21,7 @@ import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
+import com.tabibi.tabibi_system.Repositories.UserLogRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 // import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
@@ -77,6 +79,9 @@ public class admincontroller {
    AdminRepository adminRepository;
 @Autowired 
 PatientRepository patientRepository;
+
+@Autowired
+UserLogRepository userlog;
    // @Autowired
    // UserTypePagesRepository page_type_repo;
    @GetMapping("/admin-dashboard")
@@ -408,6 +413,40 @@ ModelAndView mav = preparenavigation(session,"userlog",this.user_type_repo,this.
 return mav;
 
    }
+
+   @GetMapping("/userLogs")
+    public String GetLogsForUser(@RequestParam("email") String email){
+
+        UserAcc currentuser=this.userrepo.findByEmail(email);
+        List<UserLog> mylist=this.userlog.findByUserIdOrderByLogDateDesc(currentuser.getUid());
+        
+
+        if(mylist.size()==0){
+            return "no records found ";
+         }else{
+            String data="";
+            for(int i=0;i<mylist.size();i++){
+                UserLog patient=mylist.get(i);
+             
+             
+          data+="<tr>";
+         
+          data+="<td>";
+   data+=( Integer.toString(currentuser.getUid()) );
+   data+="</td>";
+   data+="<td>";
+   data+=(currentuser.getEmail());
+   data+="</td>";
+   data+="<td>";
+   data+=(patient.getDate());
+   data+="</td> </tr>";
+   
+            }
+      
+            return data;
+         }
+
+    }
 
 
 }

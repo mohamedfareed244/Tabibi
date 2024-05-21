@@ -257,36 +257,5 @@ admincontroller admincontroller=new admincontroller();
     
     }
 
-    @GetMapping("/userLogs")
-    public String GetLogsForUser(@RequestParam("id") int id){
-
-        List<UserLog> mylist=this.userlog.findByUserIdOrderByLogDateDesc(id);
-        UserAcc currentuser=this.userAccRepository.findByUid(id);
-       
-        if(mylist.size()==0){
-            return "no records found ";
-         }else{
-            String data="";
-            for(int i=0;i<mylist.size();i++){
-                UserLog patient=mylist.get(i);
-                System.out.println(patient.getDate());
-               
-          data+="<tr>";
-         
-          data+="<td>";
-   data+=( Integer.toString(id) );
-   data+="</td>";
-   data+="<td>";
-   data+=(currentuser.getEmail());
-   data+="</td>";
-   data+="<td>";
-   data+=(patient.getDate());
-   data+="</td> </tr>";
-   
-            }
-            System.out.println( data);
-            return data;
-         }
-
-    }
+    
 }
