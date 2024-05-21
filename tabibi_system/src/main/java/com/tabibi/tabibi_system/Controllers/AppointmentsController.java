@@ -2,8 +2,12 @@ package com.tabibi.tabibi_system.Controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -17,12 +21,17 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.tabibi.tabibi_system.Models.Appointment;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
+import com.tabibi.tabibi_system.Models.Patient;
+import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Repositories.AppointmentRepository;
 import com.tabibi.tabibi_system.Repositories.ClinicRepository;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
+import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -49,6 +58,8 @@ public class AppointmentsController
  UserTypePagesRepository page_type_repo;
  @Autowired
  UserTypeRepository user_type_repo;
+ @Autowired
+ UserAccRepository UserAccRepository;
 
 @GetMapping("add")
 public ModelAndView appointmentForm(HttpSession session) 
@@ -136,14 +147,57 @@ return mav;
     this.appointmentRepository.save(oldAppointment);
         return new RedirectView("/appointments/view");
     }
-   
+    public static String generateRandom4DigitNumber() {
+        Random random = new Random();
+        int number = 1000 + random.nextInt(9000); // Generate a random number between 1000 and 9999
+        return String.valueOf(number);
+    }
      
-   
+public void Send_Cancellation_Mail(String mail)
+{         // Set up the mail sender
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("tabibii.application@gmail.com");
+        mailSender.setPassword("maga ltqn qnoi azhz");
+
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        // Create a mime message
+        MimeMessage message = mailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("tabibii.application@gmail.com");
+            helper.setTo(mail);
+            helper.setSubject("Appointment Cancellation ");
+            helper.setText("We're Sorry to inform you that your booked Appointment has been Cancelled by the Clinic , You may contact the clinic for more Information , Thank You For your Understanding, Tabibi System ");
+            // Send the mail
+            mailSender.send(message);
+            System.out.println("Mail sent successfully.");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            System.out.println("Error while sending mail.");
+        }
+
+}
 
 @GetMapping("delete/{appId}")
 @Transactional
 public RedirectView deleteAppointment(@PathVariable long appId){
+    Appointment currAppointment=this.appointmentRepository.findByappId(appId);
+    Patient currpatient=currAppointment.getPatient();
+    UserAcc currUserAcc=this.UserAccRepository.findByUid(currpatient.getUid());
+    String Mail=currUserAcc.getEmail();
+    Send_Cancellation_Mail(Mail);
     this.appointmentRepository.deleteByappId(appId);
+
+
     return new RedirectView("/appointments/view");
 
 

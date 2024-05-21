@@ -13,7 +13,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
     Appointment findByappId(long appId);
 
     void deleteByappId(long appId);
-   
    @Query("SELECT a FROM Appointment a WHERE a.doctor.specialization = :specialization")
     List<Appointment> findByDoctorSpecialization(@Param("specialization") String specialization);
 
