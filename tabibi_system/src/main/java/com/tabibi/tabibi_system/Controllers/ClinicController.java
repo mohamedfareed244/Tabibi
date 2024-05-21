@@ -92,10 +92,10 @@ if (doctor.getPass().length() < 8)
 }
 
 
-// if(!BCrypt.checkpw(Confirm_pass, doctor.getPass()))
-// {
-// errorMessages.add("Password and confirm password doesn't match");
-// }
+if(!BCrypt.checkpw(Confirm_pass, doctor.getPass()))
+{
+errorMessages.add("Password and confirm password doesn't match");
+}
 else
 System.err.println("password match");
 

@@ -138,9 +138,13 @@ public ModelAndView processSignupForm(@Valid @ModelAttribute ("patient")  Patien
  {
 errorMessages.add("Email already exists. Please choose a different email.");
  }
-if(!patient.getPass().equals(Confirm_pass))
+// if(!patient.getPass().equals(Confirm_pass))
+// {
+//     errorMessages.add("Password and Confirm Password Must Match");
+// }
+if(!BCrypt.checkpw(Confirm_pass, existingUser.getPass()))
 {
-    errorMessages.add("Password and Confirm Password Must Match");
+errorMessages.add("Password and confirm password doesn't match");
 }
 if (patient.getPass().length() < 8) 
 {
