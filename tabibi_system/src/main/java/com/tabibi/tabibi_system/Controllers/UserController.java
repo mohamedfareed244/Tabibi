@@ -408,9 +408,10 @@ mav.addObject("bookingList", bookingList);
      }
     
      @GetMapping("patients")
-     public ModelAndView Getpatients()
+     public ModelAndView Getpatients(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("patients.html");
+    ModelAndView mav= admincontroller.preparenavigation(session, "patients.html", user_type_repo, page_type_repo);
+
         return mav;
      }
          
@@ -444,9 +445,10 @@ public RedirectView logout(HttpSession session) {
 
 
    @GetMapping("/footer")
-   public ModelAndView getfooter()
+   public ModelAndView getfooter(HttpSession session)
     {
-    ModelAndView mav=new ModelAndView("footer.html");
+    ModelAndView mav= admincontroller.preparenavigation(session, "footer.html", user_type_repo, page_type_repo);
+
        return mav;
    }
 
