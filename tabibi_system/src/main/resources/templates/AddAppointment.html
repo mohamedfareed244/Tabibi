@@ -64,45 +64,8 @@
     </style>
 </head>
 <body>
-    <div class="navvv">
-        <div th:fragment="navigation">
-            <section class="header">
-                <div class="logo">
-                    <i class="ri-menu-line menu"></i>
-                    <h2><span>Ta</span>BeeBy</h2>
-                </div>
-                <div class="header--items">
-                    <div class="dark--theme--btn">
-                        <i class="ri-notification-2-line"></i>
-                        <span th:text="${#dates.format(#dates.createNow(), 'MMMM d, yyyy')}"></span>
-                    </div>
-                </div>
-            </section>
-            <section class="main">
-                <div class="sidebar">
-                    <ul class="sidebar--items">
-                        <div class="profile-box">
-                            <span>
-                                <div class="header--items">
-                                    <div class="dark--theme--btn">
-                                        <i class="ri-notification-2-line"></i>
-                                        <span th:text="${email}"></span>
-                                    </div>
-                                </div>
-                            </span>
-                        </div>
-                        <span th:text="${usertype}"></span>
-                        <a class="active" href=""></a>
-                        <li>
-                            <a th:href="@{/User/clinicHomepage}"> Home </a>
-                            <a th:href="@{/appointments/add}"> add Appointment </a>
-                            <a th:href="@{/appointments/view}"> view Appointment </a>
-                            <a th:href="@{/User/logout}"> LOGOUT </a>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-        </div>
+    <div th:include="navigation">
+      
     </div>
     <div class="add">
         <form th:action="@{/appointments/add}" method="post" th:object="${appointment}">

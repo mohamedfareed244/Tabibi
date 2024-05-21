@@ -15,8 +15,11 @@ import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Repositories.DiagnosisRepository;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
+import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -37,7 +40,12 @@ public class PatientController {
     private DiagnosisRepository diagnosisRepository;
     @Autowired
     private DoctorRepository doctorRepository;
-
+    @Autowired
+    UserTypeRepository user_type_repo;
+    @Autowired
+    public UserTypePagesRepository page_type_repo;
+    @Autowired
+    PagesRepository pages_repo;
  @GetMapping("accountSettings")
      public ModelAndView getSettings(HttpSession session)
      {
@@ -49,7 +57,8 @@ public class PatientController {
      @GetMapping("Profile")
      public ModelAndView getProfile(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("profile.html");
+     ModelAndView mav= admincontroller.preparenavigation(session, "profile.html", user_type_repo, page_type_repo);
+
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         mav.addObject("lastname",(String) session.getAttribute("lastname"));
@@ -131,7 +140,8 @@ public class PatientController {
 
     @GetMapping("/diagnoses")
 public ModelAndView viewDiagnoses(HttpSession session) {
-    ModelAndView mav=new ModelAndView("ViewDiagnosis.html");
+    ModelAndView mav= admincontroller.preparenavigation(session, "ViewDiagnosis.html", user_type_repo, page_type_repo);
+
     Integer patientId = (Integer)session.getAttribute("uid");
     UserAcc userAcc = this.UserAccRepository.findByUid(patientId);
     List<Diagnosis> diagnoses = this.diagnosisRepository.findByUserAcc(userAcc);

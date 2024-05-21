@@ -9,8 +9,10 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div th:include="navigation.html"></div>
-    <div class="container mt-5">
+    <div th:include="navigation">
+      
+    </div>
+        <div class="container mt-5">
         <h2>Patient Diagnoses</h2>
         <h3 th:text="'Diagnosis History of Mr: ' + ${patient.firstname}"></h3> 
         <table class="table mt-3">

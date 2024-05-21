@@ -71,8 +71,8 @@ public String hashpassword(String password)
 
 
 @PostMapping("DoctorRegistration")
-public ModelAndView processSignupForm(@Valid @ModelAttribute ("doctor")  Doctor doctor, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
-     ModelAndView SignupModel=new ModelAndView("DoctorRegistration.html");
+public ModelAndView processSignupForm(@Valid @ModelAttribute ("doctor")  Doctor doctor, BindingResult result, @RequestParam("cpassword") String Confirm_pass,HttpSession session) {
+     ModelAndView SignupModel= admincontroller.preparenavigation(session, "DoctorRegistration.html", user_type_repo, page_type_repo);
 
 
  List<String> errorMessages = new ArrayList<>();
