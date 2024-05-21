@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+
+<style>
+    body {
+        background-color: white;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        padding-left: 250px;
+        padding-top: 20px;
+    }
+
+    .container p {
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+
+    p {
+        padding-top: 10px;
+    }
+
+    #sessionValues {
+        font-size: 24px; 
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    #sessionValues span {
+        display: block;
+        margin-bottom: 10px;
+    }
+</style>
+
+<body>
+    <div th:include="navigation">
+      
+    </div>
+    <div class="container" >
+        <h1> View details.</h1>
+    
+        <div id="sessionValues">
+            <label>EMAIL: </label> <span th:text="${email}"></span>
+            <br>
+            <label>Clinic Name: </label> <span th:text="${firstname}"></span>
+            <br>
+            <label>Clinic Location: </label><span th:text="${location}"></span>
+            <br>
+            <label>Phone Number: </label><span th:text="${number}"></span>
+        </div>
+        <a th:href="@{/Clinic/EditProfile}" style="color: blue;">Edit Profile</a>
+    </div>
+    
+</body>
+
+<footer>
+    <!-- <?php
+    include_once "../includes/footer.php";
+    ?> -->
+</footer>
+
+</html>

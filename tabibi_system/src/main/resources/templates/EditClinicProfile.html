@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/Editprofile_Styling.css">
+    <link rel="stylesheet" href="../css/adminn.css">
+
+
+    <script>
+    function Validation() {
+        var email = document.getElementById('email').value.trim();
+        var firstname = document.getElementById('firstname').value.trim();
+        var lastname = document.getElementById('lastname').value.trim();
+        var number = document.getElementById('number').value.trim();
+        
+        var emailerror=document.getElementById("email-error");
+        var firstnameerror=document.getElementById("firstname-error");
+        var lastnameerror=document.getElementById("lastname-error");
+        var numbererror=document.getElementById("number-error");
+
+        if( number === '')
+        {
+             numbererror.textContent="Number is required";
+             return false;
+        }
+       
+
+        if(lastname === '' )
+        {
+              lastnameerror.textContent="last name is required"; 
+              return false;
+        }
+     
+       
+        if(firstname === ''){
+              firstnameerror.textContent="first name is required";
+              return false;
+        }
+      
+
+        if(email === '')
+        {
+              emailerror.textContent="email is required ";
+              return false;
+        }
+      
+
+
+        // Check if any field is blank
+        // if (email === '' || firstname === '' || lastname === '' || number === '') {
+        //     alert('Please fill in all fields');
+        //     return false; // Prevent form submission
+        // }
+
+        return true; // Allow form submission if all fields are filled
+    }
+    </script>
+</head>
+
+<body>
+    <div th:include="navigation">
+      
+    </div>
+    <div class="container ">
+        <h1>Edit Profile</h1>
+
+        <form id="userForm" th:action="@{/Clinic/EditProfile}"  method="post" onsubmit="return Validation()">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" th:value="${email}" >
+                <span class="error-message" id="email-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="firstname">Clinic Name</label>
+                <input type="text" class="form-control" id="firstname" name="firstname" th:value="${firstname}" >
+                <span class="error-message" id="firstname-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="lastname">Clinic Location</label>
+                <input type="text" class="form-control" id="location" name="location" th:value="${location}">
+                <span class="error-message" id="lastname-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="number">Clinic Phone</label>
+                <input type="tel" class="form-control" id="number" name="number" th:value="${number}" >
+                <span class="error-message" id="number-error"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+</body>
+
+<footer>
+    <!-- <?php
+    include_once "../includes/footer.php";
+    ?> -->
+</footer>
+
+</html>
