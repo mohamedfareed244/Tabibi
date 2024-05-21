@@ -6,7 +6,10 @@ import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Repositories.AppointmentRepository;
 import com.tabibi.tabibi_system.Repositories.BookingRepository;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
+import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -25,7 +28,12 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/booking")
 public class BookingController {
-
+    @Autowired
+    UserTypeRepository user_type_repo;
+    @Autowired
+    public UserTypePagesRepository page_type_repo;
+    @Autowired
+    PagesRepository pages_repo;
     @Autowired
     private AppointmentRepository appointmentRepository;
 
@@ -40,7 +48,7 @@ public class BookingController {
 
  @GetMapping("")
     public ModelAndView viewAppointmentsForBooking(@RequestParam(required = false) String specialization, HttpSession session) {
-        ModelAndView mav = new ModelAndView("booking");
+        ModelAndView mav= admincontroller.preparenavigation(session, "booking", user_type_repo, page_type_repo);
 
         List<String> uniqueSpecializations = doctorRepository.findDistinctSpecializationsByAppointments();
         List<Appointment> appointmentList;
