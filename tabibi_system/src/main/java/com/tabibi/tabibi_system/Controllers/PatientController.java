@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -160,7 +161,23 @@ public ModelAndView viewDiagnoses(HttpSession session) {
 }
 
     
-     
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam("search") String name, Model model,HttpSession session) {
+    List<Doctor> Doctors=doctorRepository.findByspecialization(name); 
+    ModelAndView mag= admincontroller.preparenavigation(session, "searchResult.html", user_type_repo, page_type_repo);
+
+        model.addAttribute("doctors", Doctors);
+      return mag;
+    }
+
+    @PostMapping("/search")
+    public ModelAndView searchresult(@RequestParam("name") String name, Model model,HttpSession session) {
+    List<Doctor> Doctors=doctorRepository.findByspecialization(name); 
+    ModelAndView mag= admincontroller.preparenavigation(session, "searchResult.html", user_type_repo, page_type_repo);
+
+        model.addAttribute("doctors", Doctors);
+      return mag;
+    }
 
 //      @PostMapping("/deletePatient")
 // public RedirectView deletePatient(HttpSession session) {
