@@ -106,6 +106,10 @@ public class Clinic extends UserAcc implements Serializable
         setAppointment(appointment);
         return this;
     }
+    public Clinic getClinic()
+    {
+        return this;
+    }
 
     @Override
     public boolean equals(Object o) {
