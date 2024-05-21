@@ -104,8 +104,9 @@ admincontroller admincontroller=new admincontroller();
     }
 
     @GetMapping("/patients")
-    public ModelAndView getpatientspage() {
-       ModelAndView mav = new ModelAndView("patients.html");
+    public ModelAndView getpatientspage(HttpSession session) {
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "patients.html", user_type_repo, page_type_repo);
+
        return mav;
     }
      @GetMapping("accountSettings")
@@ -121,7 +122,8 @@ admincontroller admincontroller=new admincontroller();
      @GetMapping("Profile")
      public ModelAndView getProfile(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("profile.html");
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "profile.html", user_type_repo, page_type_repo);
+        
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         mav.addObject("lastname",(String) session.getAttribute("lastname"));
@@ -131,7 +133,8 @@ admincontroller admincontroller=new admincontroller();
      @GetMapping("EditProfile")
      public ModelAndView getEditProfile(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("EditDoctorProfile.html");
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "EditDoctorProfile.html", user_type_repo, page_type_repo);
+
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         mav.addObject("lastname",(String) session.getAttribute("lastname"));
@@ -219,9 +222,11 @@ admincontroller admincontroller=new admincontroller();
     }
 
     @GetMapping("/editDiagnose/{id}")
-    public ModelAndView editDiagnose(@PathVariable("id") Long id) {
+    public ModelAndView editDiagnose(@PathVariable("id") Long id,HttpSession session){
         Diagnosis diagnosis = this.diagnosisRepository.findByDiagnosisId(id);
-        ModelAndView mav = new ModelAndView("editDiagnoses.html");
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "editDiagnoses.html", user_type_repo, page_type_repo);
+
+        
         mav.addObject("diagnosis", diagnosis);
         return mav;
     }
