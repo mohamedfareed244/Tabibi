@@ -13,6 +13,8 @@ public interface ClinicRepository extends JpaRepository<Clinic,Integer>{
         // Clinic  findByUserAcc(UserAcc userAcc);
            Clinic findByEmail(String email);
            List<Clinic> findAllByEmail(String email);
+           Clinic findByUid(int uid);
+
 
 Clinic deleteByemail(String email);
     
