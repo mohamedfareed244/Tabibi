@@ -16,17 +16,17 @@ public class UserLog {
     @GeneratedValue(strategy =GenerationType.IDENTITY)
     private int Id;
     
-    private int UserId;
+    private int userId;
     
-    private Date Date;
+    private Date logDate;
 
     public UserLog() {
     }
 
     public UserLog(int Id, int UserId, Date Date) {
         this.Id = Id;
-        this.UserId = UserId;
-        this.Date = Date;
+        this.userId = UserId;
+        this.logDate = Date;
     }
 
     public int getId() {
@@ -38,19 +38,19 @@ public class UserLog {
     }
 
     public int getUserId() {
-        return this.UserId;
+        return this.userId;
     }
 
     public void setUserId(int UserId) {
-        this.UserId = UserId;
+        this.userId = UserId;
     }
 
     public Date getDate() {
-        return this.Date;
+        return this.logDate;
     }
 
     public void setDate(Date Date) {
-        this.Date = Date;
+        this.logDate = Date;
     }
 
     public UserLog Id(int Id) {
@@ -76,12 +76,12 @@ public class UserLog {
             return false;
         }
         UserLog userLog = (UserLog) o;
-        return Id == userLog.Id && UserId == userLog.UserId && Objects.equals(Date, userLog.Date);
+        return Id == userLog.Id && userId == userLog.userId && Objects.equals(logDate, userLog.logDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id, UserId, Date);
+        return Objects.hash(Id, userId, logDate);
     }
 
     @Override

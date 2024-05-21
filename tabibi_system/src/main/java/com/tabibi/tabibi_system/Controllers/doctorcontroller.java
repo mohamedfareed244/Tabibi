@@ -21,11 +21,13 @@ import com.tabibi.tabibi_system.Models.Diagnosis;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.UserAcc;
+import com.tabibi.tabibi_system.Models.UserLog;
 import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
+import com.tabibi.tabibi_system.Repositories.UserLogRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 import com.tabibi.tabibi_system.Repositories.DiagnosisRepository;
@@ -51,6 +53,9 @@ public class doctorcontroller {
     PagesRepository pages_repo;
     @Autowired
     public UserTypePagesRepository page_type_repo;
+
+    @Autowired
+    public UserLogRepository userlog;
 admincontroller admincontroller=new admincontroller();
 
 
@@ -99,8 +104,9 @@ admincontroller admincontroller=new admincontroller();
     }
 
     @GetMapping("/patients")
-    public ModelAndView getpatientspage() {
-       ModelAndView mav = new ModelAndView("patients.html");
+    public ModelAndView getpatientspage(HttpSession session) {
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "patients.html", user_type_repo, page_type_repo);
+
        return mav;
     }
      @GetMapping("accountSettings")
@@ -116,7 +122,8 @@ admincontroller admincontroller=new admincontroller();
      @GetMapping("Profile")
      public ModelAndView getProfile(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("profile.html");
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "profile.html", user_type_repo, page_type_repo);
+        
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         mav.addObject("lastname",(String) session.getAttribute("lastname"));
@@ -126,7 +133,8 @@ admincontroller admincontroller=new admincontroller();
      @GetMapping("EditProfile")
      public ModelAndView getEditProfile(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("EditDoctorProfile.html");
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "EditDoctorProfile.html", user_type_repo, page_type_repo);
+
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         mav.addObject("lastname",(String) session.getAttribute("lastname"));
@@ -214,9 +222,11 @@ admincontroller admincontroller=new admincontroller();
     }
 
     @GetMapping("/editDiagnose/{id}")
-    public ModelAndView editDiagnose(@PathVariable("id") Long id) {
+    public ModelAndView editDiagnose(@PathVariable("id") Long id,HttpSession session){
         Diagnosis diagnosis = this.diagnosisRepository.findByDiagnosisId(id);
-        ModelAndView mav = new ModelAndView("editDiagnoses.html");
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "editDiagnoses.html", user_type_repo, page_type_repo);
+
+        
         mav.addObject("diagnosis", diagnosis);
         return mav;
     }
@@ -241,5 +251,38 @@ admincontroller admincontroller=new admincontroller();
         }
         return new RedirectView("/Doctor/editDiagnose?error=error");
     
+    }
+
+    @GetMapping("/userLogs")
+    public String GetLogsForUser(@RequestParam("id") int id){
+
+        List<UserLog> mylist=this.userlog.findByUserIdOrderByLogDateDesc(id);
+        UserAcc currentuser=this.userAccRepository.findByUid(id);
+       
+        if(mylist.size()==0){
+            return "no records found ";
+         }else{
+            String data="";
+            for(int i=0;i<mylist.size();i++){
+                UserLog patient=mylist.get(i);
+                System.out.println(patient.getDate());
+               
+          data+="<tr>";
+         
+          data+="<td>";
+   data+=( Integer.toString(id) );
+   data+="</td>";
+   data+="<td>";
+   data+=(currentuser.getEmail());
+   data+="</td>";
+   data+="<td>";
+   data+=(patient.getDate());
+   data+="</td> </tr>";
+   
+            }
+            System.out.println( data);
+            return data;
+         }
+
     }
 }

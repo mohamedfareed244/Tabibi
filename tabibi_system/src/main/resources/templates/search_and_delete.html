@@ -53,7 +53,7 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </div>
+                                            </div>
                                         <div class="col-lg-1 col-md-3 col-sm-12 p-0"></div>
                                     </div>
                                 </div>
@@ -82,8 +82,51 @@
                 }
             });
         });
+         
+        function deleteEntry(name, type) {
+    if (name !== "") {
+        const encodedName = encodeURIComponent(name);
+        const encodedType = encodeURIComponent(type);
+        fetch(`/Admin/deleteEntry?name=${encodedName}&type=${encodedType}`, {
+                        method: 'GET',
+           
+            
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.text();
+        })
+        .then(data => {
+            alert('Entry deleted successfully.');
+          //  removeTableRow(name, type); // Remove the row from the table
+        })
+        .catch(error => alert('Failed to delete entry: ' + error));
+    }
+}
+// function deleteEntry(name, type) {
+//     if (confirm("Are you sure you want to delete this entry?")) {
+//         fetch(`/Admin/deleteEntry?name=${name}&type=${type}`, {
+//             method: 'GET',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//         })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Network response was not ok: ' + response.statusText);
+//             }
+//             return response.text();
+//         })
+//         .then(data => {
+//             alert('Entry deleted successfully.');
+//             location.reload(); // Refresh the page after deletion
+//         })
+//         .catch(error => alert('Failed to delete entry: ' + error));
+//     }
+// }
 
-        
     </script>
 </body>
 </html>

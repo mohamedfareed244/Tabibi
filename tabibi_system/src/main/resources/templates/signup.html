@@ -68,10 +68,49 @@ function validateForm()
  {
         var email = document.getElementById('email').value.trim();
         var password = document.getElementById('password').value.trim();
+        var fname=document.getElementById('firstname').value.trim();
+        var lname=document.getElementById('lastname').value.trim();
+        var age=document.getElementById('age').value.trim();
+        var phone=document.getElementById('phone').value.trim();
+        var address=document.getElementById('address').value.trim();
         var emailError = document.getElementById("error-email");
         var passError = document.getElementById("error-pass");
-        var isValid = true;
+        var lname_error=document.getElementById("error-lname");
+        var fname_error=document.getElementById("error-fname");
+        var age_error=document.getElementById("error-age");
+        var address_error=document.getElementById("error-address");
+        var phone_error=document.getElementById("error-phone");
 
+
+
+
+
+        var isValid = true;
+    //     if(lname==="")
+    //     {
+    //     lname_error.textContent="last Name is Required ";
+    // return false;
+    //     }
+    //     if(fname==="")
+    //     {
+    //     fname_error.textContent="first  Name is Required ";
+    // return false;
+    //     }
+    //     if(age==="")
+    //     {
+    //     age_error.textContent="Age is Required ";
+    // return false;
+    //     }
+    //     if(address==="")
+    //     {
+    //     address_error.textContent="address is Required ";
+    // return false;
+    //     }
+    //     if(phone==="")
+    //     {
+    //     phone_error.textContent="phone number is Required ";
+    // return false;
+    //     }
         // bn3mel Validate email
         if (!email) {
         
@@ -123,6 +162,7 @@ function validateForm()
                             <label for="firstname">First Name:</label>
                             <input type="text" class="form-control" id="firstname" th:field="*{firstname}" placeholder="First Name" >
                             <span th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" class="error-message"></span>
+                            <span id="error-fname" class="error-message"> </span>
                         </div>
 
                         <div class="form-group">
@@ -130,12 +170,15 @@ function validateForm()
                             <input type="text" class="form-control" id="lastname" th:field="*{lastname}" placeholder="Last Name" >
                             <span th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" class="error-message"></span>
                             <div id="lname-error" class="error-message"></div>
+                            <span id="error-lname" class="error-message"> </span>
                         </div>
 
                         <div class="form-group">
                             <label for="age">Age:</label>
                             <input type="number" class="form-control" id="age" th:field="*{age}" placeholder="Enter your age" >
                             <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="error-message"></span>
+                            <span id="error-age" class="error-message"> </span>
+                            
                         </div>
 
                         <div class="form-group">
@@ -150,12 +193,14 @@ function validateForm()
                             <label for="address">Address:</label>
                             <input type="text" class="form-control" id="address" th:field="*{address}" placeholder="Address" >
                             <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-message"></span>
+                            <span id="error-address" class="error-message"> </span>
                         </div>
 
                         <div class="form-group">
                             <label for="phone">Phone Number:</label>
                             <input type="text" class="form-control" id="phone" th:field="*{number}" placeholder="Phone Number" >
                             <span th:if="${#fields.hasErrors('number')}" th:errors="*{number}" class="error-message"></span>
+                            <span id="error-phone" class="error-message"> </span>
                         </div>
                         
 

@@ -28,6 +28,7 @@ import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -39,10 +40,13 @@ import org.hibernate.usertype.UserType;
 import org.mindrot.jbcrypt.BCrypt;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -117,8 +121,9 @@ public String hashpassword(String password)
 }
 
 @PostMapping("ClinicRegistration")
-public ModelAndView processSignupForm(@ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass,HttpSession session) {
-     ModelAndView SignupModel = preparenavigation(session,"ClinicRegistration.html",this.user_type_repo,this.page_type_repo);
+public ModelAndView processSignupForm(@ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
+     ModelAndView SignupModel=new ModelAndView("ClinicRegistration.html");
+     ModelAndView refresh=new ModelAndView("DoctorHomePage.html");
 
 
  List<String> errorMessages = new ArrayList<>();
@@ -263,6 +268,9 @@ for (int i=0;i<alltypes.size();i++){
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getFirstname() + "</td>";
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getLastname() + "</td>";
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + patient.getNumber() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'><button onclick='deleteEntry(\"" + patient.getEmail() + "\", \"patient\")'>Delete</button></td>";
+
+
                    data += "</tr>";
                }
            }
@@ -278,6 +286,8 @@ for (int i=0;i<alltypes.size();i++){
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getCname() + "</td>";
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getCloc() + "</td>";
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + clinic.getCnumber() + "</td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'><button onclick='deleteEntry(\"" + clinic.getEmail()+ "\", \"clinic\")'>Delete</button></td>";
+
                    data += "</tr>";
                }
            }
@@ -293,6 +303,9 @@ for (int i=0;i<alltypes.size();i++){
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getFirstname() + "</td>";
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getLastname() + "</td>";
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getSpecialization() + "</td>";
+                     data += "<td style='border: 1px solid #ddd; padding: 8px;'><button onclick='deleteEntry(\"" + doctor.getEmail() + "\", \"doctor\")'>Delete</button></td>";
+
+
                    data += "</tr>";
                }
            }
@@ -303,7 +316,23 @@ for (int i=0;i<alltypes.size();i++){
        return data;
    }
    
+   @GetMapping("/deleteEntry")
+public RedirectView deleteEntry(@RequestParam String name, @RequestParam String type) {
    
+        if (type.equals("patient")) {
+            patientRepository.deleteByemail(name);
+        } else if (type.equals("clinic")) {
+            clinicRepository.deleteByemail(name);
+        } else if (type.equals("doctor")) {
+            doctorrepo.deleteByemail(name);
+        } 
+        return new RedirectView("/Admin/search");
+       
+
+    
+
+
+}
    @GetMapping("/search")
    public ModelAndView getSearchPage(HttpSession session) {
       ModelAndView mav = preparenavigation(session,"search_and_delete",this.user_type_repo,this.page_type_repo);
@@ -366,9 +395,18 @@ for (int i=0;i<alltypes.size();i++){
        return mav;
    }
 
+
    @GetMapping("/navigation")
    public ModelAndView getNavigation(HttpSession session) {
        return preparenavigation(session, "navigation.html",this.user_type_repo, this.page_type_repo);
+   }
+
+   @GetMapping("/userlogs")
+   public ModelAndView GetUserLogPage(HttpSession session) {
+ModelAndView mav = preparenavigation(session,"userlog",this.user_type_repo,this.page_type_repo);
+
+return mav;
+
    }
 
 
