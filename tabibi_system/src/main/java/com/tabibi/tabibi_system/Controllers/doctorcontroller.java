@@ -113,7 +113,7 @@ admincontroller admincontroller=new admincontroller();
      public ModelAndView getSettings(HttpSession session)
      {
       
-    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "AccountSettings.html", user_type_repo, page_type_repo);
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "DoctorAccountSettings.html", user_type_repo, page_type_repo);
 
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
@@ -192,7 +192,7 @@ admincontroller admincontroller=new admincontroller();
          if (DoctorDelete != null) {
                  this.doctorRepository.delete(DoctorDelete);
                  session.invalidate(); 
-                 return new RedirectView("/User/login"); 
+                 return new RedirectView("/User/Login"); 
          }
          return new RedirectView("/Doctor/Profile"); 
      }

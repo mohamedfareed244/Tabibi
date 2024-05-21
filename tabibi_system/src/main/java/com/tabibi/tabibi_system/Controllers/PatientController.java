@@ -135,7 +135,7 @@ public class PatientController {
          if (PatientDelete != null) {
                  this.patientRepository.delete(PatientDelete);
                  session.invalidate(); 
-                 return new RedirectView("/User/login"); 
+                 return new RedirectView("/User/Login"); 
          }
          return new RedirectView("/patient/Profile"); 
      }

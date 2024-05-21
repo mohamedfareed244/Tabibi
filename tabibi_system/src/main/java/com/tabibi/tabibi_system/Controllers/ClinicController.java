@@ -138,6 +138,17 @@ ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparena
    return mav;
 }
 
+@GetMapping("accountSettings")
+public ModelAndView getSettings(HttpSession session)
+{
+ 
+ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "ClinicAccountSettings.html", user_type_repo, page_type_repo);
+
+   mav.addObject("email",(String) session.getAttribute("email"));
+   mav.addObject("firstname",(String) session.getAttribute("firstname"));
+   return mav;
+}
+
 @GetMapping("EditProfile")
 public ModelAndView getEditProfile(HttpSession session)
 {
@@ -186,7 +197,7 @@ public RedirectView deleteAccount(HttpSession session) {
     if (clinicDelete != null) {
             this.clinicRepository.delete(clinicDelete);
             session.invalidate(); 
-            return new RedirectView("/User/login"); 
+            return new RedirectView("/User/Login"); 
     }
     return new RedirectView("/Clinic/Profile"); 
 }

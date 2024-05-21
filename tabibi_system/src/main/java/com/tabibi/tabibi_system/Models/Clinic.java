@@ -27,16 +27,13 @@ public class Clinic extends UserAcc implements Serializable
     @Column(name = "cloc")
     private String cloc;
  
-    // @NotEmpty(message = "Clinic hours")
-    @Column(name = "workhrs")
-    private String workhrs;
-
-    private long test;
 
 
 
-    @Column(name = "reviews")
-    private String reviews;
+
+
+
+ 
 
     @NotEmpty(message = "Clinic Number is Required")
     @Column(name = "cnumber")
@@ -51,19 +48,12 @@ public class Clinic extends UserAcc implements Serializable
     public Clinic() {
     }
 
-    public Clinic( String cname, String cloc, String workhrs, String reviews, String cnumber) {
+    public Clinic(String cname, String cloc, String cnumber, Appointment appointment) {
         this.cname = cname;
         this.cloc = cloc;
-        this.workhrs = workhrs;
-        this.reviews = reviews;
         this.cnumber = cnumber;
+        this.appointment = appointment;
     }
-
-    public Long getCid() {
-        return this.test;
-    }
-
- 
 
     public String getCname() {
         return this.cname;
@@ -81,22 +71,6 @@ public class Clinic extends UserAcc implements Serializable
         this.cloc = cloc;
     }
 
-    public String getWorkhrs() {
-        return this.workhrs;
-    }
-
-    public void setWorkhrs(String workhrs) {
-        this.workhrs = workhrs;
-    }
-
-    public String getReviews() {
-        return this.reviews;
-    }
-
-    public void setReviews(String reviews) {
-        this.reviews = reviews;
-    }
-
     public String getCnumber() {
         return this.cnumber;
     }
@@ -105,7 +79,13 @@ public class Clinic extends UserAcc implements Serializable
         this.cnumber = cnumber;
     }
 
- 
+    public Appointment getAppointment() {
+        return this.appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
 
     public Clinic cname(String cname) {
         setCname(cname);
@@ -117,24 +97,47 @@ public class Clinic extends UserAcc implements Serializable
         return this;
     }
 
-    public Clinic workhrs(String workhrs) {
-        setWorkhrs(workhrs);
-        return this;
-    }
-
-    public Clinic reviews(String reviews) {
-        setReviews(reviews);
-        return this;
-    }
-
     public Clinic cnumber(String cnumber) {
         setCnumber(cnumber);
         return this;
     }
 
-    public Clinic getClinic() {
+    public Clinic appointment(Appointment appointment) {
+        setAppointment(appointment);
         return this;
     }
+    public Clinic getClinic()
+    {
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Clinic)) {
+            return false;
+        }
+        Clinic clinic = (Clinic) o;
+        return Objects.equals(cname, clinic.cname) && Objects.equals(cloc, clinic.cloc) && Objects.equals(cnumber, clinic.cnumber) && Objects.equals(appointment, clinic.appointment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cname, cloc, cnumber, appointment);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " cname='" + getCname() + "'" +
+            ", cloc='" + getCloc() + "'" +
+            ", cnumber='" + getCnumber() + "'" +
+            ", appointment='" + getAppointment() + "'" +
+            "}";
+    }
+
+
 
     
     
