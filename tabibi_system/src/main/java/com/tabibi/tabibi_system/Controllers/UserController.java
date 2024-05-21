@@ -13,12 +13,10 @@ import com.tabibi.tabibi_system.Models.Booking;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
-import com.tabibi.tabibi_system.Models.SignupWrapper;
 // import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
-import com.tabibi.tabibi_system.Models.SignupWrapper;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

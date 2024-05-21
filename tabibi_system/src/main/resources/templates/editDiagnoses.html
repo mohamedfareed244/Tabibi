@@ -46,7 +46,7 @@ button {
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #2E8B57; /* Green color */
+    background-color: #2E8B57; 
     color: white;
     border: none;
     border-radius: 5px;
@@ -54,7 +54,7 @@ button {
 }
 
 button:hover {
-    background-color: #226644; /* Darker green color */
+    background-color: #226644; 
 }
 
 
@@ -64,7 +64,7 @@ button:hover {
 </style>
 <body>
     <div th:include="navigation">
-    <h1>Edit Diagnosis</h1>
+    </div>
     <form th:action="@{/Doctor/editDiagnose}" method="post">
         <input type="hidden" th:name="diagnosisId" th:value="${diagnosis.diagnosisId}" />
         <label for="diagnosisName">Diagnosis Name:</label>
