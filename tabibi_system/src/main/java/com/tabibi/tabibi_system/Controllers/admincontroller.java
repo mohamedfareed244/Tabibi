@@ -16,6 +16,7 @@ import com.tabibi.tabibi_system.Models.UserTypePages;
 // import com.tabibi.tabibi_system.Models.UserTypePages;
 import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Repositories.AdminRepository;
+import com.tabibi.tabibi_system.Repositories.AppointmentRepository;
 import com.tabibi.tabibi_system.Repositories.ClinicRepository;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PagesRepository;
@@ -79,6 +80,8 @@ public class admincontroller {
    AdminRepository adminRepository;
 @Autowired 
 PatientRepository patientRepository;
+ @Autowired
+AppointmentRepository appointmentrepositiry;
 
 @Autowired
 UserLogRepository userlog;
@@ -308,7 +311,7 @@ for (int i=0;i<alltypes.size();i++){
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getFirstname() + "</td>";
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getLastname() + "</td>";
                    data += "<td style='border: 1px solid #ddd; padding: 8px;'>" + doctor.getSpecialization() + "</td>";
-                     data += "<td style='border: 1px solid #ddd; padding: 8px;'><button onclick='deleteEntry(\"" + doctor.getEmail() + "\", \"doctor\")'>Delete</button></td>";
+                   data += "<td style='border: 1px solid #ddd; padding: 8px;'><button onclick='deleteEntry(\"" + doctor.getEmail() + "\", \"doctor\")'>Delete</button></td>";
 
 
                    data += "</tr>";
@@ -322,16 +325,19 @@ for (int i=0;i<alltypes.size();i++){
    }
    
    @GetMapping("/deleteEntry")
-public RedirectView deleteEntry(@RequestParam String name, @RequestParam String type) {
-   
+   @Transactional
+public String deleteEntry(@RequestParam("name") String name,@RequestParam("type") String type) {
+    System.out.println("xxxxxxxxxxxxxxxxxxxxx");
+   System.out.println(name);
         if (type.equals("patient")) {
             patientRepository.deleteByemail(name);
+            
         } else if (type.equals("clinic")) {
             clinicRepository.deleteByemail(name);
         } else if (type.equals("doctor")) {
             doctorrepo.deleteByemail(name);
         } 
-        return new RedirectView("/Admin/search");
+        return "ok";
        
 
     
