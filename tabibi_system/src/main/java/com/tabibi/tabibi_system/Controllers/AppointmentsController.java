@@ -185,12 +185,12 @@ public void Send_Cancellation_Mail(String mail)
 @GetMapping("delete/{appId}")
 @Transactional
 public RedirectView deleteAppointment(@PathVariable long appId){
-    Appointment currAppointment=this.appointmentRepository.findByappId(appId);
-    Patient currpatient=currAppointment.getPatient();
-    UserAcc currUserAcc=this.UserAccRepository.findByUid(currpatient.getUid());
-    String Mail=currUserAcc.getEmail();
-    Send_Cancellation_Mail(Mail);
-    this.appointmentRepository.deleteByappId(appId);
+    // Appointment currAppointment=this.appointmentRepository.findByappId(appId);
+    // Patient currpatient=currAppointment.getPatient();
+    // UserAcc currUserAcc=this.UserAccRepository.findByUid(currpatient.getUid());
+    // String Mail=currUserAcc.getEmail();
+    // Send_Cancellation_Mail(Mail);
+    // this.appointmentRepository.deleteByappId(appId);
 
 
     return new RedirectView("/appointments/view");
