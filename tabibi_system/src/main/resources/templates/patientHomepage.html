@@ -133,7 +133,12 @@
                                 <td th:text="${b.appointment.clinic.cname}"></td>
                                 <td th:text="${b.appointment.price}"></td>
                                 <td>
-                                   <form action="cancelBooking"></form>
+                                    
+                                        <form th:action="@{/booking/cancelBooking}" method="post" style="display:inline;">
+                                            <input type="hidden" name="bookingId" th:value="${b.id}"/>
+                                            <button type="submit" class="cancel-button">cancel</button>
+                                        </form>
+                                    
                                 </td>
                             </tr>
                         </tbody>
