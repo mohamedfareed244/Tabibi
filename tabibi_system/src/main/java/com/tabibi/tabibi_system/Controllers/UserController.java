@@ -364,7 +364,8 @@ public RedirectView loginprocess(@RequestParam("email") String email, @RequestPa
      @GetMapping("patientHomepage")
      public ModelAndView GetIndex(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("patientHomepage.html");
+    ModelAndView mav= admincontroller.preparenavigation(session, "patientHomepage", user_type_repo, page_type_repo);
+
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         
@@ -390,7 +391,7 @@ mav.addObject("bookingList", bookingList);
      @GetMapping("clinicHomepage")
      public ModelAndView getClinicPage(HttpSession session)
      {
-    ModelAndView mav= admincontroller.preparenavigation(session, "ClinicHomePage.html", user_type_repo, page_type_repo);
+        ModelAndView mav= admincontroller.preparenavigation(session, "ClinicHomePage.html", user_type_repo, page_type_repo);
 
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
@@ -422,17 +423,19 @@ public RedirectView logout(HttpSession session) {
      
 
     @GetMapping("/search")
-    public ModelAndView search(@RequestParam("search") String name, Model model) {
+    public ModelAndView search(@RequestParam("search") String name, Model model,HttpSession session) {
     List<Doctor> Doctors=doctorRepository.findByspecialization(name); 
-       ModelAndView mag=new ModelAndView("searchResult.html");
+    ModelAndView mag= admincontroller.preparenavigation(session, "searchResult.html", user_type_repo, page_type_repo);
+
         model.addAttribute("doctors", Doctors);
       return mag;
     }
 
     @PostMapping("/search")
-    public ModelAndView searchresult(@RequestParam("name") String name, Model model) {
+    public ModelAndView searchresult(@RequestParam("name") String name, Model model,HttpSession session) {
     List<Doctor> Doctors=doctorRepository.findByspecialization(name); 
-       ModelAndView mag=new ModelAndView("searchResult.html");
+    ModelAndView mag= admincontroller.preparenavigation(session, "searchResult.html", user_type_repo, page_type_repo);
+
         model.addAttribute("doctors", Doctors);
       return mag;
     }

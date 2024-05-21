@@ -20,7 +20,10 @@ import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Repositories.AppointmentRepository;
 import com.tabibi.tabibi_system.Repositories.ClinicRepository;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,11 +45,16 @@ public class AppointmentsController
  private DoctorRepository doctorRepository;
  @Autowired
  private ClinicRepository clinicRepository;
+ @Autowired
+ UserTypePagesRepository page_type_repo;
+ @Autowired
+ UserTypeRepository user_type_repo;
 
 @GetMapping("add")
-public ModelAndView appointmentForm() 
+public ModelAndView appointmentForm(HttpSession session) 
 {
-   ModelAndView mav = new ModelAndView("addAppointment.html");
+   ModelAndView mav= admincontroller.preparenavigation(session, "addAppointment.html", user_type_repo, page_type_repo);
+
    mav.addObject("appointment", new Appointment());
    List<Doctor> doctors = this.doctorRepository.findAll();
    List<Clinic> clinics = this.clinicRepository.findAll();
@@ -59,11 +67,13 @@ public ModelAndView appointmentForm()
 }
 
 @PostMapping("add")
-public ModelAndView addAppointment(@Valid @ModelAttribute Appointment appointment  , BindingResult result ) 
+public ModelAndView addAppointment(@Valid @ModelAttribute Appointment appointment  , BindingResult result,HttpSession session ) 
 
 {
- ModelAndView addAppointment =  new ModelAndView("addAppointment.html");
- ModelAndView home = new ModelAndView("ClinicHomePage.html");
+ ModelAndView addAppointment= admincontroller.preparenavigation(session, "addAppointment.html", user_type_repo, page_type_repo);
+
+ ModelAndView home= admincontroller.preparenavigation(session, "ClinicHomePage.html", user_type_repo, page_type_repo);
+
 List<String> errorMessages = new ArrayList<>();
 
   if (result.hasErrors()) 
@@ -94,8 +104,9 @@ List<String> errorMessages = new ArrayList<>();
 
 
 @GetMapping("view")
-public ModelAndView viewAppointmentForm(){
-    ModelAndView mav = new ModelAndView("viewappointments.html");
+public ModelAndView viewAppointmentForm(HttpSession session){
+ ModelAndView mav= admincontroller.preparenavigation(session, "viewappointments.html", user_type_repo, page_type_repo);
+
     List<Appointment> appointmentList = this.appointmentRepository.findAll();
     mav.addObject("appointmentList", appointmentList);
     
@@ -103,9 +114,10 @@ public ModelAndView viewAppointmentForm(){
 }
 
 @GetMapping("edit/{appId}")
-public ModelAndView editAppointmentForm(@PathVariable long appId) 
+public ModelAndView editAppointmentForm(@PathVariable long appId,HttpSession session) 
 {
-ModelAndView mav = new ModelAndView("editAppointments.html");
+ModelAndView mav= admincontroller.preparenavigation(session, "editAppointments.html", user_type_repo, page_type_repo);
+
 Appointment oldApp=this.appointmentRepository.findByappId(appId);
 System.out.println("-------------------------------------the appointment sent in the edit form :" + oldApp);
 mav.addObject("oldApp", oldApp);
