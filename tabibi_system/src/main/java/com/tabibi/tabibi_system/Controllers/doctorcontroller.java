@@ -122,12 +122,16 @@ admincontroller admincontroller=new admincontroller();
      @GetMapping("Profile")
      public ModelAndView getProfile(HttpSession session)
      {
-    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "profile.html", user_type_repo, page_type_repo);
+    ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "DoctorProfile.html", user_type_repo, page_type_repo);
         
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         mav.addObject("lastname",(String) session.getAttribute("lastname"));
         mav.addObject("number",(String) session.getAttribute("number"));
+        mav.addObject("specialization",(String) session.getAttribute("specialization"));
+        mav.addObject("education",(String) session.getAttribute("education"));
+
+
         return mav;
      }
      @GetMapping("EditProfile")

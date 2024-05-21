@@ -69,7 +69,8 @@ public class PatientController {
      @GetMapping("EditProfile")
      public ModelAndView getEditProfile(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("editProfile.html");
+     ModelAndView mav= admincontroller.preparenavigation(session, "editProfile.html", user_type_repo, page_type_repo);
+
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         mav.addObject("lastname",(String) session.getAttribute("lastname"));

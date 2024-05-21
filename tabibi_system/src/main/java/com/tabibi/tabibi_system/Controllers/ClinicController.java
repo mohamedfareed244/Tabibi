@@ -53,6 +53,8 @@ public class ClinicController {
     PagesRepository pages_repo;
     @Autowired
     private DoctorRepository doctorRepository;
+    @Autowired
+    private ClinicRepository clinicRepository;
     @GetMapping("DoctorRegistration")
 public ModelAndView DoctorRegistration(HttpSession session) 
 {
@@ -121,6 +123,72 @@ else
 }
 
 return new ModelAndView("redirect:/User/clinicHomepage");
+}
+
+@GetMapping("Profile")
+public ModelAndView getProfile(HttpSession session)
+{
+ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "ClinicProfile.html", user_type_repo, page_type_repo);
+   
+   mav.addObject("email",(String) session.getAttribute("email"));
+   mav.addObject("firstname",(String) session.getAttribute("firstname"));
+   mav.addObject("location",(String) session.getAttribute("Location"));
+   mav.addObject("number",(String) session.getAttribute("number"));
+
+   return mav;
+}
+
+@GetMapping("EditProfile")
+public ModelAndView getEditProfile(HttpSession session)
+{
+ModelAndView mav= com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session, "EditClinicProfile.html", user_type_repo, page_type_repo);
+
+   mav.addObject("email",(String) session.getAttribute("email"));
+   mav.addObject("firstname",(String) session.getAttribute("firstname"));
+   mav.addObject("location",(String) session.getAttribute("Location"));
+   mav.addObject("number",(String) session.getAttribute("number"));
+   mav.addObject("uid",(Integer) session.getAttribute("uid"));
+
+
+   return mav;
+}
+@PostMapping("/EditProfile")
+public RedirectView editprocess(HttpSession session,@RequestParam("email") String email,
+@RequestParam("firstname") String firstname,
+@RequestParam("location") String location,
+@RequestParam("number") String number ) 
+{
+    Integer uid = (Integer)session.getAttribute("uid");
+    Clinic clinicEdit = this.clinicRepository.findByUid(uid);
+    if (clinicEdit != null) {
+        session.setAttribute("email", email);
+        session.setAttribute("firstname", firstname);
+        session.setAttribute("Location", location);
+        session.setAttribute("number", number);
+
+
+        
+ clinicEdit.setCname(firstname);
+ clinicEdit.setEmail(email);
+ clinicEdit.setCloc(location);
+ clinicEdit.setCnumber(number);
+        
+        return new RedirectView("/User/clinicHomepage");
+    }
+    return new RedirectView("/Clinic/EditProfile?error=error");
+
+}
+
+@GetMapping("/deleteAccount")
+public RedirectView deleteAccount(HttpSession session) {
+    Integer uid = (Integer) session.getAttribute("uid");
+    Clinic clinicDelete = this.clinicRepository.findByUid(uid);
+    if (clinicDelete != null) {
+            this.clinicRepository.delete(clinicDelete);
+            session.invalidate(); 
+            return new RedirectView("/User/login"); 
+    }
+    return new RedirectView("/Clinic/Profile"); 
 }
 }
 
