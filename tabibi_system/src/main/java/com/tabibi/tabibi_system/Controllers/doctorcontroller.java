@@ -21,11 +21,13 @@ import com.tabibi.tabibi_system.Models.Diagnosis;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.UserAcc;
+import com.tabibi.tabibi_system.Models.UserLog;
 import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
 import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
+import com.tabibi.tabibi_system.Repositories.UserLogRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 import com.tabibi.tabibi_system.Repositories.DiagnosisRepository;
@@ -51,6 +53,9 @@ public class doctorcontroller {
     PagesRepository pages_repo;
     @Autowired
     public UserTypePagesRepository page_type_repo;
+
+    @Autowired
+    public UserLogRepository userlog;
 admincontroller admincontroller=new admincontroller();
 
 
@@ -241,5 +246,38 @@ admincontroller admincontroller=new admincontroller();
         }
         return new RedirectView("/Doctor/editDiagnose?error=error");
     
+    }
+
+    @GetMapping("/userLogs")
+    public String GetLogsForUser(@RequestParam("id") int id){
+
+        List<UserLog> mylist=this.userlog.findByUserIdOrderByLogDateDesc(id);
+        UserAcc currentuser=this.userAccRepository.findByUid(id);
+       
+        if(mylist.size()==0){
+            return "no records found ";
+         }else{
+            String data="";
+            for(int i=0;i<mylist.size();i++){
+                UserLog patient=mylist.get(i);
+                System.out.println(patient.getDate());
+               
+          data+="<tr>";
+         
+          data+="<td>";
+   data+=( Integer.toString(id) );
+   data+="</td>";
+   data+="<td>";
+   data+=(currentuser.getEmail());
+   data+="</td>";
+   data+="<td>";
+   data+=(patient.getDate());
+   data+="</td> </tr>";
+   
+            }
+            System.out.println( data);
+            return data;
+         }
+
     }
 }
