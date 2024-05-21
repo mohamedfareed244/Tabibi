@@ -318,7 +318,7 @@ for (int i=0;i<alltypes.size();i++){
    
    @GetMapping("/deleteEntry")
 public RedirectView deleteEntry(@RequestParam String name, @RequestParam String type) {
-    try {
+   
         if (type.equals("patient")) {
             patientRepository.deleteByemail(name);
         } else if (type.equals("clinic")) {
@@ -329,7 +329,8 @@ public RedirectView deleteEntry(@RequestParam String name, @RequestParam String 
         return new RedirectView("/Admin/search");
        
 
-    }
+    
+
 
 }
    @GetMapping("/search")
