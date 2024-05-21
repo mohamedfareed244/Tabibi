@@ -121,7 +121,7 @@ public String hashpassword(String password)
 }
 
 @PostMapping("ClinicRegistration")
-public ModelAndView processSignupForm(@ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
+public ModelAndView processSignupForm(@Valid @ModelAttribute ("clinic")  Clinic clinic, BindingResult result, @RequestParam("cpassword") String Confirm_pass) {
      ModelAndView SignupModel=new ModelAndView("ClinicRegistration.html");
      ModelAndView refresh=new ModelAndView("DoctorHomePage.html");
 

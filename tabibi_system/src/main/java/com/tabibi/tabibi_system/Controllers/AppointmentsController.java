@@ -147,12 +147,7 @@ return mav;
     this.appointmentRepository.save(oldAppointment);
         return new RedirectView("/appointments/view");
     }
-    public static String generateRandom4DigitNumber() {
-        Random random = new Random();
-        int number = 1000 + random.nextInt(9000); // Generate a random number between 1000 and 9999
-        return String.valueOf(number);
-    }
-     
+
 public void Send_Cancellation_Mail(String mail)
 {         // Set up the mail sender
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
