@@ -133,46 +133,24 @@ public class BookingController {
         } else {
             throw new IllegalStateException("Invalid user ID type");
         }
-
         Patient patient = this.patientRepository.findByUid(uid);
-        // System.out.println("appointment id : " + appointmentId);
-        // System.out.println("appointment  : " + selectedAppointment.toString());
-        // System.out.println("the uid : " + uid + " the patient : " + patient.toString());
         Booking bookedAppointment = new Booking(selectedAppointment, patient);
-        // System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        // System.out.println(bookedAppointment.toString() + " booookedd");
         this.bookingRepository.save(bookedAppointment);
         selectedAppointment.setBooked(selectedAppointment.getBooked() + 1);
         this.appointmentRepository.save(selectedAppointment);
-        // System.out.println("updated appointment : " + selectedAppointment);
+
 
         return new RedirectView("/booking");
     }
 
 
-    
+    @PostMapping("/cancelBooking")
+    public RedirectView cancelBooking(@RequestParam long bookingId){
+this.bookingRepository.deleteById(bookingId);
+   return new RedirectView("/User/patientHomepage");
 
-//  public List<Appointment> filterAppointments (List<Appointment> applist , HttpSession session){
-// List <Appointment> newList ;
-// Long uid ;
-// Object uidObject = session.getAttribute("uid");
-// if (uidObject instanceof Integer) {
-//     uid = ((Integer) uidObject).longValue();
-// } else if (uidObject instanceof Long) {
-//     uid = (Long) uidObject;
-// } else {
-//     throw new IllegalStateException("Invalid user ID type");
-// }
-// Patient p =this.patientRepository.findByUid(uid);
-// List <Booking> bookedByPatient = this.bookingRepository.findByPatient(p);
+    }
 
 
-
-
-
-// applist.forEach();
-      
-//     }
-//     return newList;
 
 }

@@ -380,9 +380,10 @@ public RedirectView loginprocess(@RequestParam("email") String email, @RequestPa
 
         Patient patient = this.patientRepository.findByUid(uid);
         List <Booking> bookingList = this.bookingRepository.findByPatient(patient);
-        System.out.println("----------------------------------------------------------");
-        System.out.println("user id : " + uid);
-        System.out.println("bookings :" + bookingList.toString());
+        // System.out.println("----------------------------------------------------------");
+        // System.out.println("user id : " + uid);
+        // System.out.println("bookings :" + bookingList.toString());
+mav.addObject("bookingList", bookingList);
         return mav;
      }
 

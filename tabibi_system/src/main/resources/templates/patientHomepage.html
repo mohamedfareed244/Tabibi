@@ -8,13 +8,39 @@
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../css/patient.css">
     <link rel="stylesheet" href="../css/tempNav.css">
+    <link rel="stylesheet" href="../css/viewTables.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            text-align: center;
+            margin-right: 300px ;
+        }
+
+        th, td {
+            padding: 15px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
     <title>VeZeeTa</title>
 </head>
-
-
-
 
 <body class="body">
     <div th:include="navigation">
@@ -25,7 +51,6 @@
     <div class="main--container">
         <div class="section--title">
             <h3 class="title">HOME</h3>
-
         </div>
 
         <div class="target-vs-sales--container">
@@ -44,14 +69,13 @@
             
                     <h3>Channel a Doctor Here</h3>
 
-
-                        <form action="/User/search" method="GET">
-                      
-                        <input type="search" name="search" class="input-text "
-                            placeholder="Search Doctor and We will Find The Session Available" 
-                            style="width:45%;">;
-                            <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-  </form>
+                    <form action="/User/search" method="GET">
+                        <input type="search" name="search" class="input-text"
+                            placeholder="Search Doctor and We will Find The Session Available"
+                            style="width:45%;">
+                        <input type="Submit" value="Search" class="login-btn btn-primary btn"
+                            style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;">
+                    </form>
                 </div>
             </div>
             <div class="target--vs--sales">
@@ -61,42 +85,49 @@
         <div class="table">
             <div class="section--title">
                 <h3 class="title">Upcoming Appointments</h3>
+                <div class="view">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Doctor</th>
+                                <th>Clinic</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="b : ${bookingList}">
+                                <td th:text="${b.appointment.date}"></td>
+                                <td th:text="${b.appointment.time}"></td>
+                                <td th:text="${b.appointment.doctor.firstname + ' ' + b.appointment.doctor.lastname}"></td>
+                                <td th:text="${b.appointment.clinic.cname}"></td>
+                                <td th:text="${b.appointment.price}"></td>
+                                <td>
+                                    
+                                        <form th:action="@{/booking/cancelBooking}" method="post" style="display:inline;">
+                                            <input type="hidden" name="bookingId" th:value="${b.id}"/>
+                                            <button type="submit" class="cancel-button">cancel</button>
+                                        </form>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div></div>
             </div>
-            <table>
-                <thead>
-                <tr>
-      
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Doctor</th>
-                       
-                        <th>Clinic</th>
-                        <th>Price</th>
-                        <th>Actions</th>
-
-     
-  </tr>
-
-                </thead>
-                <tbody>
-
-
-
-                </tbody>
-            </table>
+            
         </div>
     </div>
-    </section>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/sales.js"></script>
     <script src="assets/js/orders.js"></script>
     <script src="assets/js/products.js"></script>
     <script src="assets/js/customers.js"></script>
     <script src="assets/js/tarsale.js"></script>
-    <footer>
- 
-   </footer>
+    <footer></footer>
 </body>
 
 </html>
