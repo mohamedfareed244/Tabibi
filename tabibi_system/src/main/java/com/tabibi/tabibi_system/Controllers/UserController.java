@@ -400,7 +400,8 @@ mav.addObject("bookingList", bookingList);
      @GetMapping("DoctorHomePage")
      public ModelAndView getDoctorPage(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("DoctorHomePage.html");
+    ModelAndView mav= admincontroller.preparenavigation(session, "DoctorHomePage", user_type_repo, page_type_repo);
+
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;
