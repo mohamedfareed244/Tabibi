@@ -80,15 +80,10 @@ public class BookingController {
         }
 
 
-
-
-        // userBookings.stream() - Creates a stream from the list of bookings.
+  // userBookings.stream() - Creates a stream from the list of bookings.
         // .map(Booking::getAppointment) - Transforms each Booking to its associated Appointment.
         // .map(Appointment::getAppId) - Transforms each Appointment to its ID (appId).
         // .collect(Collectors.toList()) - Collects all the appointment IDs into a list (bookedAppointmentIds).
-
-
-
 
 
         // Update the status of appointments with no available places
@@ -153,6 +148,9 @@ public class BookingController {
 
         return new RedirectView("/booking");
     }
+
+
+    
 
 //  public List<Appointment> filterAppointments (List<Appointment> applist , HttpSession session){
 // List <Appointment> newList ;

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking</title>
+    <link rel="stylesheet" href="../css/tempNav.css">
+</head>
+
+
+    <body class="body">
+        <div class="navvv">
+            <div th:fragment="navigation">
+                <section class="header">
+                    <div class="logo">
+                        <i class="ri-menu-line menu"></i>
+                        <h2><span>Ta</span>BeeBy</h2>
+                    </div>
+                    <div class="header--items">
+                        <div class="dark--theme--btn">
+                            <i class="ri-notification-2-line"></i>
+                            <span th:text="${#dates.format(#dates.createNow(), 'MMMM d, yyyy')}"></span>
+                        </div>
+                        <div class="dark--theme--btn">
+                            <i class="ri-notification-2-line"></i>
+                            <span th:text="${email}"></span>
+                        </div>
+                    </div>
+                </section>
+                <nav class="navbar">
+                    <ul>
+                        <li><a class="active" th:href="@{/User/patientHomepage}">HOME</a></li>
+                        <li><a th:href="@{/patient/accountSettings}">Account Settings</a></li>
+                        <li><a th:href="@{/patient/Profile}">Profile</a></li>
+                        <li><a th:href="@{/booking}">Book an appointment</a></li>
+                        <li><a th:href="@{/User/logout}">LOGOUT</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="container">
+            <!-- Content goes here -->
+        </div>
+  
+
+
+
+    <form id="specializationForm" th:action="@{/booking}" method="get">
+        <label for="sp">filter by specialization</label>
+        <select id="sp" name="specialization" onchange="this.form.submit()">
+            <option value="">choose</option>
+            <option th:each="s : ${uniqueSpecializations}"
+                    th:value="${s}"
+                    th:text="${s}"
+                    th:selected="${s == selectedSpecialization}">
+            </option>
+        </select>
+    </form>
+
+    <div id='searching'>
+        <h3 th:if="${param.specialization}" th:text="'Searching for: ' + ${param.specialization}"></h3>
+    </div>
+
+    <div class="appointments">
+        <!-- <h1>Appointments</h1> -->
+        <table>
+            <tr>
+                <th>Appointment Date</th>
+                <th>Appointment time</th>
+                <th>Doctor's Name</th>
+                <th>Doctor's Specialization</th>
+                <th>Time</th>
+                <th>Price</th>
+                <th>Clinic</th>
+                <th>Actions</th>
+               
+            </tr>
+            <tr th:each="appointment : ${appointmentList}">
+                <td th:text="${appointment.date}"></td>
+                <td th:text="${appointment.doctor.firstname + ' ' + appointment.doctor.lastname}"></td>
+                <td th:text="${appointment.doctor.specialization}"></td>
+                <td th:text="${appointment.time}"></td>
+                <td th:text="${appointment.price}"></td>
+                <td th:text="${appointment.clinic.cname}"></td>
+                <td>
+                    <form th:action="@{/booking/bookAppointment}" method="post" style="display:inline;">
+                        <input type="hidden" name="appointmentId" th:value="${appointment.appId}"/>
+                        <button type="submit" class="book-button">Book</button>
+                    </form>
+                </td>
+                <td th:text="${appointment.capacity - appointment.booked}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <style>
+        form {
+            background-color: transparent;
+            
+            padding: 20px;
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 50px;
+            border-radius: 5px;
+          
+        }
+        table {
+            width: 70%;
+            border-collapse: collapse;
+            margin-left: 350px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .no-appointments-found {
+            margin-left: 40%; 
+            margin-top: 30px;
+            color: red; 
+        }
+        .book-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        .book-button:hover {
+            background-color: #45a049;
+        }
+        #searching{
+            margin-left: 630px;
+        }
+    </style>
+</body>
+</html>

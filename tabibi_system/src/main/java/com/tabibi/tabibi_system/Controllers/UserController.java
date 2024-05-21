@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tabibi.tabibi_system.Repositories.*;
 import com.tabibi.tabibi_system.Models.Admin;
+import com.tabibi.tabibi_system.Models.Booking;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
@@ -70,6 +71,9 @@ public class UserController {
     UserTypePagesRepository page_type_repo;
     @Autowired
     UserTypeRepository user_type_repo;
+
+    @Autowired
+   private BookingRepository bookingRepository;
   
  
     public UserController() {
@@ -365,6 +369,22 @@ public RedirectView loginprocess(@RequestParam("email") String email, @RequestPa
         ModelAndView mav=new ModelAndView("patientHomepage.html");
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
+        
+        Object uidObject = session.getAttribute("uid");
+        long uid;
+        if (uidObject instanceof Integer) {
+            uid = ((Integer) uidObject).longValue();
+        } else if (uidObject instanceof Long) {
+            uid = (Long) uidObject;
+        } else {
+            throw new IllegalStateException("Invalid user ID type");
+        }
+
+        Patient patient = this.patientRepository.findByUid(uid);
+        List <Booking> bookingList = this.bookingRepository.findByPatient(patient);
+        System.out.println("----------------------------------------------------------");
+        System.out.println("user id : " + uid);
+        System.out.println("bookings :" + bookingList.toString());
         return mav;
      }
 
