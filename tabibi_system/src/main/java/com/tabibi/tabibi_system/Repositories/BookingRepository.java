@@ -10,7 +10,7 @@ import com.tabibi.tabibi_system.Models.Patient;
 
 public interface BookingRepository extends JpaRepository <Booking,Long>{
     List<Booking> findByPatient(Patient patient);
-   
-   
+    void deleteByAppointmentAppId(long appID);
+   List<Booking> findByAppointmentAppId(long appId);
     
 }

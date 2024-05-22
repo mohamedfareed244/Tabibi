@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -19,13 +20,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.tabibi.tabibi_system.Models.Appointment;
+import com.tabibi.tabibi_system.Models.Booking;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Repositories.AppointmentRepository;
+import com.tabibi.tabibi_system.Repositories.BookingRepository;
 import com.tabibi.tabibi_system.Repositories.ClinicRepository;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
+import com.tabibi.tabibi_system.Repositories.PatientRepository;
 import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
@@ -60,6 +64,10 @@ public class AppointmentsController
  UserTypeRepository user_type_repo;
  @Autowired
  UserAccRepository UserAccRepository;
+ @Autowired
+ PatientRepository patientRepository;
+ @Autowired
+ BookingRepository bookingRepository;
 
 @GetMapping("add")
 public ModelAndView appointmentForm(HttpSession session) 
@@ -186,11 +194,23 @@ public void Send_Cancellation_Mail(String mail)
 @Transactional
 public RedirectView deleteAppointment(@PathVariable long appId){
     Appointment currAppointment=this.appointmentRepository.findByappId(appId);
-    Patient currpatient=currAppointment.getPatient();
-    UserAcc currUserAcc=this.UserAccRepository.findByUid(currpatient.getUid());
-    String Mail=currUserAcc.getEmail();
-    Send_Cancellation_Mail(Mail);
-    this.appointmentRepository.deleteByappId(appId);
+
+
+        List<Booking> bookings = this.bookingRepository.findByAppointmentAppId(appId);
+        List<Patient> patients = bookings.stream()
+                                         .map(Booking::getPatient)
+                                         .distinct()
+                                         .collect(Collectors.toList());
+        
+        // Assuming you want to perform some action with each patient
+        for (Patient currPatient : patients) {
+            UserAcc currUserAcc = this.UserAccRepository.findByUid(currPatient.getUid());
+            String mail = currUserAcc.getEmail();
+        Send_Cancellation_Mail(mail);  
+        this.bookingRepository.deleteByAppointmentAppId(appId);
+        this.appointmentRepository.deleteByappId(appId);
+        }
+
 
 
     return new RedirectView("/appointments/view");

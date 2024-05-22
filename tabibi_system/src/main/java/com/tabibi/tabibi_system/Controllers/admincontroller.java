@@ -145,10 +145,9 @@ if (clinic.getPass().length() < 8)
     errorMessages.add("Password must be at least 8 characters long.");
 }
 
-
-if(!BCrypt.checkpw(Confirm_pass, existingUser.getPass()))
+if(!clinic.getPass().equals(Confirm_pass))
 {
-errorMessages.add("Password and confirm password doesn't match");
+    errorMessages.add("Password and Confirm Password Must Match");
 }
 else
 System.err.println("password match");
