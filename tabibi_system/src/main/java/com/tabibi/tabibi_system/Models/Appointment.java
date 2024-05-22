@@ -47,9 +47,7 @@ public class Appointment implements Serializable {
     @JoinColumn(name = "Did", referencedColumnName = "uid", insertable = true, updatable = true)
     private Doctor doctor;
 
-    @ManyToOne
-    @JoinColumn(name = "Pid", referencedColumnName = "uid", insertable = true, updatable = true)
-    private Patient patient;
+
 
     @ManyToOne
     @JoinColumn(name = "Cid", referencedColumnName = "uid", insertable = true, updatable = true)
@@ -69,14 +67,13 @@ public class Appointment implements Serializable {
     public Appointment() {
     }
 
-    public Appointment(Long appId, Date date, String status, String time, String price, Doctor doctor, Patient patient, Clinic clinic, int capacity, int booked) {
+    public Appointment(Long appId, Date date, String status, String time, String price, Doctor doctor, Clinic clinic, int capacity, int booked) {
         this.appId = appId;
         this.date = date;
         this.status = status;
         this.time = time;
         this.price = price;
         this.doctor = doctor;
-        this.patient = patient;
         this.clinic = clinic;
         this.capacity = capacity;
         this.booked = booked;
@@ -130,18 +127,13 @@ public class Appointment implements Serializable {
         this.doctor = doctor;
     }
 
-    public Patient getPatient() {
-        return this.patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
 
     public Clinic getClinic() {
         return this.clinic;
     }
-
+    // public Clinic getPatient() {
+    //     return this.pat;
+    // }
     public void setClinic(Clinic clinic) {
         this.clinic = clinic;
     }
@@ -192,10 +184,7 @@ public class Appointment implements Serializable {
         return this;
     }
 
-    public Appointment patient(Patient patient) {
-        setPatient(patient);
-        return this;
-    }
+
 
     public Appointment clinic(Clinic clinic) {
         setClinic(clinic);
@@ -228,7 +217,6 @@ public class Appointment implements Serializable {
             ", time='" + getTime() + "'" +
             ", price='" + getPrice() + "'" +
             ", doctor='" + getDoctor() + "'" +
-            ", patient='" + getPatient() + "'" +
             ", clinic='" + getClinic() + "'" +
             ", capacity='" + getCapacity() + "'" +
             ", booked='" + getBooked() + "'" +

@@ -85,21 +85,15 @@
          
         function deleteEntry(name, type) {
     if (name !== "") {
-        const encodedName = encodeURIComponent(name);
-        const encodedType = encodeURIComponent(type);
-        fetch(`/Admin/deleteEntry?name=${encodedName}&type=${encodedType}`, {
-                        method: 'GET',
-           
-            
+       
+        fetch(`/Admin/deleteEntry?name=${name}&type=${type}`, {
+            method: 'GET',
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.text();
-        })
+        .then(response => response.text())
         .then(data => {
             alert('Entry deleted successfully.');
+            if(data=="ok"){
+                location.reload();            }
           //  removeTableRow(name, type); // Remove the row from the table
         })
         .catch(error => alert('Failed to delete entry: ' + error));
