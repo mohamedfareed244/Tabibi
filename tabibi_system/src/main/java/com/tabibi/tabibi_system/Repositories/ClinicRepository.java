@@ -14,7 +14,7 @@ public interface ClinicRepository extends JpaRepository<Clinic,Integer>{
            Clinic findByEmail(String email);
            List<Clinic> findAllByEmail(String email);
            Clinic findByUid(int uid);
-
+           
 
 void deleteByemail(String email);
     

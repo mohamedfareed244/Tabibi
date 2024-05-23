@@ -2,51 +2,29 @@ package com.tabibi.tabibi_system.Models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-
 @Table(name = "clinic")
-public class Clinic extends UserAcc implements Serializable
-{
-
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
+public class Clinic extends UserAcc implements Serializable {
 
     @NotEmpty(message = "Clinic name is Required")
     @Column(name = "cname")
     private String cname;
 
-
     @NotEmpty(message = "Clinic Location is Required")
     @Column(name = "cloc")
     private String cloc;
- 
-
-
-
-
-
-
- 
 
     @NotEmpty(message = "Clinic Number is Required")
     @Column(name = "cnumber")
     private String cnumber;
 
-
-
-
     @Transient
     private Appointment appointment;
 
-    public Clinic() {
-    }
+    public Clinic() {}
 
     public Clinic(String cname, String cloc, String cnumber, Appointment appointment) {
         this.cname = cname;
@@ -56,7 +34,7 @@ public class Clinic extends UserAcc implements Serializable
     }
 
     public String getCname() {
-        return this.cname;
+        return cname;
     }
 
     public void setCname(String cname) {
@@ -64,7 +42,7 @@ public class Clinic extends UserAcc implements Serializable
     }
 
     public String getCloc() {
-        return this.cloc;
+        return cloc;
     }
 
     public void setCloc(String cloc) {
@@ -72,7 +50,7 @@ public class Clinic extends UserAcc implements Serializable
     }
 
     public String getCnumber() {
-        return this.cnumber;
+        return cnumber;
     }
 
     public void setCnumber(String cnumber) {
@@ -80,13 +58,12 @@ public class Clinic extends UserAcc implements Serializable
     }
 
     public Appointment getAppointment() {
-        return this.appointment;
+        return appointment;
     }
 
     public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
     }
-
     public Clinic cname(String cname) {
         setCname(cname);
         return this;
@@ -113,13 +90,11 @@ public class Clinic extends UserAcc implements Serializable
 
     @Override
     public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Clinic)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (!(o instanceof Clinic)) return false;
         Clinic clinic = (Clinic) o;
-        return Objects.equals(cname, clinic.cname) && Objects.equals(cloc, clinic.cloc) && Objects.equals(cnumber, clinic.cnumber) && Objects.equals(appointment, clinic.appointment);
+        return Objects.equals(cname, clinic.cname) && Objects.equals(cloc, clinic.cloc) &&
+                Objects.equals(cnumber, clinic.cnumber) && Objects.equals(appointment, clinic.appointment);
     }
 
     @Override
@@ -130,17 +105,10 @@ public class Clinic extends UserAcc implements Serializable
     @Override
     public String toString() {
         return "{" +
-            " cname='" + getCname() + "'" +
-            ", cloc='" + getCloc() + "'" +
-            ", cnumber='" + getCnumber() + "'" +
-            ", appointment='" + getAppointment() + "'" +
-            "}";
+                " cname='" + getCname() + "'" +
+                ", cloc='" + getCloc() + "'" +
+                ", cnumber='" + getCnumber() + "'" +
+                ", appointment='" + getAppointment() + "'" +
+                "}";
     }
-
-
-
-    
-    
 }
-
-
