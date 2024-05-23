@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Clinic's doctors View</title>
+    <link rel="stylesheet" th:href="@{/css/assignDoctorsView.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Clinic: <span th:text="${clinic.cname}"></span></h1>
+
+    <h2>Doctors in this Clinic</h2>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Specialization</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="doctor : ${assignedDoctors}">
+                <td th:text="${doctor.firstname}"></td>
+                <td th:text="${doctor.lastname}"></td>
+                <td th:text="${doctor.specialization}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Unassigned Doctors</h2>
+    <form th:action="@{/Clinic/assignDoctor}" method="post">
+        <input type="hidden" th:name="clinicId" th:value="${clinic_id}">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Specialization</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="doctor : ${unassignedDoctors}">
+                    <td>
+                        <input type="radio" th:name="doctorId" th:value="${doctor.uid}" class="radio-button"/>
+                    </td>
+                    <td th:text="${doctor.firstname}"></td>
+                    <td th:text="${doctor.lastname}"></td>
+                    <td th:text="${doctor.specialization}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn">Assign Doctor</button>
+    </form>
+</div>
+</body>
+</html>
