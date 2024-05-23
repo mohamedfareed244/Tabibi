@@ -35,14 +35,14 @@
         
         
        select the clinic
-        <select id="clinic" th:field="*{clinic.cid}">
-            <option th:each="x : ${clinics}" th:value="${x.cid}" th:text="${x.cname}"></option>
+        <select id="clinic" th:field="*{clinic.uid}">
+            <option th:each="x : ${clinics}" th:value="${x.uid}" th:text="${x.cname}"></option>
         </select>
         <span id="clinicError" style="color: red;"></span>
         
         select the doctor
-        <select id="doctor" th:field="*{doctor.did}">
-            <option th:each="y : ${doctors}" th:value="${y.did}" th:text="${y.firstname + ' ' + y.lastname}"></option>
+        <select id="doctor" th:field="*{doctor.uid}">
+            <option th:each="y : ${doctors}" th:value="${y.uid}" th:text="${y.firstname + ' ' + y.lastname}"></option>
         </select>
         <span id="doctorError" style="color: red;"></span>
         
