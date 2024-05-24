@@ -6,6 +6,9 @@ import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Models.Workplaces;
 import com.tabibi.tabibi_system.Repositories.ClinicRepository;
 import com.tabibi.tabibi_system.Repositories.DoctorRepository;
+import com.tabibi.tabibi_system.Repositories.PagesRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
+import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 import com.tabibi.tabibi_system.Repositories.WorkplacesRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -36,6 +39,13 @@ public class ClinicController {
 
     @Autowired
     private WorkplacesRepository workplacesRepository;
+    @Autowired
+    UserTypeRepository user_type_repo;
+ 
+    @Autowired
+    PagesRepository pages_repo;
+    @Autowired
+    public UserTypePagesRepository page_type_repo;
 
     @GetMapping("DoctorRegistration")
     public ModelAndView DoctorRegistration(HttpSession session) {

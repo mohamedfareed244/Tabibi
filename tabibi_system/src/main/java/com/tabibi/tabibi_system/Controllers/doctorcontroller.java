@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,15 +90,15 @@ admincontroller admincontroller=new admincontroller();
      
     }
     @GetMapping("/info")
-    public ModelAndView getinfopage(@RequestParam Integer id ,HttpSession session){
-       
+    public ModelAndView getinfopage(@RequestParam Integer id ,HttpSession session){      
        Patient patient=this.patient_repo.findByUid(id);
        session.setAttribute("editPid", id);
        session.setAttribute("editAge", patient.getAge());
        session.setAttribute("editAddress",patient.getAddress());
       ModelAndView mav=new ModelAndView("patientinfo.html");
-    UserAcc userAcc = userAccRepository.findByUid(id);
-    List<Diagnosis> diagnoses = diagnosisRepository.findByUserAcc(userAcc);
+      UserAcc userAcc = userAccRepository.findByUid(id);
+      UserAcc userAcc2=userAccRepository.findByUid((Integer) session.getAttribute("uid"));
+      List<Diagnosis> diagnoses = diagnosisRepository.findByUserAccAndUser(userAcc,userAcc2);
       mav.addObject("diagnoses", diagnoses);
       mav.addObject("patient", patient);
       return mav;
