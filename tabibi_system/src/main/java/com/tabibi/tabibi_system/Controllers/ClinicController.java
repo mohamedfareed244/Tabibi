@@ -41,7 +41,7 @@ public class ClinicController {
     private WorkplacesRepository workplacesRepository;
     @Autowired
     UserTypeRepository user_type_repo;
- 
+
     @Autowired
     PagesRepository pages_repo;
     @Autowired
@@ -49,7 +49,8 @@ public class ClinicController {
 
     @GetMapping("DoctorRegistration")
     public ModelAndView DoctorRegistration(HttpSession session) {
-        ModelAndView mav = admincontroller.preparenavigation(session, "DoctorRegistration", user_type_repo, page_type_repo);
+        ModelAndView mav = admincontroller.preparenavigation(session, "DoctorRegistration", user_type_repo,
+                page_type_repo);
         Doctor doctor = new Doctor();
         mav.addObject("doctor", doctor);
         return mav;
@@ -60,8 +61,10 @@ public class ClinicController {
     }
 
     @PostMapping("DoctorRegistration")
-    public ModelAndView processSignupForm(@Valid @ModelAttribute("doctor") Doctor doctor, BindingResult result, @RequestParam("cpassword") String confirmPass, HttpSession session) {
-        ModelAndView signupModel = admincontroller.preparenavigation(session, "DoctorRegistration.html", user_type_repo, page_type_repo);
+    public ModelAndView processSignupForm(@Valid @ModelAttribute("doctor") Doctor doctor, BindingResult result,
+            @RequestParam("cpassword") String confirmPass, HttpSession session) {
+        ModelAndView signupModel = admincontroller.preparenavigation(session, "DoctorRegistration.html", user_type_repo,
+                page_type_repo);
 
         List<String> errorMessages = new ArrayList<>();
 
@@ -103,7 +106,8 @@ public class ClinicController {
 
     @GetMapping("Profile")
     public ModelAndView getProfile(HttpSession session) {
-        ModelAndView mav = admincontroller.preparenavigation(session, "ClinicProfile.html", user_type_repo, page_type_repo);
+        ModelAndView mav = admincontroller.preparenavigation(session, "ClinicProfile.html", user_type_repo,
+                page_type_repo);
 
         mav.addObject("email", session.getAttribute("email"));
         mav.addObject("firstname", session.getAttribute("firstname"));
@@ -115,7 +119,8 @@ public class ClinicController {
 
     @GetMapping("accountSettings")
     public ModelAndView getSettings(HttpSession session) {
-        ModelAndView mav = admincontroller.preparenavigation(session, "ClinicAccountSettings.html", user_type_repo, page_type_repo);
+        ModelAndView mav = admincontroller.preparenavigation(session, "ClinicAccountSettings.html", user_type_repo,
+                page_type_repo);
 
         mav.addObject("email", session.getAttribute("email"));
         mav.addObject("firstname", session.getAttribute("firstname"));
@@ -124,7 +129,8 @@ public class ClinicController {
 
     @GetMapping("EditProfile")
     public ModelAndView getEditProfile(HttpSession session) {
-        ModelAndView mav = admincontroller.preparenavigation(session, "EditClinicProfile.html", user_type_repo, page_type_repo);
+        ModelAndView mav = admincontroller.preparenavigation(session, "EditClinicProfile.html", user_type_repo,
+                page_type_repo);
 
         mav.addObject("email", session.getAttribute("email"));
         mav.addObject("firstname", session.getAttribute("firstname"));
@@ -137,22 +143,42 @@ public class ClinicController {
 
     @PostMapping("/EditProfile")
     public RedirectView editprocess(HttpSession session, @RequestParam("email") String email,
-                                    @RequestParam("firstname") String firstname,
-                                    @RequestParam("location") String location,
-                                    @RequestParam("number") String number) {
+            @RequestParam("firstname") String firstname,
+            @RequestParam("location") String location,
+            @RequestParam("number") String number,
+            @RequestParam(value = "currentPassword", required = false) String currentPassword,
+            @RequestParam(value = "newPassword", required = false) String newPassword,
+            @RequestParam(value = "confirmNewPassword", required = false) String confirmNewPassword) {
         int uid = (int) session.getAttribute("uid");
         Clinic clinicEdit = this.clinicRepository.findByUid(uid);
         if (clinicEdit != null) {
-            session.setAttribute("email", email);
-            session.setAttribute("firstname", firstname);
-            session.setAttribute("Location", location);
-            session.setAttribute("number", number);
+
 
             clinicEdit.setCname(firstname);
             clinicEdit.setEmail(email);
             clinicEdit.setCloc(location);
             clinicEdit.setCnumber(number);
 
+            session.setAttribute("email", email);
+            session.setAttribute("firstname", firstname);
+            session.setAttribute("Location", location);
+            session.setAttribute("number", number);
+            if (currentPassword != null && !currentPassword.isEmpty() && 
+            newPassword != null && !newPassword.isEmpty() &&
+            confirmNewPassword != null && !confirmNewPassword.isEmpty())
+             {
+            
+            if (BCrypt.checkpw(currentPassword, clinicEdit.getPass())) {
+                if (newPassword.equals(confirmNewPassword)) {
+                    String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+                    clinicEdit.setPass(hashedNewPassword);
+                } else {
+                    return new RedirectView("/Clinic/EditProfile?error=passwordMismatch");
+                }
+            } else {
+                return new RedirectView("/Clinic/EditProfile?error=incorrectPassword");
+            }
+        }
             clinicRepository.save(clinicEdit);
 
             return new RedirectView("/User/clinicHomepage");
@@ -175,45 +201,43 @@ public class ClinicController {
     @GetMapping("/assignDoctor")
     public ModelAndView viewClinic(HttpSession session) {
 
-ModelAndView mav = new ModelAndView("assignDoctorsView.html");
+        ModelAndView mav = new ModelAndView("assignDoctorsView.html");
 
-int uid = (int) session.getAttribute("uid");
-
+        int uid = (int) session.getAttribute("uid");
 
         Clinic clinic = clinicRepository.findByUid(uid);
 
-            List<Doctor> assignedDoctors = workplacesRepository.findByClinic(clinic)
-                    .stream()
-                    .map(Workplaces::getDoctor)
-                    .collect(Collectors.toList());
+        List<Doctor> assignedDoctors = workplacesRepository.findByClinic(clinic)
+                .stream()
+                .map(Workplaces::getDoctor)
+                .collect(Collectors.toList());
 
-            List<Doctor> allDoctors = doctorRepository.findAll();
-            List<Doctor> unassignedDoctors = allDoctors.stream()
-                    .filter(doctor -> !assignedDoctors.contains(doctor))
-                    .collect(Collectors.toList());
-int clinic_id = clinic.getUid();
-            mav.addObject("clinic", clinic);
-            mav.addObject("clinic_id", clinic_id);
-            mav.addObject("assignedDoctors", assignedDoctors);
-            mav.addObject("unassignedDoctors", unassignedDoctors);
-            System.out.println("------------------- DEBUG ------------------------");
-            System.out.println("clinic : " + clinic);
-            System.out.println("clinic id : " + clinic_id);
-            System.out.println("assigned : " + assignedDoctors);
-            System.out.println("unassigned : " + unassignedDoctors);
-            System.out.println("all : " + allDoctors);
-            return mav ;
-           
-        
-     
+        List<Doctor> allDoctors = doctorRepository.findAll();
+        List<Doctor> unassignedDoctors = allDoctors.stream()
+                .filter(doctor -> !assignedDoctors.contains(doctor))
+                .collect(Collectors.toList());
+        int clinic_id = clinic.getUid();
+        mav.addObject("clinic", clinic);
+        mav.addObject("clinic_id", clinic_id);
+        mav.addObject("assignedDoctors", assignedDoctors);
+        mav.addObject("unassignedDoctors", unassignedDoctors);
+        System.out.println("------------------- DEBUG ------------------------");
+        System.out.println("clinic : " + clinic);
+        System.out.println("clinic id : " + clinic_id);
+        System.out.println("assigned : " + assignedDoctors);
+        System.out.println("unassigned : " + unassignedDoctors);
+        System.out.println("all : " + allDoctors);
+        return mav;
+
     }
 
     @PostMapping("/assignDoctor")
-    public RedirectView assignDoctor(@RequestParam("doctorId") int doctorId , @RequestParam("clinicId") int clinicId, HttpSession session) {
-     
+    public RedirectView assignDoctor(@RequestParam("doctorId") int doctorId, @RequestParam("clinicId") int clinicId,
+            HttpSession session) {
+
         Clinic clinic = clinicRepository.findByUid(clinicId);
         Doctor doctor = doctorRepository.findByUid(doctorId);
-    
+
         if (clinic != null && doctor != null) {
             if (!workplacesRepository.existsByDoctorAndClinic(doctor, clinic)) {
                 Workplaces workplace = new Workplaces();

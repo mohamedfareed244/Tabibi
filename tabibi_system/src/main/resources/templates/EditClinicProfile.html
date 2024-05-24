@@ -14,49 +14,68 @@
     function Validation() {
         var email = document.getElementById('email').value.trim();
         var firstname = document.getElementById('firstname').value.trim();
-        var lastname = document.getElementById('lastname').value.trim();
+        var location = document.getElementById('location').value.trim();
         var number = document.getElementById('number').value.trim();
+        var currentPassword = document.getElementById('currentPassword').value.trim();
+        var newPassword = document.getElementById('newPassword').value.trim();
+        var confirmNewPassword = document.getElementById('confirmNewPassword').value.trim();
         
         var emailerror=document.getElementById("email-error");
         var firstnameerror=document.getElementById("firstname-error");
-        var lastnameerror=document.getElementById("lastname-error");
+        var locationerror=document.getElementById("location-error");
         var numbererror=document.getElementById("number-error");
+        var currentPasswordError=document.getElementById("currentPassword-error");
+        var newPasswordError=document.getElementById("newPassword-error");
+        var confirmNewPasswordError=document.getElementById("confirmNewPassword-error");
 
-        if( number === '')
-        {
-             numbererror.textContent="Number is required";
-             return false;
+
+        if (number === '') {
+            numbererror.textContent="Number is required";
+            return false;
         }
        
-
-        if(lastname === '' )
-        {
-              lastnameerror.textContent="last name is required"; 
-              return false;
+        if (location === '') {
+            locationerror.textContent="Location is required";
+            return false;
         }
-     
-       
+
         if(firstname === ''){
-              firstnameerror.textContent="first name is required";
-              return false;
+            firstnameerror.textContent="First name is required";
+            return false;
         }
-      
 
-        if(email === '')
-        {
-              emailerror.textContent="email is required ";
-              return false;
+        if(email === '') {
+            emailerror.textContent="Email is required";
+            return false;
         }
-      
 
+        if (currentPassword !== '' || newPassword !== '' || confirmNewPassword !== '') {
+            if (currentPassword === '') {
+                currentPasswordError.textContent = "Current password is required";
+                return false;
+            }
 
-        // Check if any field is blank
-        // if (email === '' || firstname === '' || lastname === '' || number === '') {
-        //     alert('Please fill in all fields');
-        //     return false; // Prevent form submission
-        // }
+            if (newPassword === '') {
+                newPasswordError.textContent = "New password is required";
+                return false;
+            }
 
-        return true; // Allow form submission if all fields are filled
+            if (confirmNewPassword === '') {
+                confirmNewPasswordError.textContent = "Confirm new password is required";
+                return false;
+            }
+
+            if (newPassword !== confirmNewPassword) {
+                confirmNewPasswordError.textContent = "New password and confirm new password do not match";
+                return false;
+            }
+            if (newPassword.length < 8) {
+                newPasswordError.textContent = "New password length should be more than 8";
+                return false;
+            }
+        }
+
+        return true;
     }
     </script>
 </head>
@@ -65,40 +84,52 @@
     <div th:include="navigation">
       
     </div>
-    <div class="container ">
+    <div class="container">
         <h1>Edit Profile</h1>
 
-        <form id="userForm" th:action="@{/Clinic/EditProfile}"  method="post" onsubmit="return Validation()">
+        <form id="userForm" th:action="@{/Clinic/EditProfile}" method="post" onsubmit="return Validation()">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" name="email" th:value="${email}" >
+                <input type="text" class="form-control" id="email" name="email" th:value="${email}" required>
                 <span class="error-message" id="email-error"></span>
             </div>
             <div class="form-group">
                 <label for="firstname">Clinic Name</label>
-                <input type="text" class="form-control" id="firstname" name="firstname" th:value="${firstname}" >
+                <input type="text" class="form-control" id="firstname" name="firstname" th:value="${firstname}" required>
                 <span class="error-message" id="firstname-error"></span>
             </div>
             <div class="form-group">
-                <label for="lastname">Clinic Location</label>
-                <input type="text" class="form-control" id="location" name="location" th:value="${location}">
-                <span class="error-message" id="lastname-error"></span>
+                <label for="location">Clinic Location</label>
+                <input type="text" class="form-control" id="location" name="location" th:value="${location}" required>
+                <span class="error-message" id="location-error"></span>
             </div>
             <div class="form-group">
                 <label for="number">Clinic Phone</label>
-                <input type="tel" class="form-control" id="number" name="number" th:value="${number}" >
+                <input type="tel" class="form-control" id="number" name="number" th:value="${number}" required>
                 <span class="error-message" id="number-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" class="form-control" id="currentPassword" name="currentPassword" >
+                <span class="error-message" id="currentPassword-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" class="form-control" id="newPassword" name="newPassword" >
+                <span class="error-message" id="newPassword-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="confirmNewPassword">Confirm New Password</label>
+                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" >
+                <span class="error-message" id="confirmNewPassword-error"></span>
             </div>
 
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
     </div>
+    <footer>
+        <!-- <?php include_once "../includes/footer.php"; ?> -->
+    </footer>
 </body>
-
-<footer>
-    <!-- <?php
-    include_once "../includes/footer.php";
-    ?> -->
-</footer>
 
 </html>
