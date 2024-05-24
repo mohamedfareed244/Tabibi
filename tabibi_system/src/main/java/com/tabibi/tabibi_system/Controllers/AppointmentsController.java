@@ -192,31 +192,31 @@ public void Send_Cancellation_Mail(String mail)
 
 @GetMapping("delete/{appId}")
 @Transactional
-public RedirectView deleteAppointment(@PathVariable long appId){
-    Appointment currAppointment=this.appointmentRepository.findByappId(appId);
+public RedirectView deleteAppointment(@PathVariable long appId) {
+    Appointment currAppointment = this.appointmentRepository.findByappId(appId);
 
-
-        List<Booking> bookings = this.bookingRepository.findByAppointmentAppId(appId);
-        List<Patient> patients = bookings.stream()
-                                         .map(Booking::getPatient)
-                                         .distinct()
-                                         .collect(Collectors.toList());
-        
-        // Assuming you want to perform some action with each patient
-        for (Patient currPatient : patients) {
-            UserAcc currUserAcc = this.UserAccRepository.findByUid(currPatient.getUid());
-            String mail = currUserAcc.getEmail();
+    // Fetch bookings associated with the appointment
+    List<Booking> bookings = this.bookingRepository.findByAppointmentAppId(appId);
+    // Fetch unique patients from the bookings
+    List<Patient> patients = bookings.stream()
+                                     .map(Booking::getPatient)
+                                     .distinct()
+                                     .collect(Collectors.toList());
+    
+    // Send cancellation emails to patients and delete bookings
+    for (Patient currPatient : patients) {
+        UserAcc currUserAcc = this.UserAccRepository.findByUid(currPatient.getUid());
+        String mail = currUserAcc.getEmail();
         Send_Cancellation_Mail(mail);  
-        this.bookingRepository.deleteByAppointmentAppId(appId);
-        this.appointmentRepository.deleteByappId(appId);
-        }
-
-
+    }
+    // Delete all bookings associated with the appointment
+    this.bookingRepository.deleteAllByAppointmentAppId(appId);
+    // Delete the appointment itself
+    this.appointmentRepository.delete(currAppointment);
 
     return new RedirectView("/appointments/view");
-
-
 }
+
 }
 
 
