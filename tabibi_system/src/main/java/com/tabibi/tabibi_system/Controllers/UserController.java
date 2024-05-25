@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties.Http;
+import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.Model;
@@ -72,13 +73,22 @@ public class UserController {
 
     @Autowired
    private BookingRepository bookingRepository;
+
+   @Autowired
+   private JavaMailSenderImpl mailSender;
   
+//    @Autowired
+//    private MailSender mailSender2;
  
     public UserController() {
     }
 
     public UserController(UserAccRepository UserAccRepository) {
         this.UserAccRepository = UserAccRepository;
+    }
+    public UserController(UserAccRepository repo, JavaMailSenderImpl mailSender) {
+        this.UserAccRepository = repo;
+        this.mailSender = mailSender;
     }
 
     public UserAccRepository getUserAccRepository() {
@@ -210,14 +220,14 @@ public void send_token(String mail)
     UserAcc forgetUser=this.UserAccRepository.findByEmail(mail);
     forgetUser.setToken(Token);
     this.UserAccRepository.save(forgetUser);
-
+   
             // Set up the mail sender
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-        mailSender.setUsername("tabibii.application@gmail.com");
-        mailSender.setPassword("maga ltqn qnoi azhz");
-
+        // JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        // mailSender.setHost("smtp.gmail.com");
+        // mailSender.setPort(587);
+        // mailSender.setUsername("tabibii.application@gmail.com");
+        // mailSender.setPassword("maga ltqn qnoi azhz");
+     
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
