@@ -28,6 +28,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -122,13 +123,27 @@ public ModelAndView getlanding() {
     return mav;
 }
 
-@GetMapping("/feedback")
-public ModelAndView getFeedbacks() {
-    ModelAndView mav = new ModelAndView("Feedbacks.html");
-    List<Feedback> feedback = this.feedbackService.findAll();
-    mav.addObject("feedbacks", feedback);
+   @GetMapping("/feedback")
+    public ModelAndView getFeedbacks() {
+        ModelAndView mav = new ModelAndView("feedbacks");
+        List<Feedback> feedbackList = feedbackService.findAll();
+        mav.addObject("feedbacks", feedbackList);
+        return mav;
+    }
+@GetMapping("/feedback/add")
+public ModelAndView addFeedbacks() {
+    ModelAndView mav = new ModelAndView("addFeebacks.html");
+  Feedback feedback = new Feedback();
+    mav.addObject("feedback", feedback);
     return mav;
 }
+@PostMapping("/feedback/add")
+public String addFeedback(@ModelAttribute Feedback feedback) {
+    this.feedbackService.save(feedback);
+    
+    return "added";
+}
+
 
 @GetMapping("/signup")
 public ModelAndView showSignupForm() {

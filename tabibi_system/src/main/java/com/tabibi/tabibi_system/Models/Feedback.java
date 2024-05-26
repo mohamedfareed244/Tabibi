@@ -1,5 +1,9 @@
 package com.tabibi.tabibi_system.Models;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+
 public class Feedback {
 
     private int id;
@@ -10,15 +14,21 @@ public class Feedback {
 
     private String mail;
 
+    private LocalDateTime date ;
+
+    private String formattedDate ;
+
+
 
     public Feedback() {
     }
 
-    public Feedback(int id, String comments, int rating, String mail) {
+    public Feedback(int id, String comments, int rating, String mail, LocalDateTime date) {
         this.id = id;
         this.comments = comments;
         this.rating = rating;
         this.mail = mail;
+        this.date = date;
     }
 
     public int getId() {
@@ -53,6 +63,14 @@ public class Feedback {
         this.mail = mail;
     }
 
+    public LocalDateTime getDate() {
+        return this.date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
     public Feedback id(int id) {
         setId(id);
         return this;
@@ -73,7 +91,26 @@ public class Feedback {
         return this;
     }
 
+    public Feedback date(LocalDateTime date) {
+        setDate(date);
+        return this;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Feedback)) {
+            return false;
+        }
+        Feedback feedback = (Feedback) o;
+        return id == feedback.id && Objects.equals(comments, feedback.comments) && rating == feedback.rating && Objects.equals(mail, feedback.mail) && Objects.equals(date, feedback.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, comments, rating, mail, date);
+    }
 
     @Override
     public String toString() {
@@ -82,8 +119,24 @@ public class Feedback {
             ", comments='" + getComments() + "'" +
             ", rating='" + getRating() + "'" +
             ", mail='" + getMail() + "'" +
+            ", date='" + getDate() + "'" +
             "}";
     }
+
+    public  String formatedDate() {
+   
+    
+        return this.formattedDate;
+    }
+
+    // public String getFormattedDate() {
+    //     return formattedDate;
+    // }
+
+    // public void setFormattedDate(String formattedDate) {
+    //     this.formattedDate = formattedDate;
+    // }
+
    
 }
 

@@ -29,4 +29,9 @@ public class FeedbackService {
                 }).getBody(); // Response body converted to List<Post>
     }
 
+    public void save(Feedback feedback){
+        String url = baseUrl + "/feedback/add";
+        this.restTemplate.postForObject(url, feedback, Feedback.class);
+    } 
+
 }
