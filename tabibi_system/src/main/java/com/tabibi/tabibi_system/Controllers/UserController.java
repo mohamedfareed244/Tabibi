@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tabibi.tabibi_system.Repositories.*;
+import com.tabibi.tabibi_system.Services.FeedbackService;
 import com.tabibi.tabibi_system.Models.Admin;
 import com.tabibi.tabibi_system.Models.Booking;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
+import com.tabibi.tabibi_system.Models.Feedback;
 import com.tabibi.tabibi_system.Models.Patient;
 // import com.tabibi.tabibi_system.Models.User;
 import com.tabibi.tabibi_system.Models.UserAcc;
@@ -76,6 +78,8 @@ public class UserController {
 
    @Autowired
    private JavaMailSenderImpl mailSender;
+   @Autowired
+   private FeedbackService feedbackService;
   
 //    @Autowired
 //    private MailSender mailSender2;
@@ -115,6 +119,14 @@ public class UserController {
 @GetMapping("")
 public ModelAndView getlanding() {
     ModelAndView mav = new ModelAndView("landingPage.html");
+    return mav;
+}
+
+@GetMapping("/feedback")
+public ModelAndView getFeedbacks() {
+    ModelAndView mav = new ModelAndView("Feedbacks.html");
+    List<Feedback> feedback = this.feedbackService.findAll();
+    mav.addObject("feedbacks", feedback);
     return mav;
 }
 

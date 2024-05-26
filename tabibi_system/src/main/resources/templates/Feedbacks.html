@@ -1,0 +1,31 @@
+<html xmlns:th="http://wwww.thymleaf.org">
+<head>
+    <title>
+        List Users
+    </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>List Users</h2>
+    <table id="users">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Comment</th>
+                <th>Rating</th>
+                <th>mail</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="feedback: ${feedbacks}">
+                <td th:text="${feedback.id}"/>
+                <td th:text="${feedback.comments}"/>
+                <td th:text="${feedback.rating}"/>
+                <td th:text="${feedback.mail}"/>
+
+            </tr>
+        </tbody>
+    </table>
+    <a href="/Registration">Add</a>
+</body>
+</html>
