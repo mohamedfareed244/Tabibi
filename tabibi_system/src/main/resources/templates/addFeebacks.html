@@ -1,13 +1,19 @@
+<!DOCTYPE html>
+ <html xmlns:th="http://wwww.thymleaf.org"> 
+
+
+
 <h1>feedback Form</h1>
-<form id="contact_form" name="contact_form" method="post">
+
+<form id="contact_form"  method="post" th:action="@{/User/feedback/add}" th:object="${feedback}">
     <div class="mb-5">
         <label for="message">Message</label>
-        <textarea class="form-control" id="message" name="message" rows="5"></textarea>
+        <textarea class="form-control" id="message"  rows="5" th:field="*{comments}"></textarea>
     </div>
     <div class="mb-5 row">
         <div class="col">
             <label>select a rating</label>
-            <select class="form-control" id="rate" name="rate">
+            <select class="form-control" id="rate" th:field="*{rating}">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -18,11 +24,13 @@
         </div>
         <div class="col">
             <label for="email_addr">Your Email:</label>
-            <input type="email" required maxlength="50" class="form-control" id="email_addr" name="email"
-                placeholder="name@example.com">
+            <input type="email" required maxlength="50" class="form-control" id="email_addr" 
+                placeholder="name@example.com" th:field="*{mail}">
         </div>
     </div>
     <div>
     <button type="submit" class="btn btn-primary px-4 btn-lg">Post</button>
     </div>
 </form>
+
+</html>

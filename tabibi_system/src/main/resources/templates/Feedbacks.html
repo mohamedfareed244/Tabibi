@@ -1,19 +1,20 @@
 <html xmlns:th="http://wwww.thymleaf.org">
 <head>
     <title>
-        List Users
+       FEEDBACKS :
     </title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>List Users</h2>
-    <table id="users">
+    <h2> FEEDBACKS:</h2>
+    <table id="feedbacks">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Comment</th>
                 <th>Rating</th>
                 <th>mail</th>
+                <th>date</th>
             </tr>
         </thead>
         <tbody>
@@ -22,10 +23,12 @@
                 <td th:text="${feedback.comments}"/>
                 <td th:text="${feedback.rating}"/>
                 <td th:text="${feedback.mail}"/>
+                <td th:text="${feedback.date}"/>
+
 
             </tr>
         </tbody>
     </table>
-    <a href="/Registration">Add</a>
+   
 </body>
 </html>
