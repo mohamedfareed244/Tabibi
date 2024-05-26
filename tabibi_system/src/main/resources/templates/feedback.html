@@ -1,0 +1,28 @@
+<h1>feedback Form</h1>
+<form id="contact_form" name="contact_form" method="post">
+    <div class="mb-5">
+        <label for="message">Message</label>
+        <textarea class="form-control" id="message" name="message" rows="5"></textarea>
+    </div>
+    <div class="mb-5 row">
+        <div class="col">
+            <label>select a rating</label>
+            <select class="form-control" id="rate" name="rate">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                
+            </select>
+        </div>
+        <div class="col">
+            <label for="email_addr">Your Email:</label>
+            <input type="email" required maxlength="50" class="form-control" id="email_addr" name="email"
+                placeholder="name@example.com">
+        </div>
+    </div>
+    <div>
+    <button type="submit" class="btn btn-primary px-4 btn-lg">Post</button>
+    </div>
+</form>
