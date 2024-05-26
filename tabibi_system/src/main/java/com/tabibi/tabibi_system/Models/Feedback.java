@@ -1,5 +1,6 @@
 package com.tabibi.tabibi_system.Models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -14,16 +15,16 @@ public class Feedback {
 
     private String mail;
 
-    private LocalDateTime date ;
+    private LocalDate date ;
 
-    private String formattedDate ;
+    // private String formattedDate ;
 
 
 
     public Feedback() {
     }
 
-    public Feedback(int id, String comments, int rating, String mail, LocalDateTime date) {
+    public Feedback(int id, String comments, int rating, String mail, LocalDate date) {
         this.id = id;
         this.comments = comments;
         this.rating = rating;
@@ -63,11 +64,11 @@ public class Feedback {
         this.mail = mail;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -91,7 +92,7 @@ public class Feedback {
         return this;
     }
 
-    public Feedback date(LocalDateTime date) {
+    public Feedback date(LocalDate date) {
         setDate(date);
         return this;
     }
@@ -123,11 +124,12 @@ public class Feedback {
             "}";
     }
 
-    public  String formatedDate() {
+    // public  void formatDate12() {
    
-    
-        return this.formattedDate;
-    }
+    //     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
+    //     this.formattedDate = this.date.format(formatter);
+  
+    // }
 
     // public String getFormattedDate() {
     //     return formattedDate;
