@@ -20,6 +20,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.tabibi.tabibi_system.Models.Diagnosis;
 import com.tabibi.tabibi_system.Models.Doctor;
+import com.tabibi.tabibi_system.Models.Feedback;
+import com.tabibi.tabibi_system.Models.Medicine;
 import com.tabibi.tabibi_system.Models.Patient;
 import com.tabibi.tabibi_system.Models.UserAcc;
 import com.tabibi.tabibi_system.Models.UserLog;
@@ -31,6 +33,7 @@ import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserLogRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
+import com.tabibi.tabibi_system.Services.MedicineService;
 import com.tabibi.tabibi_system.Repositories.DiagnosisRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -48,6 +51,9 @@ public class doctorcontroller {
     private UserAccRepository userAccRepository;
     @Autowired
     UserTypeRepository user_type_repo;
+
+    @Autowired
+    MedicineService medicineService;
 
     @Autowired
     PagesRepository pages_repo;
@@ -98,10 +104,25 @@ public class doctorcontroller {
         UserAcc patientAccount = userAccRepository.findByUid(id);
         UserAcc doctorAccount = userAccRepository.findByUid((Integer) session.getAttribute("uid"));
         List<Diagnosis> diagnoses = diagnosisRepository.findByUserAccAndUser(patientAccount, doctorAccount);
+        List<Medicine>medicines= medicineService.findAll();
         mav.addObject("diagnoses", diagnoses);
         mav.addObject("patient", patient);
+        mav.addObject("medicines", medicines);
         return mav;
     }
+    @GetMapping("/medicine/add")
+public ModelAndView addFeedbacks() {
+    ModelAndView mav = new ModelAndView("addMedicine.html");
+Medicine medicine=new Medicine();
+    mav.addObject("medicine", medicine);
+    return mav;
+}
+@PostMapping("/medicine/add")
+public String addFeedback(@ModelAttribute Medicine medicine) {
+    this.medicineService.save(medicine);
+    
+    return "added";
+}
 
     @GetMapping("/patients")
     public ModelAndView getpatientspage(HttpSession session) {

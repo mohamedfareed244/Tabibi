@@ -85,7 +85,13 @@
 
                         <br>
                         <br>
-
+                        <select name="medicineId" id="medicineSelect" class="input-text">
+                            <option value="" disabled selected>Select a medicine</option>
+                            <option th:each="medicine : ${medicines}"
+                                    th:value="${medicine.name}"
+                                    th:text="${medicine.name}">
+                            </option>
+                        </select>
                         <br>
 
                         <br>
