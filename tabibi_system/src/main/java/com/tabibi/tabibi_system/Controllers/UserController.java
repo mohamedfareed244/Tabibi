@@ -146,7 +146,11 @@ public String addFeedback(@ModelAttribute Feedback feedback) {
     
     return "added";
 }
-
+@PostMapping("/feedback/delete")
+public RedirectView deleteFeedback(@RequestParam("id") Integer id) {
+    feedbackService.delete(id);
+    return new RedirectView("/User/feedback");
+}
 
 @GetMapping("/signup")
 public ModelAndView showSignupForm() {

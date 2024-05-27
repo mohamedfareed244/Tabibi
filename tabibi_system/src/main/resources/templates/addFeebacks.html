@@ -1,38 +1,38 @@
 <!DOCTYPE html>
- <html xmlns:th="http://wwww.thymleaf.org"> 
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+    <title>Feedback Form</title>
+    <link rel="stylesheet" href="/css/addFeedback.css">
+</head>
 
-
-
-<h1>feedback Form</h1>
-
-<form id="contact_form"  method="post" th:action="@{/User/feedback/add}" th:object="${feedback}">
-    <div class="mb-5">
-        <label for="message">Message</label>
-        <textarea class="form-control" id="message"  rows="5" th:field="*{comments}"></textarea>
-    </div>
-    <div class="mb-5 row">
-        <div class="col">
-            <label>select a rating</label>
-            <select class="form-control" id="rate" th:field="*{rating}">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                
-            </select>
-        </div>
-        <div class="col">
-            <label for="email_addr">Your Email:</label>
-            <input type="email" required maxlength="50" class="form-control" id="email_addr" 
-                th:value="${feedback.mail}" th:field="*{mail}" 
-                th:placeholder="${feedback.mail}"
-                readonly>
+<body>
+    <div class="header">
+        <h1>Feedback Form</h1>
+        <div class="user-email">
+            <p th:text="${feedback.mail}"></p>
         </div>
     </div>
-    <div>
-    <button type="submit" class="btn btn-primary px-4 btn-lg">Post</button>
-    </div>
-</form>
-
+    <form id="contact_form" method="post" th:action="@{/User/feedback/add}" th:object="${feedback}">
+        <div class="mb-5">
+            <label for="message">Message</label>
+            <textarea class="form-control" id="message" rows="5" th:field="*{comments}"></textarea>
+        </div>
+        <div class="mb-5 row">
+            <div class="col">
+                <label>Select a rating</label>
+                <select class="form-control" id="rate" th:field="*{rating}">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <input type="hidden" th:value="${feedback.mail}" th:field="*{mail}">
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary px-4 btn-lg">Post</button>
+        </div>
+    </form>
+</body>
 </html>

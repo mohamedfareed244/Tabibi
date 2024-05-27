@@ -1,34 +1,37 @@
-<html xmlns:th="http://wwww.thymleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>
-       FEEDBACKS :
-    </title>
-    <link rel="stylesheet" href="/css/viewFeedbacks.css">
+    <title>FEEDBACKS :</title>
+    <link rel="stylesheet" href="/css/Feedbacks.css">
 </head>
 <body>
-    <h2> FEEDBACKS:</h2>
+    <h2>FEEDBACKS:</h2>
     <table id="feedbacks">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Comment</th>
                 <th>Rating</th>
-                <th>mail</th>
-                <th>date</th>
+                <th>Mail</th>
+                <th>Date</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="feedback: ${feedbacks}">
-                <td th:text="${feedback.id}"/>
-                <td th:text="${feedback.comments}"/>
-                <td th:text="${feedback.rating}"/>
-                <td th:text="${feedback.mail}"/>
-                <td th:text="${feedback.date}"/>
-
-
+            <tr th:each="feedback : ${feedbacks}">
+                <td th:text="${feedback.id}"></td>
+                <td th:text="${feedback.comments}"></td>
+                <td th:text="${feedback.rating}"></td>
+                <td th:text="${feedback.mail}"></td>
+                <td th:text="${feedback.date}"></td>
+                <td>
+                    <form th:action="@{/User/feedback/delete}" method="post">
+                        <input type="hidden" name="id" th:value="${feedback.id}">
+                        <button type="submit" class="dd">Delete</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>
-   
 </body>
 </html>
