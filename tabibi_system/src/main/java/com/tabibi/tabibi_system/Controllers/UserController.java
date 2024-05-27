@@ -131,10 +131,13 @@ public ModelAndView getlanding() {
         return mav;
     }
 @GetMapping("/feedback/add")
-public ModelAndView addFeedbacks() {
+public ModelAndView addFeedbacks(HttpSession session) {
     ModelAndView mav = new ModelAndView("addFeebacks.html");
-  Feedback feedback = new Feedback();
-    mav.addObject("feedback", feedback);
+ Feedback feedback = new Feedback();
+String mail = (String) session.getAttribute("email");
+feedback.setMail(mail);
+ mav.addObject("feedback", feedback);
+
     return mav;
 }
 @PostMapping("/feedback/add")

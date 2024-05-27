@@ -25,7 +25,9 @@
         <div class="col">
             <label for="email_addr">Your Email:</label>
             <input type="email" required maxlength="50" class="form-control" id="email_addr" 
-                placeholder="name@example.com" th:field="*{mail}">
+                th:value="${feedback.mail}" th:field="*{mail}" 
+                th:placeholder="${feedback.mail}"
+                readonly>
         </div>
     </div>
     <div>
