@@ -171,7 +171,7 @@ public class UserController {
     public ModelAndView processSignupForm(@Valid @ModelAttribute("patient") Patient patient, BindingResult result,
             @RequestParam("cpassword") String Confirm_pass) {
         ModelAndView SignupModel = new ModelAndView("signup.html");
-        ModelAndView LoginModel = new ModelAndView("login.html");
+        ModelAndView LoginModel = new ModelAndView("Login.html");
         List<String> errorMessages = new ArrayList<>();
         Patient existingUser = patientRepository.findByEmail(patient.getEmail());
         if (existingUser != null) {
@@ -373,10 +373,10 @@ public class UserController {
         return new RedirectView("/User/Login?error=userNotFound" + email);
     }
 
-    @GetMapping("patientHomepage")
-    public ModelAndView GetIndex(HttpSession session) {
-        ModelAndView mav = admincontroller.preparenavigation(session, "patientHomepage", user_type_repo,
-                page_type_repo);
+     @GetMapping("patientHomepage")
+     public ModelAndView GetIndex(HttpSession session)
+     {
+    ModelAndView mav= admincontroller.preparenavigation(session, "patientHomepage", user_type_repo, page_type_repo);
 
         mav.addObject("email", (String) session.getAttribute("email"));
         mav.addObject("firstname", (String) session.getAttribute("firstname"));
