@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+ <html xmlns:th="http://wwww.thymleaf.org"> 
+
+
+
+<h1>Medicine Form</h1>
+
+<form id="contact_form"  method="post" th:action="@{/Doctor/medicine/add}" th:object="${medicine}">
+    <label>Medicine Name: </label>
+    <br>
+<input type="text" name="name" id="name" th:field="*{name}">
+    </div>
+    <div>
+    <button type="submit" class="btn btn-primary px-4 btn-lg">Post</button>
+    </div>
+</form>
+
+</html>
