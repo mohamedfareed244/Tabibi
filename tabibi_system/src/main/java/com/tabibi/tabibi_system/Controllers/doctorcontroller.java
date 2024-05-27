@@ -113,7 +113,7 @@ public class doctorcontroller {
 
     @GetMapping("/medicine")
     public ModelAndView getMedicines(HttpSession session) {
-        ModelAndView mav = admincontroller.preparenavigation(session, "ViewMedicines", user_type_repo, page_type_repo);
+        ModelAndView mav = admincontroller.preparenavigation(session, "ViewMedicines.html", user_type_repo, page_type_repo);
         List<Medicine> medicines = medicineService.findAll();
         mav.addObject("medicines", medicines);
         return mav;
@@ -131,9 +131,27 @@ public class doctorcontroller {
     @PostMapping("/medicine/add")
     public String addFeedback(@ModelAttribute Medicine medicine) {
         this.medicineService.save(medicine);
-
         return "added";
     }
+
+    @GetMapping("/medicine/edit/{id}")
+    public ModelAndView editMedicine(@PathVariable("id") Integer id, HttpSession session) {
+        ModelAndView mav = admincontroller.preparenavigation(session, "editMedicine", user_type_repo, page_type_repo);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>");
+        Medicine medicine = medicineService.findById(id);
+        mav.addObject("medicine", medicine);
+        return mav;
+    }
+    
+    @PostMapping("/medicine/edit")
+    public RedirectView editMedicine(@ModelAttribute Medicine medicine) {
+        medicineService.update(medicine);
+        return new RedirectView("/Doctor/medicine");
+    }
+    
+    
+
+
 
     @PostMapping("/medicine/delete")
 public RedirectView deleteFeedback(@RequestParam("id") Integer id) {

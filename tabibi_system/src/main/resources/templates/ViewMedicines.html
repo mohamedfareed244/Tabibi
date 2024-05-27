@@ -21,7 +21,10 @@
                 <td>
                     <form th:action="@{/Doctor/medicine/delete}" method="post">
                         <input type="hidden" name="id" th:value="${medicine.id}">
-                        <button type="submit" class="dd">Delete</button>
+                        <button type="submit" class="dd">DELETE</button>
+                    </form>
+                        <a th:href="@{/Doctor/medicine/edit/{id}(id=${medicine.id})}" class="btn btn-primary">EDIT</a>
+                        <input type="hidden" name="id" th:value="${medicine.id}">
                     </form>
                 </td>
             </tr>
