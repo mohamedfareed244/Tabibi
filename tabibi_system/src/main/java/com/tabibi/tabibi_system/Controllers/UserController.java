@@ -124,15 +124,15 @@ public ModelAndView getlanding() {
 }
 
    @GetMapping("/feedback")
-    public ModelAndView getFeedbacks() {
-        ModelAndView mav = new ModelAndView("feedbacks");
+    public ModelAndView getFeedbacks(HttpSession session) {
+        ModelAndView mav= admincontroller.preparenavigation(session, "feedbacks", user_type_repo, page_type_repo);
         List<Feedback> feedbackList = feedbackService.findAll();
         mav.addObject("feedbacks", feedbackList);
         return mav;
     }
 @GetMapping("/feedback/add")
 public ModelAndView addFeedbacks(HttpSession session) {
-    ModelAndView mav = new ModelAndView("addFeebacks.html");
+    ModelAndView mav= admincontroller.preparenavigation(session, "addFeedbacks.html", user_type_repo, page_type_repo);
  Feedback feedback = new Feedback();
 String mail = (String) session.getAttribute("email");
 feedback.setMail(mail);

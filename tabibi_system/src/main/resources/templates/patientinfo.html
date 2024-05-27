@@ -76,16 +76,12 @@
                     <br>
                     <br>
                     <form th:action="@{/Doctor/addDiagnose}" method="post">
-                        <label for="diagnosename">Diagnose name</label>
+                        <label for="diagnosename">Diagnose </label>
                         <input type="text" placeholder="Enter diagnose name" id="diagnosename" name="diagnosename" required>
                         <br>
                         <br>
-                        <label for="Treatment">Treatment details</label>
-                        <input type="text" placeholder="Enter treatment details" id="treatment" name="treatment" required>
-
-                        <br>
-                        <br>
-                        <select name="medicineId" id="medicineSelect" class="input-text">
+                        <label for="medicineName">Medicine </label>
+                        <select name="medicineName" id="medicineSelect" class="input-text">
                             <option value="" disabled selected>Select a medicine</option>
                             <option th:each="medicine : ${medicines}"
                                     th:value="${medicine.name}"
@@ -93,7 +89,10 @@
                             </option>
                         </select>
                         <br>
-
+                        <div class="mb-5">
+                            <label for="message">Notes</label>
+                            <textarea class="form-control" name="notes" id="message"  rows="5" ></textarea>
+                        </div>
                         <br>
                         <button type="submit" name="sov">Submit</button>
                     </form>
@@ -103,7 +102,8 @@
         <thead>
             <tr>
                 <th>Diagnosis</th>
-                <th>Treatment</th>
+                <th>Medicine</th>
+                <th>Notes</th>
                 <th>Actions</th>
 
             </tr>
@@ -111,7 +111,9 @@
         <tbody>
             <tr th:each="diagnosis : ${diagnoses}">
                 <td th:text="${diagnosis.diagnosisName}"></td>
-                <td th:text="${diagnosis.treatment}"></td>
+                <td th:text="${diagnosis.medicineName}"></td>
+                <td th:text="${diagnosis.notes}"></td>
+
                 <td>
                     <a th:href="@{/Doctor/editDiagnose/{id}(id=${diagnosis.diagnosisId})}" class="btn btn-primary">Edit</a>
                     <a th:href="@{/Doctor/deleteDiagnose/{id}(id=${diagnosis.diagnosisId})}" class="btn btn-danger">Delete</a>

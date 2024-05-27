@@ -8,14 +8,17 @@ public class Diagnosis {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "diagnosis_id")
+    @Column(name = "diagnosis_id", nullable = false)
     private Long diagnosisId;
 
-    @Column(name = "diagnosis_name")
+    @Column(name = "diagnosis_name", nullable = false)
     private String diagnosisName;
     
-    @Column(name = "treatment")
-    private String treatment;
+    @Column(name = "notes", nullable = true)
+    private String notes;
+
+    @Column(name = "medicineName", nullable = true)
+    private String medicineName;
   
 
     @ManyToOne
@@ -32,15 +35,19 @@ public class Diagnosis {
 
 
 
+   
+
     public Diagnosis() {
     }
 
-    public Diagnosis(Long diagnosisId, String diagnosisName, String treatment, UserAcc userAcc, UserAcc user) {
+    public Diagnosis(Long diagnosisId, String diagnosisName, String notes, String medicineName, UserAcc userAcc, UserAcc user, String doctorName) {
         this.diagnosisId = diagnosisId;
         this.diagnosisName = diagnosisName;
-        this.treatment = treatment;
+        this.notes = notes;
+        this.medicineName = medicineName;
         this.userAcc = userAcc;
         this.user = user;
+        this.doctorName = doctorName;
     }
 
     public Long getDiagnosisId() {
@@ -59,12 +66,20 @@ public class Diagnosis {
         this.diagnosisName = diagnosisName;
     }
 
-    public String getTreatment() {
-        return this.treatment;
+    public String getNotes() {
+        return this.notes;
     }
 
-    public void setTreatment(String treatment) {
-        this.treatment = treatment;
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getMedicineName() {
+        return this.medicineName;
+    }
+
+    public void setMedicineName(String medicineName) {
+        this.medicineName = medicineName;
     }
 
     public UserAcc getUserAcc() {
@@ -75,20 +90,20 @@ public class Diagnosis {
         this.userAcc = userAcc;
     }
 
-    public String getDoctorName() {
-        return doctorName;
-    }
-    
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
-
     public UserAcc getUser() {
         return this.user;
     }
 
     public void setUser(UserAcc user) {
         this.user = user;
+    }
+
+    public String getDoctorName() {
+        return this.doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
     public Diagnosis diagnosisId(Long diagnosisId) {
@@ -101,8 +116,13 @@ public class Diagnosis {
         return this;
     }
 
-    public Diagnosis treatment(String treatment) {
-        setTreatment(treatment);
+    public Diagnosis notes(String notes) {
+        setNotes(notes);
+        return this;
+    }
+
+    public Diagnosis medicineName(String medicineName) {
+        setMedicineName(medicineName);
         return this;
     }
 
@@ -116,6 +136,11 @@ public class Diagnosis {
         return this;
     }
 
+    public Diagnosis doctorName(String doctorName) {
+        setDoctorName(doctorName);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -124,12 +149,12 @@ public class Diagnosis {
             return false;
         }
         Diagnosis diagnosis = (Diagnosis) o;
-        return Objects.equals(diagnosisId, diagnosis.diagnosisId) && Objects.equals(diagnosisName, diagnosis.diagnosisName) && Objects.equals(treatment, diagnosis.treatment) && Objects.equals(userAcc, diagnosis.userAcc) && Objects.equals(user, diagnosis.user);
+        return Objects.equals(diagnosisId, diagnosis.diagnosisId) && Objects.equals(diagnosisName, diagnosis.diagnosisName) && Objects.equals(notes, diagnosis.notes) && Objects.equals(medicineName, diagnosis.medicineName) && Objects.equals(userAcc, diagnosis.userAcc) && Objects.equals(user, diagnosis.user) && Objects.equals(doctorName, diagnosis.doctorName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(diagnosisId, diagnosisName, treatment, userAcc, user);
+        return Objects.hash(diagnosisId, diagnosisName, notes, medicineName, userAcc, user, doctorName);
     }
 
     @Override
@@ -137,9 +162,11 @@ public class Diagnosis {
         return "{" +
             " diagnosisId='" + getDiagnosisId() + "'" +
             ", diagnosisName='" + getDiagnosisName() + "'" +
-            ", treatment='" + getTreatment() + "'" +
+            ", notes='" + getNotes() + "'" +
+            ", medicineName='" + getMedicineName() + "'" +
             ", userAcc='" + getUserAcc() + "'" +
             ", user='" + getUser() + "'" +
+            ", doctorName='" + getDoctorName() + "'" +
             "}";
     }
 
