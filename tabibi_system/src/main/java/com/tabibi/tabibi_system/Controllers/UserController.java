@@ -132,7 +132,7 @@ public ModelAndView getlanding() {
     }
 @GetMapping("/feedback/add")
 public ModelAndView addFeedbacks(HttpSession session) {
-    ModelAndView mav = new ModelAndView("addFeebacks.html");
+    ModelAndView mav = new ModelAndView("addFeedbacks.html");
  Feedback feedback = new Feedback();
 String mail = (String) session.getAttribute("email");
 feedback.setMail(mail);
