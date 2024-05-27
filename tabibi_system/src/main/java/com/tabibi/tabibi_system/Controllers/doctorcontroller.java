@@ -111,6 +111,15 @@ public class doctorcontroller {
         return mav;
     }
 
+    @GetMapping("/medicine")
+    public ModelAndView getMedicines(HttpSession session) {
+        ModelAndView mav = admincontroller.preparenavigation(session, "ViewMedicines", user_type_repo, page_type_repo);
+        List<Medicine> medicines = medicineService.findAll();
+        mav.addObject("medicines", medicines);
+        return mav;
+    }
+
+
     @GetMapping("/medicine/add")
     public ModelAndView addFeedbacks(HttpSession session) {
         ModelAndView mav = admincontroller.preparenavigation(session, "addMedicine", user_type_repo, page_type_repo);
@@ -125,6 +134,12 @@ public class doctorcontroller {
 
         return "added";
     }
+
+    @PostMapping("/medicine/delete")
+public RedirectView deleteFeedback(@RequestParam("id") Integer id) {
+    medicineService.delete(id);
+    return new RedirectView("/Doctor/medicine");
+}
 
     @GetMapping("/patients")
     public ModelAndView getpatientspage(HttpSession session) {

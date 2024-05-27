@@ -1,6 +1,8 @@
 package com.tabibi.tabibi_system.Services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -35,5 +37,14 @@ public class MedicineService {
         String url = baseUrl + "/medicine/add";
         this.restTemplate.postForObject(url, medicine, Medicine.class);
     } 
+
+
+       public void delete(Integer id)
+ {
+    String url = baseUrl + "/medicine/delete";
+    Map<String, Integer> requestBody = new HashMap<>();
+    requestBody.put("id", id);
+    restTemplate.postForObject(url, requestBody, Void.class);
+}
 
 }
