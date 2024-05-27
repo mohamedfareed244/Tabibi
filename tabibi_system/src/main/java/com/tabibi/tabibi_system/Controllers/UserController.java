@@ -90,9 +90,10 @@ public class UserController {
         this.UserAccRepository = UserAccRepository;
     }
 
-    public UserController(UserAccRepository repo, JavaMailSenderImpl mailSender) {
+    public UserController(UserAccRepository repo, JavaMailSenderImpl mailSender,DoctorRepository docrepo) {
         this.UserAccRepository = repo;
         this.mailSender = mailSender;
+        this.doctorRepository=docrepo;
     }
 
     public UserAccRepository getUserAccRepository() {
