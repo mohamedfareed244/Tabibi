@@ -199,6 +199,7 @@ public class UserController {
             patientt.setPass(encodedPassword);
             patientt.setUsertype(new UserTypes(4L));
             patientt.setToken("0");
+            Send_Welcome_Mail(patient.getEmail());
     
             this.patientRepository.save(patientt);
         }
@@ -206,6 +207,40 @@ public class UserController {
         return loginModel;
     }
     
+    
+public void Send_Welcome_Mail(String mail)
+{         // Set up the mail sender
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("tabibii.application@gmail.com");
+        mailSender.setPassword("maga ltqn qnoi azhz");
+
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        // Create a mime message
+        MimeMessage message = mailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("tabibii.application@gmail.com");
+            helper.setTo(mail);
+            helper.setSubject("Welcome to Tabibi ");
+            helper.setText("Welcome to our system , here you can book your appointments and view all the doctors you want . Manage your time with Tabibi Application ");
+            // Send the mail
+            mailSender.send(message);
+            System.out.println("Mail sent successfully.");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            System.out.println("Error while sending mail.");
+        }
+
+}
 
     @GetMapping("/AllUsers")
     public ModelAndView getUsers() {
@@ -302,7 +337,8 @@ public class UserController {
         if (!newpass.equals(confirmpass)) {
             return new RedirectView("/User/ChangePassword?error=Passwords do not match ");
         } else if (Token.equals(checkuser.getToken())) {
-            checkuser.setPass(newpass);
+           String hashedpassword= hashpassword(newpass);
+            checkuser.setPass(hashedpassword);
             this.UserAccRepository.save(checkuser);
             return new RedirectView("/User/Savednewpass");
         } else {
