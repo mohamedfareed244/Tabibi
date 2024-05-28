@@ -104,7 +104,7 @@ public class doctorcontroller {
         session.setAttribute("editPid", id);
         session.setAttribute("editAge", patient.getAge());
         session.setAttribute("editAddress", patient.getAddress());
-        ModelAndView mav = new ModelAndView("patientinfo.html");
+        ModelAndView mav = admincontroller.preparenavigation(session, "patientinfo.html", user_type_repo, page_type_repo);
         UserAcc patientAccount = userAccRepository.findByUid(id);
         UserAcc doctorAccount = userAccRepository.findByUid((Integer) session.getAttribute("uid"));
         List<Diagnosis> diagnoses = diagnosisRepository.findByUserAccAndUser(patientAccount, doctorAccount);
