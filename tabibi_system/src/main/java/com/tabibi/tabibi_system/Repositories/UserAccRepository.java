@@ -12,7 +12,7 @@ public interface UserAccRepository extends JpaRepository<UserAcc,Integer> {
    UserAcc findByEmail(String email);
    UserAcc findByUid(int uid);
    boolean existsByEmail(String email);
-   
+
 
 
     // UserAcc findByEmail(Object attribute);

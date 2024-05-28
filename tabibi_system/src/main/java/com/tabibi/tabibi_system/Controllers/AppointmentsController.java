@@ -87,7 +87,6 @@ public ModelAndView appointmentForm(HttpSession session)
 
 @PostMapping("add")
 public ModelAndView addAppointment(@Valid @ModelAttribute Appointment appointment  , BindingResult result,HttpSession session ) 
-
 {
  ModelAndView addAppointment= admincontroller.preparenavigation(session, "addAppointment.html", user_type_repo, page_type_repo);
 
