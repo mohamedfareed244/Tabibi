@@ -200,8 +200,11 @@ public class ClinicController {
 
     @GetMapping("/assignDoctor")
     public ModelAndView viewClinic(HttpSession session) {
+        
+        ModelAndView mav = admincontroller.preparenavigation(session, "assignDoctorsView.html", user_type_repo,
+        page_type_repo);
 
-        ModelAndView mav = new ModelAndView("assignDoctorsView.html");
+
 
         int uid = (int) session.getAttribute("uid");
 
