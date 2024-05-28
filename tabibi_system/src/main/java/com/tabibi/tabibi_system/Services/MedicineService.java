@@ -33,7 +33,8 @@ public class MedicineService {
                 }).getBody(); // Response body converted to List<Post>
     }
 
-    public void save(Medicine medicine) {
+    public void save(Medicine medicine) 
+    {
         String url = baseUrl + "/medicine/add";
         this.restTemplate.postForObject(url, medicine, Medicine.class);
     }

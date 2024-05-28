@@ -175,7 +175,9 @@ public class UserController {
         ModelAndView LoginModel = new ModelAndView("Login.html");
         List<String> errorMessages = new ArrayList<>();
         Patient existingUser = patientRepository.findByEmail(patient.getEmail());
-        if (existingUser != null) {
+        
+        if (existingUser != null) 
+        {
             errorMessages.add("Email already exists. Please choose a different email.");
         }
         if (!patient.getPass().equals(Confirm_pass)) {
@@ -190,6 +192,8 @@ public class UserController {
         if (patient.getPass().isEmpty()) {
             errorMessages.add("Password is required");
         }
+
+        
 
         if (result.hasErrors()) {
             for (ObjectError error : result.getAllErrors()) {
@@ -302,9 +306,6 @@ public class UserController {
     public RedirectView ChangePassword(@RequestParam("NewPass") String newpass,
             @RequestParam("Confirmpass") String confirmpass, @RequestParam("Token") String Token) {
         UserAcc checkuser = this.UserAccRepository.findByUid(Userid);
-        System.out.println(checkuser.getEmail());
-        System.out.println(Token);
-        System.out.println(checkuser.getToken());
         if (!newpass.equals(confirmpass)) {
             return new RedirectView("/User/ChangePassword?error=Passwords do not match ");
         } else if (Token.equals(checkuser.getToken())) {

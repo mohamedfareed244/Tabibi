@@ -39,6 +39,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -158,7 +159,18 @@ public void hash_passwordtest()
 {
 String encoddedPassword=new String();   
 u.hashpassword(encoddedPassword);
-
 }
+
+// @Test
+// public void ChangePassword_Test()
+// {   
+// UserAcc checkAcc = mock(UserAcc.class);;
+// String newpass="arafat";
+// String conifrmpass="arafat";
+// String Token="2123";
+// when(userAccRepository.findByUid(1)).thenReturn(checkAcc);
+// u.ChangePassword(newpass, conifrmpass, Token);
+// }
+
 }
     
