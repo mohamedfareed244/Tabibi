@@ -104,7 +104,7 @@ UserLogRepository userlog;
    }
 
    @PostMapping("/addpage")
-   
+
    public RedirectView savepage(@ModelAttribute Pages page) {
       this.pages_repo.save(page);
 
