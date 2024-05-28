@@ -70,21 +70,19 @@ public class ClinicController {
 
         Doctor existingUser = doctorRepository.findByEmail(doctor.getEmail());
         if (existingUser != null) {
-            errorMessages.add("Email already exists. Please choose a different email.");
+            result.rejectValue("email", "error.patient", "Email already exists. Please choose a different email.");
         }
-
-        if (doctor.getPass().length() < 8) {
-            errorMessages.add("Password must be at least 8 characters long.");
-        }
-
+    
         if (!doctor.getPass().equals(confirmPass)) {
-            errorMessages.add("Password and Confirm Password Must Match");
-        } else {
-            System.err.println("password match");
+            result.rejectValue("pass", "error.patient", "Password and Confirm Password must match.");
         }
-
+    
+        if (doctor.getPass().length() < 8) {
+            result.rejectValue("pass", "error.patient", "Password must be at least 8 characters long.");
+        }
+    
         if (doctor.getPass().isEmpty()) {
-            errorMessages.add("Password is required");
+            result.rejectValue("pass", "error.patient", "Password is required.");
         }
 
         if (result.hasErrors()) {

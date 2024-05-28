@@ -87,18 +87,22 @@ public UserController u;
     }
         
     @Test
-    public void passwordtest() {
+    public void passwordtest() 
+    {
         String pass="12345678";
         String result=u.passtest(pass);
         assertEquals(8,result.length() );  
     }
+
     @Test
     public void emailtest() {
         String email="ptest@email.com";
         boolean result=validateEmail(email);
         assertEquals(true,result );  
     }
-    public boolean validateEmail(String email) {
+
+    public boolean validateEmail(String email) 
+    {
         String regexPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         return email.matches(regexPattern);
      }
@@ -106,6 +110,7 @@ public UserController u;
  @Test
     public void testSearchPost() throws Exception 
     {
+        
     Doctor alyDoctor=new Doctor("aly", "arafat", "ozon", "01551564342", "MIU");
     Doctor mockDoctor=new Doctor("John", "mai", "kela", "01551564342", "MIU");
     List<Doctor> doctors=new ArrayList<>();
@@ -113,6 +118,7 @@ public UserController u;
     doctors.add(mockDoctor);
     
     when(model.addAttribute(any(), any())).thenReturn(null);
+
     MockedStatic mockedclass=  Mockito.mockStatic(admincontroller.class);
 
     mockedclass.when(()->admincontroller.preparenavigation(any(), any(), any(), any())).thenReturn(new ModelAndView());
@@ -120,6 +126,7 @@ public UserController u;
     when(doctorRepository.findByspecialization("ozon")).thenReturn(doctors);
 
     u.searchresult("ozon",model, null);
+
     Mockito.verify(doctorRepository).findByspecialization(anyString());
     mockedclass.verify(()->admincontroller.preparenavigation(any(),any(),any(),any()));
 
@@ -127,10 +134,11 @@ public UserController u;
 
 
     @Test
-        public void testSendToken() throws Exception {
+        public void testSendToken() throws Exception 
+        {
             String email = "test@example.com";
             UserAcc mockUser = new UserAcc();
-             Properties prop= new Properties();
+            Properties prop= new Properties();
 
             mockUser.setEmail(email);
             mockUser.setToken("1234");
@@ -138,6 +146,7 @@ public UserController u;
             Mockito.when(userAccRepository.findByEmail(any())).thenReturn(mockUser);
         Mockito.when(mailSender.getJavaMailProperties()).thenReturn(prop);
          Mockito.when(userAccRepository.save(any())).thenReturn(mockUser);
+
             // Mock MimeMessage
             MimeMessage mimeMessage = Mockito.mock(MimeMessage.class);
             Mockito.when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
@@ -148,7 +157,7 @@ public UserController u;
             // Verify that the token is set and saved
             Mockito.verify(userAccRepository).save(mockUser);
             Mockito.verify(userAccRepository).findByEmail(email);
-            Assert.assertEquals(mockUser.getToken(), mockUser.getToken());
+
     
             // Verify that an email is sent
             Mockito.verify(mailSender).createMimeMessage();

@@ -138,27 +138,23 @@ public ModelAndView processSignupForm(@Valid @ModelAttribute ("clinic")  Clinic 
 
 
  Clinic existingUser = clinicRepository.findByEmail(clinic.getEmail());
- if (existingUser != null) 
- {
-errorMessages.add("Email already exists. Please choose a different email.");
- }
 
-if (clinic.getPass().length() < 8) 
-{
-    errorMessages.add("Password must be at least 8 characters long.");
-}
-
-if(!clinic.getPass().equals(Confirm_pass))
-{
-    errorMessages.add("Password and Confirm Password Must Match");
-}
-else
-System.err.println("password match");
-
-if (clinic.getPass().isEmpty())
- {
-    errorMessages.add("Password is required");
-}
+        if (existingUser != null) {
+            result.rejectValue("email", "error.patient", "Email already exists. Please choose a different email.");
+        }
+    
+        if (!clinic.getPass().equals(Confirm_pass)) {
+            result.rejectValue("pass", "error.patient", "Password and Confirm Password must match.");
+        }
+    
+        if (clinic.getPass().length() < 8) {
+            result.rejectValue("pass", "error.patient", "Password must be at least 8 characters long.");
+        }
+    
+        if (clinic.getPass().isEmpty()) {
+            result.rejectValue("pass", "error.patient", "Password is required.");
+        }
+    
 
 if (result.hasErrors()) 
 {

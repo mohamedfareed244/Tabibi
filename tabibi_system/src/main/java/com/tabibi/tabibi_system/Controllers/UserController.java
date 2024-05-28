@@ -170,49 +170,42 @@ public class UserController {
 
     @PostMapping("signup")
     public ModelAndView processSignupForm(@Valid @ModelAttribute("patient") Patient patient, BindingResult result,
-            @RequestParam("cpassword") String Confirm_pass) {
-        ModelAndView SignupModel = new ModelAndView("signup.html");
-        ModelAndView LoginModel = new ModelAndView("Login.html");
-        List<String> errorMessages = new ArrayList<>();
-       
-
-        if ( UserAccRepository.existsByEmail(patient.getEmail())) 
-        {
-            errorMessages.add("Email already exists. Please choose a different email.");
+                                          @RequestParam("cpassword") String confirmPass) {
+        ModelAndView signupModel = new ModelAndView("signup.html");
+        ModelAndView loginModel = new ModelAndView("login.html");
+    
+        if (UserAccRepository.existsByEmail(patient.getEmail())) {
+            result.rejectValue("email", "error.patient", "Email already exists. Please choose a different email.");
         }
-        if (!patient.getPass().equals(Confirm_pass)) {
-            errorMessages.add("Password and Confirm Password Must Match");
+    
+        if (!patient.getPass().equals(confirmPass)) {
+            result.rejectValue("pass", "error.patient", "Password and Confirm Password must match.");
         }
-
+    
         if (patient.getPass().length() < 8) {
-            errorMessages.add("Password must be at least 8 characters long.");
-        } else
-            System.err.println("password match");
-
-        if (patient.getPass().isEmpty()) {
-            errorMessages.add("Password is required");
+            result.rejectValue("pass", "error.patient", "Password must be at least 8 characters long.");
         }
-
-        
-
+    
+        if (patient.getPass().isEmpty()) {
+            result.rejectValue("pass", "error.patient", "Password is required.");
+        }
+    
         if (result.hasErrors()) {
-            for (ObjectError error : result.getAllErrors()) {
-                errorMessages.add(error.getDefaultMessage());
-            }
-            SignupModel.addObject("errors", errorMessages);
-            return SignupModel;
+            signupModel.addObject("errors", result.getAllErrors());
+            return signupModel;
         } else {
             Patient patientt = patient.getPatient();
-            String encoddedPassword = hashpassword(patient.getPass());
-            patientt.setPass(encoddedPassword);
+            String encodedPassword = hashpassword(patient.getPass());
+            patientt.setPass(encodedPassword);
             patientt.setUsertype(new UserTypes(4L));
             patientt.setToken("0");
-
+    
             this.patientRepository.save(patientt);
         }
-
-        return LoginModel;
+    
+        return loginModel;
     }
+    
 
     @GetMapping("/AllUsers")
     public ModelAndView getUsers() {
@@ -438,7 +431,7 @@ public class UserController {
     public ModelAndView search(@RequestParam("search") String name, Model model, HttpSession session) {
         List<Doctor> Doctors = doctorRepository.findByspecialization(name);
         ModelAndView mag = admincontroller.preparenavigation(session, "searchResult.html", user_type_repo,
-                page_type_repo);
+          page_type_repo);
 
         model.addAttribute("doctors", Doctors);
         return mag;
