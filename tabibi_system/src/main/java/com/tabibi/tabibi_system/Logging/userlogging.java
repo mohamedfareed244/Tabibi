@@ -43,7 +43,7 @@ public class userlogging {
        UserLog NewLog=new UserLog();
    NewLog.setDate(currentDate);
    NewLog.setUserId(userId);
-    userlog.save(NewLog);
+   userlog.save(NewLog);
 
    
     }

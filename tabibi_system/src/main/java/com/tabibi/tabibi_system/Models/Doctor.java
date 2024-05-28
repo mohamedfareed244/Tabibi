@@ -33,19 +33,6 @@ public class Doctor extends UserAcc implements Serializable {
     @Column(name = "educ")
     private String educ;
 
-   
-
-
-    
-
-    // @ManyToOne
-    // @JoinColumn(name = "uid", referencedColumnName = "uid", insertable = true, updatable = true)
-    // private UserAcc userAcc;
-
-    // @ManyToOne
-    // @JoinColumn(name = "Cid", referencedColumnName = "uid", insertable = true, updatable = true)
-    // private Clinic clinic;
-
 
     public Doctor() {
     }

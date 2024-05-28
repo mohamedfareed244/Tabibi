@@ -122,7 +122,7 @@ public class doctorcontroller {
 
 
     @GetMapping("/medicine/add")
-    public ModelAndView addFeedbacks(HttpSession session) {
+    public ModelAndView addMedicines(HttpSession session) {
         ModelAndView mav = admincontroller.preparenavigation(session, "addMedicine", user_type_repo, page_type_repo);
         Medicine medicine = new Medicine();
         mav.addObject("medicine", medicine);
@@ -130,7 +130,7 @@ public class doctorcontroller {
     }
 
     @PostMapping("/medicine/add")
-    public String addFeedback(@ModelAttribute Medicine medicine) {
+    public String addMedicines(@ModelAttribute Medicine medicine) {
         this.medicineService.save(medicine);
         return "added";
     }
