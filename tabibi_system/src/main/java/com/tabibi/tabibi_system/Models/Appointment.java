@@ -22,8 +22,6 @@ public class Appointment implements Serializable {
     @Column(name = "Appid")
     private Long appId;
 
-    // @NotNull (message = "please enter a value")
-    // @FutureOrPresent (message = "please enter a valid date (future or present)")
     @Column(name="date")
     private Date date;
 
@@ -131,9 +129,7 @@ public class Appointment implements Serializable {
     public Clinic getClinic() {
         return this.clinic;
     }
-    // public Clinic getPatient() {
-    //     return this.pat;
-    // }
+
     public void setClinic(Clinic clinic) {
         this.clinic = clinic;
     }
