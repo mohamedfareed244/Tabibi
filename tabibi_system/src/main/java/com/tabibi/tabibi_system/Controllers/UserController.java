@@ -174,9 +174,9 @@ public class UserController {
         ModelAndView SignupModel = new ModelAndView("signup.html");
         ModelAndView LoginModel = new ModelAndView("Login.html");
         List<String> errorMessages = new ArrayList<>();
-        Patient existingUser = patientRepository.findByEmail(patient.getEmail());
-        
-        if (existingUser != null) 
+       
+
+        if ( UserAccRepository.existsByEmail(patient.getEmail())) 
         {
             errorMessages.add("Email already exists. Please choose a different email.");
         }
