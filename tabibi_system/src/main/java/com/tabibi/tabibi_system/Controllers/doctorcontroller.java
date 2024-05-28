@@ -33,6 +33,7 @@ import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserLogRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
+import com.tabibi.tabibi_system.Services.FeedbackService;
 import com.tabibi.tabibi_system.Services.MedicineService;
 import com.tabibi.tabibi_system.Repositories.DiagnosisRepository;
 
@@ -59,6 +60,8 @@ public class doctorcontroller {
     PagesRepository pages_repo;
     @Autowired
     public UserTypePagesRepository page_type_repo;
+        @Autowired
+    private FeedbackService feedbackService;
 
     @Autowired
     public UserLogRepository userlog;
@@ -112,6 +115,8 @@ public class doctorcontroller {
         return mav;
     }
 
+  
+
     @GetMapping("/medicine")
     public ModelAndView getMedicines(HttpSession session) {
         ModelAndView mav = admincontroller.preparenavigation(session, "ViewMedicines.html", user_type_repo, page_type_repo);
@@ -130,9 +135,9 @@ public class doctorcontroller {
     }
 
     @PostMapping("/medicine/add")
-    public String addMedicines(@ModelAttribute Medicine medicine) {
+    public RedirectView addMedicines(@ModelAttribute Medicine medicine) {
         this.medicineService.save(medicine);
-        return "added";
+        return new RedirectView("/Doctor/medicine");
     }
 
     @GetMapping("/medicine/edit/{id}")

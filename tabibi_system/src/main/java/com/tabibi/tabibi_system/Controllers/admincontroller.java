@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tabibi.tabibi_system.Models.Admin;
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
+import com.tabibi.tabibi_system.Models.Feedback;
 import com.tabibi.tabibi_system.Models.Pages;
 import com.tabibi.tabibi_system.Models.Patient;
 // import com.tabibi.tabibi_system.Models.User;
@@ -27,6 +28,7 @@ import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 // import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
+import com.tabibi.tabibi_system.Services.FeedbackService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
@@ -82,6 +84,8 @@ public class admincontroller {
 PatientRepository patientRepository;
  @Autowired
 AppointmentRepository appointmentrepositiry;
+   @Autowired
+    private FeedbackService feedbackService;
 
 @Autowired
 UserLogRepository userlog;
@@ -339,6 +343,20 @@ public String deleteEntry(@RequestParam("name") String name,@RequestParam("type"
 
 
 }
+
+
+@PostMapping("/feedback/delete")
+public RedirectView deleteFeedback(@RequestParam("id") Integer id) {
+    feedbackService.delete(id);
+    return new RedirectView("/Admin/feedback");
+}
+  @GetMapping("/feedback")
+    public ModelAndView getFeedbacks(HttpSession session) {
+        ModelAndView mav = admincontroller.preparenavigation(session, "feedbacks", user_type_repo, page_type_repo);
+        List<Feedback> feedbackList = feedbackService.findAll();
+        mav.addObject("feedbacks", feedbackList);
+        return mav;
+    }
    @GetMapping("/search")
    public ModelAndView getSearchPage(HttpSession session) {
       ModelAndView mav = preparenavigation(session,"search_and_delete",this.user_type_repo,this.page_type_repo);

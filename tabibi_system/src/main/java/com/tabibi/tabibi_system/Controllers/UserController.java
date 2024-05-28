@@ -116,19 +116,8 @@ public class UserController {
                 "}";
     }
 
-    // @GetMapping("")
-    // public ModelAndView getlanding() {
-    //     ModelAndView mav = new ModelAndView("landingPage.html");
-    //     return mav;
-    // }
 
-    @GetMapping("/feedback")
-    public ModelAndView getFeedbacks(HttpSession session) {
-        ModelAndView mav = admincontroller.preparenavigation(session, "feedbacks", user_type_repo, page_type_repo);
-        List<Feedback> feedbackList = feedbackService.findAll();
-        mav.addObject("feedbacks", feedbackList);
-        return mav;
-    }
+
 
     @GetMapping("/feedback/add")
     public ModelAndView addFeedbacks(HttpSession session) {
@@ -142,18 +131,7 @@ public class UserController {
         return mav;
     }
 
-    @PostMapping("/feedback/add")
-    public String addFeedback(@ModelAttribute Feedback feedback) {
-        this.feedbackService.save(feedback);
 
-        return "added";
-    }
-
-    @PostMapping("/feedback/delete")
-    public RedirectView deleteFeedback(@RequestParam("id") Integer id) {
-        feedbackService.delete(id);
-        return new RedirectView("/User/feedback");
-    }
 
     @GetMapping("/signup")
     public ModelAndView showSignupForm() {

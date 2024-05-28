@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="/css/Feedbacks.css">
 </head>
 <body>
+    <div th:include="navigation">
+      
+    </div>
     <h2>FEEDBACKS:</h2>
     <table id="feedbacks">
         <thead>
@@ -25,7 +28,7 @@
                 <td th:text="${feedback.mail}"></td>
                 <td th:text="${feedback.date}"></td>
                 <td>
-                    <form th:action="@{/User/feedback/delete}" method="post">
+                    <form th:action="@{/Admin/feedback/delete}" method="post">
                         <input type="hidden" name="id" th:value="${feedback.id}">
                         <button type="submit" class="dd">Delete</button>
                     </form>
