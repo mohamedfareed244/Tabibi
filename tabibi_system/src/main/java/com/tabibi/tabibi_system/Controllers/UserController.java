@@ -116,11 +116,11 @@ public class UserController {
                 "}";
     }
 
-    @GetMapping("")
-    public ModelAndView getlanding() {
-        ModelAndView mav = new ModelAndView("landingPage.html");
-        return mav;
-    }
+    // @GetMapping("")
+    // public ModelAndView getlanding() {
+    //     ModelAndView mav = new ModelAndView("landingPage.html");
+    //     return mav;
+    // }
 
     @GetMapping("/feedback")
     public ModelAndView getFeedbacks(HttpSession session) {
