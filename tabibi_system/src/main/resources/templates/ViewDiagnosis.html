@@ -19,15 +19,17 @@
             <thead>
                 <tr>
                     <th>Diagnosis</th>
-                    <th>Treatment</th>
-                    <th>By doctor</th>
+                    <th>Doctor Notes</th>
+                    <th>Prescribed Medicine</th>
+                    <th>Diagnosed by doctor</th>
 
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="diagnosis : ${diagnoses}">
                     <td th:text="${diagnosis.diagnosisName}"></td>
-                    <td th:text="${diagnosis.treatment}"></td>
+                    <td th:text="${diagnosis.notes}"></td>
+                    <td th:text="${diagnosis.medicineName}"></td>
                     <td th:text="${diagnosis.doctorName}"></td>
 
                     

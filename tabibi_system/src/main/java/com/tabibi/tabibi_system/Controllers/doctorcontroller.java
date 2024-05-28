@@ -66,6 +66,7 @@ public class doctorcontroller {
 
     @GetMapping("/getdata")
     public String getData(@RequestParam String name) {
+        System.out.println(name);
         List<Patient> mylist = this.patient_repo.findByfirstname(name);
         if (mylist.size() == 0) {
             return "no patients found ";
@@ -104,24 +105,59 @@ public class doctorcontroller {
         UserAcc patientAccount = userAccRepository.findByUid(id);
         UserAcc doctorAccount = userAccRepository.findByUid((Integer) session.getAttribute("uid"));
         List<Diagnosis> diagnoses = diagnosisRepository.findByUserAccAndUser(patientAccount, doctorAccount);
-        List<Medicine>medicines= medicineService.findAll();
+        List<Medicine> medicines = medicineService.findAll();
         mav.addObject("diagnoses", diagnoses);
         mav.addObject("patient", patient);
         mav.addObject("medicines", medicines);
         return mav;
     }
+
+    @GetMapping("/medicine")
+    public ModelAndView getMedicines(HttpSession session) {
+        ModelAndView mav = admincontroller.preparenavigation(session, "ViewMedicines.html", user_type_repo, page_type_repo);
+        List<Medicine> medicines = medicineService.findAll();
+        mav.addObject("medicines", medicines);
+        return mav;
+    }
+
+
     @GetMapping("/medicine/add")
-public ModelAndView addFeedbacks() {
-    ModelAndView mav = new ModelAndView("addMedicine.html");
-Medicine medicine=new Medicine();
-    mav.addObject("medicine", medicine);
-    return mav;
-}
-@PostMapping("/medicine/add")
-public String addFeedback(@ModelAttribute Medicine medicine) {
-    this.medicineService.save(medicine);
+    public ModelAndView addFeedbacks(HttpSession session) {
+        ModelAndView mav = admincontroller.preparenavigation(session, "addMedicine", user_type_repo, page_type_repo);
+        Medicine medicine = new Medicine();
+        mav.addObject("medicine", medicine);
+        return mav;
+    }
+
+    @PostMapping("/medicine/add")
+    public String addFeedback(@ModelAttribute Medicine medicine) {
+        this.medicineService.save(medicine);
+        return "added";
+    }
+
+    @GetMapping("/medicine/edit/{id}")
+    public ModelAndView editMedicine(@PathVariable("id") Integer id, HttpSession session) {
+        ModelAndView mav = admincontroller.preparenavigation(session, "editMedicine", user_type_repo, page_type_repo);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>");
+        Medicine medicine = medicineService.findById(id);
+        mav.addObject("medicine", medicine);
+        return mav;
+    }
     
-    return "added";
+    @PostMapping("/medicine/edit")
+    public RedirectView editMedicine(@ModelAttribute Medicine medicine) {
+        medicineService.update(medicine);
+        return new RedirectView("/Doctor/medicine");
+    }
+    
+    
+
+
+
+    @PostMapping("/medicine/delete")
+public RedirectView deleteFeedback(@RequestParam("id") Integer id) {
+    medicineService.delete(id);
+    return new RedirectView("/Doctor/medicine");
 }
 
     @GetMapping("/patients")
@@ -190,7 +226,6 @@ public String addFeedback(@ModelAttribute Medicine medicine) {
 
         if (doctor != null) {
 
-
             doctor.setFirstname(firstname);
             doctor.setLastname(lastname);
             doctor.setNumber(number);
@@ -204,22 +239,21 @@ public String addFeedback(@ModelAttribute Medicine medicine) {
             session.setAttribute("specialization", doctor.getSpecialization());
             session.setAttribute("education", doctor.getEduc());
 
-            if (currentPassword != null && !currentPassword.isEmpty() && 
-            newPassword != null && !newPassword.isEmpty() &&
-            confirmNewPassword != null && !confirmNewPassword.isEmpty())
-             {
-            
-            if (BCrypt.checkpw(currentPassword, doctor.getPass())) {
-                if (newPassword.equals(confirmNewPassword)) {
-                    String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-                    doctor.setPass(hashedNewPassword);
+            if (currentPassword != null && !currentPassword.isEmpty() &&
+                    newPassword != null && !newPassword.isEmpty() &&
+                    confirmNewPassword != null && !confirmNewPassword.isEmpty()) {
+
+                if (BCrypt.checkpw(currentPassword, doctor.getPass())) {
+                    if (newPassword.equals(confirmNewPassword)) {
+                        String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+                        doctor.setPass(hashedNewPassword);
+                    } else {
+                        return new RedirectView("/Doctor/EditProfile?error=passwordMismatch");
+                    }
                 } else {
-                    return new RedirectView("/Doctor/EditProfile?error=passwordMismatch");
+                    return new RedirectView("/Doctor/EditProfile?error=incorrectPassword");
                 }
-            } else {
-                return new RedirectView("/Doctor/EditProfile?error=incorrectPassword");
             }
-        }
 
             this.doctorRepository.save(doctor);
             return new RedirectView("/User/DoctorHomePage");
@@ -243,12 +277,14 @@ public String addFeedback(@ModelAttribute Medicine medicine) {
     @PostMapping("/addDiagnose")
     public RedirectView DiagnosePatient(
             @RequestParam("diagnosename") String diagnosename,
-            @RequestParam("treatment") String treatment,
+            @RequestParam(value = "medicineName", required = false) String medicineName,
+            @RequestParam(value = "notes", required = false) String notes,
             HttpSession session) {
 
         Diagnosis diagnosis = new Diagnosis();
         diagnosis.setDiagnosisName(diagnosename);
-        diagnosis.setTreatment(treatment);
+        diagnosis.setMedicineName(medicineName);
+        diagnosis.setNotes(notes);
         diagnosis.setUserAcc(this.userAccRepository.findByUid((Integer) session.getAttribute("editPid")));
         diagnosis.setUser(this.userAccRepository.findByUid((Integer) session.getAttribute("uid")));
         this.diagnosisRepository.save(diagnosis);
@@ -271,14 +307,16 @@ public String addFeedback(@ModelAttribute Medicine medicine) {
         Diagnosis diagnosis = this.diagnosisRepository.findByDiagnosisId(id);
         ModelAndView mav = com.tabibi.tabibi_system.Controllers.admincontroller.preparenavigation(session,
                 "editDiagnoses.html", user_type_repo, page_type_repo);
-
+                List<Medicine> medicines = medicineService.findAll();
+        mav.addObject("medicines", medicines);
         mav.addObject("diagnosis", diagnosis);
         return mav;
     }
 
     @PostMapping("/editDiagnose")
     public RedirectView editDiagnossisprocess(HttpSession session, @RequestParam("diagnosisName") String diagnosisName,
-            @RequestParam("diagnosisTreatment") String diagnosisTreatment,
+    @RequestParam(value = "medicineName", required = false) String medicineName,
+    @RequestParam(value = "notes", required = false) String notes,
             @RequestParam("diagnosisId") Long diagnosisId) {
         // Integer uid = (Integer)session.getAttribute("uid");
         // Doctor DoctorEdit = this.doctorRepository.findByUid(uid);
@@ -287,7 +325,8 @@ public String addFeedback(@ModelAttribute Medicine medicine) {
         if (diagnosis != null) {
 
             diagnosis.setDiagnosisName(diagnosisName);
-            diagnosis.setTreatment(diagnosisTreatment);
+            diagnosis.setNotes(notes);
+            diagnosis.setMedicineName(medicineName);
             this.diagnosisRepository.save(diagnosis);
 
             return new RedirectView("/User/DoctorHomePage");
