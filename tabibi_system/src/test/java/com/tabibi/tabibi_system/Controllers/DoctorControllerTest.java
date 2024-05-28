@@ -1,12 +1,11 @@
 package com.tabibi.tabibi_system.Controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,18 +45,26 @@ public class DoctorControllerTest {
 
     @Test 
     public void testusernotfound(){
-        //no user recorded with the name abcdef 
-        String value=this.Drcontroller.getData("abcdef");
+        // Configure mock behavior for patient_repo
+        when(patient_repo.findByfirstname("abcdef")).thenReturn(Collections.emptyList());
+
+        // Test when no user is recorded with the name "abcdef"
+        String value = Drcontroller.getData("abcdef");
         assertEquals("no patients found ", value);
     }
 
     @Test 
     public void testfoundeduser(){
-         // there are users recorded with the name mohamed 
-         String value=this.Drcontroller.getData("mohamed");
-         System.out.println(value);
-         assertEquals("no patients found ", value);
+        // Prepare test data
+        Patient patient = new Patient();
+        patient.setUid(1);
+        patient.setFirstname("mohamed");
+
+        // Configure mock behavior for patient_repo
+        when(patient_repo.findByfirstname("mohamed")).thenReturn(Arrays.asList(patient));
+
+        // Test when users are recorded with the name "mohamed"
+        String value = Drcontroller.getData("mohamed");
+        assertEquals("<tr onclick='edit(1)'><td>1</td><td>mohamed</td><td>null</td><td>null</td> </tr>", value); 
     }
-
-
 }
