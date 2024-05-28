@@ -66,6 +66,7 @@ public class doctorcontroller {
 
     @GetMapping("/getdata")
     public String getData(@RequestParam String name) {
+        System.out.println(name);
         List<Patient> mylist = this.patient_repo.findByfirstname(name);
         if (mylist.size() == 0) {
             return "no patients found ";
