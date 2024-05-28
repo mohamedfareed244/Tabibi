@@ -20,7 +20,7 @@ public interface PatientRepository extends JpaRepository<Patient,Integer>
     @Transactional
     void deleteByemail(String email);
     
-
+  
     List<Patient> findAllByEmail(String email);
     Patient findByEmail(String email);
 
