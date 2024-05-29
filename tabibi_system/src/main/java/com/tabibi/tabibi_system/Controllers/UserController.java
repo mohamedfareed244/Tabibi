@@ -130,6 +130,12 @@ public class UserController {
 
         return mav;
     }
+    @PostMapping("/feedback/add")
+    public RedirectView addFeedback(@ModelAttribute Feedback feedback) {
+        this.feedbackService.save(feedback);
+
+        return new RedirectView("/User/feedback/add");
+    }
 
 
 
