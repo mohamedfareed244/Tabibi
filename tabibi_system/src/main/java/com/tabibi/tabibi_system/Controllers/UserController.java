@@ -156,7 +156,7 @@ public class UserController {
     public ModelAndView processSignupForm(@Valid @ModelAttribute("patient") Patient patient, BindingResult result,
                                           @RequestParam("cpassword") String confirmPass) {
         ModelAndView signupModel = new ModelAndView("signup.html");
-        ModelAndView loginModel = new ModelAndView("login.html");
+        ModelAndView loginModel = new ModelAndView("Login.html");
     
         if (UserAccRepository.existsByEmail(patient.getEmail())) {
             result.rejectValue("email", "error.patient", "Email already exists. Please choose a different email.");
