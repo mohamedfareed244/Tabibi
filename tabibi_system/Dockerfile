@@ -11,6 +11,9 @@
 
 
 # Builder Stage
+
+
+
 FROM maven:3.9-eclipse-temurin-21 AS builder
 VOLUME /tmp
 COPY target/*.jar app.jar

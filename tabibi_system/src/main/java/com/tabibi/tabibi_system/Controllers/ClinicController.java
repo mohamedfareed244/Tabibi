@@ -2,6 +2,7 @@ package com.tabibi.tabibi_system.Controllers;
 
 import com.tabibi.tabibi_system.Models.Clinic;
 import com.tabibi.tabibi_system.Models.Doctor;
+import com.tabibi.tabibi_system.Models.Insurance;
 import com.tabibi.tabibi_system.Models.UserTypes;
 import com.tabibi.tabibi_system.Models.Workplaces;
 import com.tabibi.tabibi_system.Repositories.ClinicRepository;
@@ -10,20 +11,28 @@ import com.tabibi.tabibi_system.Repositories.PagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
 import com.tabibi.tabibi_system.Repositories.WorkplacesRepository;
+import com.tabibi.tabibi_system.Services.InsuranceService;
+
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -46,6 +55,9 @@ public class ClinicController {
     PagesRepository pages_repo;
     @Autowired
     public UserTypePagesRepository page_type_repo;
+    @Autowired
+    private InsuranceService insuranceService;
+
 
     @GetMapping("DoctorRegistration")
     public ModelAndView DoctorRegistration(HttpSession session) {
@@ -249,4 +261,28 @@ public class ClinicController {
         }
         return new RedirectView("/Clinic/assignDoctor");
     }
+
+  @GetMapping("/check_insurance")
+public ModelAndView checkInsuranceByEmail(@RequestParam(required = false) String imageUrl) {
+    ModelAndView mav = new ModelAndView("check_insurance.html");
+    mav.addObject("imageUrl", imageUrl); 
+
+    return mav;
+}
+
+@PostMapping("/check_insurance")
+public RedirectView InsuranceByEmail(@RequestParam String email, RedirectAttributes redirectAttributes) {
+    Insurance insurance = insuranceService.findByemail(email);
+
+    if (insurance != null && insurance.getCard() != null) {
+        String imageUrl = insurance.getCard();
+        // Pass the imageUrl as a parameter in the redirect
+        redirectAttributes.addAttribute("imageUrl", imageUrl);
+    }
+
+    // Redirect to the GET mapping for displaying the HTML
+    return new RedirectView("/Clinic/check_insurance");
+}
+
+
 }
