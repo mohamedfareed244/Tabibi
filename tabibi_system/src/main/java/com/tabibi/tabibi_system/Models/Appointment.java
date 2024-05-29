@@ -1,6 +1,7 @@
 package com.tabibi.tabibi_system.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -21,7 +22,7 @@ public class Appointment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Appid")
     private Long appId;
-
+@FutureOrPresent
     @Column(name="date")
     private Date date;
 
