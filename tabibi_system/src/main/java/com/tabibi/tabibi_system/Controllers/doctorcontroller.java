@@ -128,7 +128,7 @@ public class doctorcontroller {
 
     @GetMapping("/medicine/add")
     public ModelAndView addMedicines(HttpSession session) {
-        ModelAndView mav = admincontroller.preparenavigation(session, "addMedicine", user_type_repo, page_type_repo);
+        ModelAndView mav = admincontroller.preparenavigation(session, "addMedicine.html", user_type_repo, page_type_repo);
         Medicine medicine = new Medicine();
         mav.addObject("medicine", medicine);
         return mav;
@@ -142,7 +142,7 @@ public class doctorcontroller {
 
     @GetMapping("/medicine/edit/{id}")
     public ModelAndView editMedicine(@PathVariable("id") Integer id, HttpSession session) {
-        ModelAndView mav = admincontroller.preparenavigation(session, "editMedicine", user_type_repo, page_type_repo);
+        ModelAndView mav = admincontroller.preparenavigation(session, "editMedicine.html", user_type_repo, page_type_repo);
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>");
         Medicine medicine = medicineService.findById(id);
         mav.addObject("medicine", medicine);
