@@ -1,0 +1,21 @@
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Check Insurance</title>
+    </head>
+    <body>
+        <h1>Check Insurance</h1>
+        <form th:action="@{/Clinic/check_insurance}" method="POST">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email">
+            <button type="submit">Search</button>
+        </form>
+
+        <div th:if="${imageUrl}">
+            <h2>Insurance Card:</h2>
+            <img th:src="@{${imageUrl}}" th:alt="@{${imageUrl}}">
+        </div> 
+    </body>
+    </html>

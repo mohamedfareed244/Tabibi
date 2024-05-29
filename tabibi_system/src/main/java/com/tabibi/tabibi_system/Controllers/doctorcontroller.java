@@ -33,6 +33,7 @@ import com.tabibi.tabibi_system.Repositories.UserAccRepository;
 import com.tabibi.tabibi_system.Repositories.UserLogRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypePagesRepository;
 import com.tabibi.tabibi_system.Repositories.UserTypeRepository;
+import com.tabibi.tabibi_system.Services.FeedbackService;
 import com.tabibi.tabibi_system.Services.MedicineService;
 import com.tabibi.tabibi_system.Repositories.DiagnosisRepository;
 
@@ -59,6 +60,8 @@ public class doctorcontroller {
     PagesRepository pages_repo;
     @Autowired
     public UserTypePagesRepository page_type_repo;
+        @Autowired
+    private FeedbackService feedbackService;
 
     @Autowired
     public UserLogRepository userlog;
@@ -101,7 +104,7 @@ public class doctorcontroller {
         session.setAttribute("editPid", id);
         session.setAttribute("editAge", patient.getAge());
         session.setAttribute("editAddress", patient.getAddress());
-        ModelAndView mav = new ModelAndView("patientinfo.html");
+        ModelAndView mav = admincontroller.preparenavigation(session, "patientinfo.html", user_type_repo, page_type_repo);
         UserAcc patientAccount = userAccRepository.findByUid(id);
         UserAcc doctorAccount = userAccRepository.findByUid((Integer) session.getAttribute("uid"));
         List<Diagnosis> diagnoses = diagnosisRepository.findByUserAccAndUser(patientAccount, doctorAccount);
@@ -111,6 +114,8 @@ public class doctorcontroller {
         mav.addObject("medicines", medicines);
         return mav;
     }
+
+  
 
     @GetMapping("/medicine")
     public ModelAndView getMedicines(HttpSession session) {
@@ -130,9 +135,9 @@ public class doctorcontroller {
     }
 
     @PostMapping("/medicine/add")
-    public String addMedicines(@ModelAttribute Medicine medicine) {
+    public RedirectView addMedicines(@ModelAttribute Medicine medicine) {
         this.medicineService.save(medicine);
-        return "added";
+        return new RedirectView("/Doctor/medicine");
     }
 
     @GetMapping("/medicine/edit/{id}")

@@ -10,6 +10,9 @@
 <h2>Editing the appointment whose id = <span th:text="${oldApp.appId}"></span></h2>
 
 <body>
+    <div th:include="navigation">
+      
+    </div>
     <form id="appointmentForm" th:action="@{/appointments/edit/{appId}(appId=${oldApp.appId})}" method="post"
         th:object="${oldApp}">
         <input type="hidden" th:field="*{appId}">

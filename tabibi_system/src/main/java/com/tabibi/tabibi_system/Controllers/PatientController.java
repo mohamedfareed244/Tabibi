@@ -50,7 +50,7 @@ public class PatientController {
  @GetMapping("accountSettings")
      public ModelAndView getSettings(HttpSession session)
      {
-        ModelAndView mav=new ModelAndView("accountSettings.html");
+        ModelAndView mav= admincontroller.preparenavigation(session, "accountSettings.html", user_type_repo, page_type_repo);
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
         return mav;
@@ -58,7 +58,7 @@ public class PatientController {
      @GetMapping("Profile")
      public ModelAndView getProfile(HttpSession session)
      {
-     ModelAndView mav= admincontroller.preparenavigation(session, "profile.html", user_type_repo, page_type_repo);
+     ModelAndView mav= admincontroller.preparenavigation(session, "Profile.html", user_type_repo, page_type_repo);
 
         mav.addObject("email",(String) session.getAttribute("email"));
         mav.addObject("firstname",(String) session.getAttribute("firstname"));
