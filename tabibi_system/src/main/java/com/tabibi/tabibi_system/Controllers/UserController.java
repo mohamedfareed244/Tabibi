@@ -464,19 +464,20 @@ public void Send_Welcome_Mail(String mail)
     }
 
     @GetMapping("/search")
-    public ModelAndView search(@RequestParam("search") String name, Model model, HttpSession session) {
+    public ModelAndView search(@RequestParam("search") String name, Model model, HttpSession session) 
+    {
         List<Doctor> Doctors = doctorRepository.findByspecialization(name);
-        ModelAndView mag = admincontroller.preparenavigation(session, "searchResult.html", user_type_repo,
-          page_type_repo);
+        ModelAndView mag = admincontroller.preparenavigation(session, "search.html", user_type_repo,page_type_repo);
 
         model.addAttribute("doctors", Doctors);
         return mag;
     }
 
     @PostMapping("/search")
-    public ModelAndView searchresult(@RequestParam("name") String name, Model model, HttpSession session) {
+    public ModelAndView searchresult(@RequestParam("name") String name, Model model, HttpSession session) 
+    {
         List<Doctor> Doctors = doctorRepository.findByspecialization(name);
-        ModelAndView mag = admincontroller.preparenavigation(session, "searchResult.html", user_type_repo,
+        ModelAndView mag = admincontroller.preparenavigation(session, "search.html", user_type_repo,
                 page_type_repo);
 
         model.addAttribute("doctors", Doctors);
