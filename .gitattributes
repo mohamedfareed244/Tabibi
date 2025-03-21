@@ -1,0 +1,7 @@
+*.java linguist-detectable=true
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.sql linguist-detectable=true
+*.dockerfile linguist-detectable=true
+*.yaml linguist-detectable=true
+*.properties linguist-detectable=true
