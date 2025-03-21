@@ -13,7 +13,7 @@
 ✅ **AOP-based Logging** – Logs user sign-ins using **Spring AOP**  
 
 ## **Tech Stack** 🛠  
-- **Backend:** Spring Boot, Spring Cloud (Eureka, API Gateway)  
+- **Backend:** Spring Boot
 - **Frontend:** HTML, CSS, JavaScript  
 - **Database:** MySQL  
 - **Containerization:** Docker  
